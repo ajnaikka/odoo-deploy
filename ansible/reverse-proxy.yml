@@ -1,0 +1,42 @@
+---
+- hosts: all
+  become: yes # Execute tasks as the root user
+  roles:
+    - role: geerlingguy.certbot
+      certbot_create_if_missing: yes
+      certbot_certs:
+        - domains:
+            - sylcon.loyalerp.in
+          email: info@loyalitsolutions.com
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Set up reverse proxy for Odoo
+      template:
+        src: odoo_nginx.conf.j2
+        dest: /etc/nginx/sites-available/sylcon.loyalerp.in
+      notify:
+        - Reload Nginx
+
+    - name: Enable Nginx configuration for Odoo
+      file:
+        src: /etc/nginx/sites-available/sylcon.loyalerp.in
+        dest: /etc/nginx/sites-enabled/sylcon.loyalerp.in
+        state: link
+
+    - name: Remove default nginx site
+      file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify:
+        - Reload Nginx
+
+  handlers:
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded

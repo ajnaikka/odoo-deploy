@@ -1,0 +1,92 @@
+---
+- hosts: all
+  become: yes # Execute tasks as the root user
+  vars:
+    deploy_user: ubuntu
+    repo_url: "git@github.com:loyalcomps/sylcon_odoo.git"
+    deploy_dir: "/home/{{ deploy_user }}/{{ env_name }}"
+    temp_deploy_dir: "/home/{{ deploy_user }}/temp_{{ env_name }}"
+    deploy_branch: "{{ env_name }}"
+    ssh_key_path: "/home/{{ deploy_user }}/.ssh/id_ed25519"
+
+  tasks:
+    - name: Create '{{ deploy_dir }}' directory
+      remote_user: "{{ deploy_user }}"
+      file:
+        path: "{{ deploy_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Ensure git is installed
+      apt:
+        name: git
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Clone the '{{ deploy_branch }}' branch
+      remote_user: "{{ deploy_user }}"
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ temp_deploy_dir }}"
+        version: "{{ deploy_branch }}"
+        accept_hostkey: yes
+        clone: yes
+        update: yes
+        force: yes
+        key_file: "{{ ssh_key_path }}"
+
+    - name: Set ownership and permissions for a directory recursively
+      ansible.builtin.file:
+        path: "{{ temp_deploy_dir }}"
+        state: directory
+        recurse: yes
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: "0755"
+
+    - name: Remove contents of the destination directory
+      ansible.builtin.shell:
+        cmd: "rm -rf {{ deploy_dir }}/*"
+
+    - name: Copy files from source to destination on the remote host
+      ansible.builtin.shell:
+        cmd: "cp -r {{ temp_deploy_dir }}/* {{ deploy_dir }}/"
+
+    - name: Remove temporary directory
+      remote_user: "{{ deploy_user }}"
+      file:
+        path: "{{ temp_deploy_dir }}"
+        state: absent
+
+    - name: Remove Jenkinsfile from the destination path
+      file:
+        path: "{{ deploy_dir }}/Jenkinsfile"
+        state: absent
+
+    - name: Remove README.md from the destination path
+      file:
+        path: "{{ deploy_dir }}/README.md"
+        state: absent
+
+    - name: Remove ansible directory from the destination path
+      file:
+        path: "{{ deploy_dir }}/ansible"
+        state: absent
+
+    - name: Navigate to the {{ env_name }} directory and build with Docker Compose
+      command:
+        chdir: "{{ deploy_dir }}"
+        cmd: docker compose build
+      become: no
+
+    - name: Navigate to the {{ env_name }} directory and bring down services with Docker Compose
+      command:
+        chdir: "{{ deploy_dir }}"
+        cmd: docker compose down
+      become: no
+
+    - name: Navigate to the {{ env_name }} directory and bring up services with Docker Compose
+      command:
+        chdir: "{{ deploy_dir }}"
+        cmd: docker compose up -d
+      become: no
