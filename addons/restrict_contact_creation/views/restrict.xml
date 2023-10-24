@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+        <!--     The below code is for adding a check box in user setting   -->
+        <record id="view_res_users_form_inherit" model="ir.ui.view">
+            <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.user_groups_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='in_group_6']" position="before">
+                    <group>
+                        <field name="can_add_contact" string="Authorize to create contact"/>
+
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">view.res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+<!--                <xpath expr="//field[@name='vat']" position="replace">-->
+<!--                    <field name="vat"/>-->
+<!--                </xpath>-->
+                 <xpath expr="//field[@name='mobile']" position="replace">
+
+
+                    <field name="mobile"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="fax"/>
+                    <field name="po_box"/>
+                    <field name="credit_limit"/>
+
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+
+</odoo>

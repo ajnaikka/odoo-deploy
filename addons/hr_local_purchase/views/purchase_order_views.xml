@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <record id="admin_approval_view_purchase_order_form_inherit" model="ir.ui.view">
+            <field name="name">HQ.admin.approval.purchase.order</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <field name="currency_id" position="after">
+                    <field name="is_approved" invisible="1"/>
+                </field>
+                <xpath expr="//button[@name='button_approve']" position="after">
+                    <button name="send_rfq_for_hq_admin_approval" string="Send for Admin Approval" type="object" states="draft" class="oe_highlight" groups="hr_user_group.hr_group_hq_user" data-hotkey="z"/>
+                    <button name="rejected_by_admin" string="Reject" type="object" states="to approve" class="oe_highlight" groups="hr_user_group.hr_group_hq_admin" data-hotkey="z"/>
+                    <button name="action_send_cheque_copy" type="object" class="oe_highlight" groups="hr_user_group.hr_group_hq_user,account.group_account_invoice" data-hotkey="z" attrs="{'invisible': ['|', ('state', '!=', 'purchase'), ('cheque_copy_sent', '=', True)]}" string="Send Cheque Copy"/>
+                </xpath>
+                <xpath expr="//button[@name='button_confirm'][1]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('is_approved', '=', False), ('state', 'not in', ('sent'))]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_confirm'][2]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('is_approved', '=', False), ('state', 'not in', ('draft'))]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_rfq_send'][1]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('is_approved', '=', False), ('state', 'not in', ('draft'))]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_rfq_send'][2]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('is_approved', '=', False), ('state', 'not in', ('sent'))]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_rfq_send'][3]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('is_approved', '=', False), ('state', 'not in', ('purchase'))]}</attribute>
+                    <attribute name="groups">hr_user_group.hr_group_hq_admin</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='print_quotation'][1]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('is_approved', '=', False), ('state', 'not in', ('draft'))]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='print_quotation'][2]" position="attributes">
+                    <attribute name="states"></attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('is_approved', '=', False), ('state', 'not in', ('sent'))]}</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='button_draft']" position="attributes">
+                    <attribute name="states">cancel,reject</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='button_cancel']" position="attributes">
+                    <attribute name="states">draft,sent,purchase</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='button_approve']" position="attributes">
+                    <attribute name="groups">hr_user_group.hr_group_hq_admin</attribute>
+                </xpath>
+
+                <xpath expr="//group/field[@name='fiscal_position_id']" position="after">
+                    <field name="cheque_attachment_id" attrs="{'invisible':[('state', '!=', 'purchase')]}" groups="account.group_account_invoice" widget="many2many_binary"/>
+                    <field name="cheque_copy_sent" invisible="1"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

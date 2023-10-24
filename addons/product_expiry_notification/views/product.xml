@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <record id="view_expiry_inherit_product_template" model="ir.ui.view">
+            <field name="name">product.template.expiry.module</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="expiry_date"/>
+                    <field name="noti_on_expiry_day"/>
+                    <field name="noti_before_three_month"/>
+                    <field name="noti_before_six_month"/>
+                    <field name="noti_before_1_year"/>
+                    <field name="three_month" invisible="1"/>
+                    <field name="six_month" invisible="1"/>
+                    <field name="one_year" invisible="1"/>
+
+
+                </xpath>
+
+            </field>
+        </record>
+        <record model="ir.cron" id="product_expiry_reminder">
+            <field name="name">Product Expiry Reminder</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="state">code</field>
+            <field name="code">model.mail_reminder()</field>
+        </record>
+        <record id="view_users_form_inherit_expiry" model="ir.ui.view">
+            <field name="name">view.users.form.inherit.expiry</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook/page[2]/group[1]" position="before">
+                    <!-- Add your fields or attributes here -->
+                    <group>
+                        <field name="notify_expiry_user"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
