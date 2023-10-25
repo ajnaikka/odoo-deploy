@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        SSH_CREDENTIALS = credentials('sylcon-ssh-key')
+        SSH_CREDENTIALS = credentials('odoo-deploy-server')
     }
     stages {
         stage ('Setup Environment') {
