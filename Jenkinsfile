@@ -43,6 +43,12 @@ pipeline {
 //                }
 //            } 
 //        }
+        
+        stage('Install Dependencies') {
+            steps {
+                sh "npm install"
+            }
+        }
 
         stage('OWASP FS SCAN') {
             steps {
