@@ -6,7 +6,7 @@
     repo_url: "git@github.com:ajnaikka/sylcon-oddo.git"
     deploy_dir: "/home/{{ deploy_user }}/{{ env_name }}"
     temp_deploy_dir: "/home/{{ deploy_user }}/temp_{{ env_name }}"
-    deploy_branch: "{{ env_name }}"
+    deploy_branch:  "master"    # "{{ env_name }}"
     ssh_key_path: "/home/{{ deploy_user }}/.ssh/id_ed25519"
 
   tasks:
