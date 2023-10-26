@@ -20,6 +20,16 @@ pipeline {
                 }
             }
         }
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.sources=./addons \
+                    -Dsonar.projectName=Netflix \
+                    -Dsonar.projectKey=Netflix '''
+                }
+            }
+        }
 
         stage('Install Ansible Role Requirements') {
             steps {
