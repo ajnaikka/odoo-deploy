@@ -17,18 +17,14 @@ pipeline {
             steps {
                 script {
                     echo "Installing Ansible Role Requirements"
-                    if (env.BRANCH_NAME == 'master'){
+                    if (branch == 'refs/heads/production'){
                         dir('ansible') {
                             // Install the roles listed in the requirements.yml file.
                             sh 'ansible-galaxy install -r requirements.yml'
                         }
                     }
                     else {
-                        dir('ansible') {
-                            // Install the roles listed in the requirements.yml file.
-                            sh 'ansible-galaxy install -r requirements.yml'
-                        }
-                    }
+                        echo "Installing the roles listed in the requirements.yml"
                 }
             }
         }
