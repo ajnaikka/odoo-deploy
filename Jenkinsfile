@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     echo "Ensuring Docker is installed"
-                    if (branch == 'refs/heads/master'){
+                    if (env.BRANCH_NAME == 'master'){
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying to master"
-                    if (branch == 'refs/heads/master'){
+                    if (env.BRANCH_NAME == 'master'){
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
@@ -83,7 +83,7 @@ pipeline {
             steps {
                 script {
                     echo "SSL encryption setup"
-                    if (branch == 'refs/heads/master'){
+                    if (env.BRANCH_NAME == 'master'){
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
