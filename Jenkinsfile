@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     echo "Installing Ansible Role Requirements"
-                    if (branch == 'refs/heads/master'){
+                    if (env.BRANCH_NAME == 'master'){
                         dir('ansible') {
                             // Install the roles listed in the requirements.yml file.
                             sh 'ansible-galaxy install -r requirements.yml'
@@ -100,46 +100,4 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            script {
-                def buildStatus = currentBuild.currentResult == 'SUCCESS' ? 'good' : 'danger'
-                def userId = slackUserIdFromEmail(email) 
 
-                def update_message = """*Github Repo Name*: $repo_name 
-
-*Commit by*: <@$userId> 
-
-*Git branch* : ${branch} 
-
-*Commit message* : ${commit_message} 
-
-Build status of 
-${env.JOB_NAME} #${env.BUILD_NUMBER} 
-(${env.BUILD_URL}) 
-was *${currentBuild.currentResult}*.
-
-*Deployed to master*"""
-
-                if (branch != 'refs/heads/master') {
-                    update_message = """NOT Deployed because the BRANCH name is ${branch}
-
-Github Repo Name: $repo_name 
-
-Commit by: <@$userId> 
-
-Git branch : ${branch} 
-
-Commit message : ${commit_message} 
-
-Build status of 
-*${env.JOB_NAME} #${env.BUILD_NUMBER} 
-(${env.BUILD_URL})*
-was *${currentBuild.currentResult}*."""
-                }
-
-                slackSend(color: buildStatus, message: update_message, notifyCommitters: true)
-            }
-        }
-    }
-}
