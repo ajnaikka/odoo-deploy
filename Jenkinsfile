@@ -34,7 +34,7 @@ pipeline {
                     echo "Ensuring Docker is installed"
                    
                         dir('ansible'){
-                            withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
+                            withCredentials([sshUserPrivateKey(credentialsId: 'odoo-deploy-server', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
                                     ansible-playbook -i inventory.yml install-docker-playbook.yml --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
                                 """
@@ -52,7 +52,7 @@ pipeline {
                     echo "Deploying to production"
                    
                         dir('ansible'){
-                            withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
+                            withCredentials([sshUserPrivateKey(credentialsId: 'odoo-deploy-server', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
                                     ansible-playbook -i inventory.yml deploy-playbook.yml -e "env_name=production" --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
                                 """
@@ -61,7 +61,7 @@ pipeline {
                     
                     // else if (branch == 'refs/heads/staging'){
                     //     dir('ansible'){
-                    //         withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
+                    //         withCredentials([sshUserPrivateKey(credentialsId: 'odoo-deploy-server', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                     //             sh """
                     //                 ansible-playbook -i inventory.yml deploy-playbook.yml -e "env_name=staging" --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
                     //             """
@@ -79,7 +79,7 @@ pipeline {
                     echo "SSL encryption setup"
                    
                         dir('ansible'){
-                            withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
+                            withCredentials([sshUserPrivateKey(credentialsId: 'odoo-deploy-server', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
                                     ansible-playbook -i inventory.yml reverse-proxy.yml --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
                                 """
