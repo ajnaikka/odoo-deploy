@@ -4,6 +4,14 @@ pipeline {
         SSH_CREDENTIALS = credentials('odoo-deploy-server')
     }
     stages {
+        
+        stage('clean workspace'){
+            steps{
+                cleanWs()
+            }
+        }
+   
+
         stage ('Setup Environment') {
             steps {
                 script {
