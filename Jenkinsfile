@@ -13,7 +13,7 @@ pipeline {
             }
         }
 
-       stage('Install Ansible Role Requirements') {
+       stage ('Install Ansible Role Requirements') {
             steps {
                 script {
                     echo "Installing Ansible Role Requirements"
@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-
+       }
         stage ('Ensure Docker Installed') {
             steps {
                 script {
