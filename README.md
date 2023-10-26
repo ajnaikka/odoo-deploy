@@ -1,1 +1,0 @@
-# sylcon_odoo
