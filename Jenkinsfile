@@ -13,22 +13,22 @@ pipeline {
             }
         }
 
-//       stage('Install Ansible Role Requirements') {
-//            steps {
-//                script {
-//                    echo "Installing Ansible Role Requirements"
-//                    if (branch == 'refs/heads/production'){
-//                        dir('ansible') {
-//                            // Install the roles listed in the requirements.yml file.
-//                            sh 'ansible-galaxy install -r requirements.yml'
-//                        }
-//                    }
-//                    else {
-//                        echo "Skipped installing Ansible Role Requirements"
-//                    }
-//                }
-//            }
-//        }
+       stage('Install Ansible Role Requirements') {
+            steps {
+                script {
+                    echo "Installing Ansible Role Requirements"
+                    if (branch == 'refs/heads/production'){
+                        dir('ansible') {
+                            // Install the roles listed in the requirements.yml file.
+                            sh 'ansible-galaxy install -r requirements.yml'
+                        }
+                    }
+                    else {
+                        echo "Skipped installing Ansible Role Requirements"
+                    }
+                }
+            }
+        }
 
         stage ('Ensure Docker Installed') {
             steps {
