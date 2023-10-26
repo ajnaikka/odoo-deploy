@@ -13,25 +13,28 @@ pipeline {
             }
         }
 
-       stage ('Install Ansible Role Requirements') {
+        stage('Install Ansible Role Requirements') {
             steps {
                 script {
                     echo "Installing Ansible Role Requirements"
-                   
+                    if (branch == 'refs/heads/production'){
                         dir('ansible') {
                             // Install the roles listed in the requirements.yml file.
                             sh 'ansible-galaxy install -r requirements.yml'
                         }
                     }
-                
+                    else {
+                        echo "Skipped installing Ansible Role Requirements"
+                    }
+                }
             }
         }
-       }
+
         stage ('Ensure Docker Installed') {
             steps {
                 script {
                     echo "Ensuring Docker is installed"
-                    if (env.BRANCH_NAME == 'master'){
+                    if (branch == 'refs/heads/production'){
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
@@ -50,12 +53,12 @@ pipeline {
         stage ('Deploy') {
             steps {
                 script {
-                    echo "Deploying to master"
-                    if (env.BRANCH_NAME == 'master'){
+                    echo "Deploying to production"
+                    if (branch == 'refs/heads/production'){
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
-                                    ansible-playbook -i inventory.yml deploy-playbook.yml -e "env_name=master" --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
+                                    ansible-playbook -i inventory.yml deploy-playbook.yml -e "env_name=production" --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
                                 """
                             }
                         }
@@ -70,7 +73,7 @@ pipeline {
                     //     }
                     // }
                     else {
-                        echo "Skipped deploying to master"
+                        echo "Skipped deploying to production"
                     }
                 }
             }
@@ -80,7 +83,7 @@ pipeline {
             steps {
                 script {
                     echo "SSL encryption setup"
-                    if (env.BRANCH_NAME == 'master'){
+                    if (branch == 'refs/heads/production'){
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
@@ -96,6 +99,4 @@ pipeline {
             }
         }
     }
-
-
-
+}
