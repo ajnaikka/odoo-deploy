@@ -8,3 +8,5 @@ RUN set -e; \
     pip install --no-cache-dir -r /mnt/extra-addons/requirements.txt
 
 USER odoo
+
+
