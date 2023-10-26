@@ -76,7 +76,7 @@ pipeline {
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'odoo-deploy-server', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
-                                    ansible-playbook -i inventory.yml deploy-playbook.yml -e "env_name=production" --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
+                                    ansible-playbook -i inventory.yml deploy-playbook.yml -e "env_name=master" --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
                                 """
                             }
                         }
