@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     echo "Ensuring Docker is installed"
-                    if (branch == 'refs/heads/production'){
+                   
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
@@ -40,10 +40,8 @@ pipeline {
                                 """
                             }
                         }
-                    }
-                    else {
-                        echo "Skipped installing Docker"
-                    }
+                    
+                   
                 }
             }
         }
@@ -52,7 +50,7 @@ pipeline {
             steps {
                 script {
                     echo "Deploying to production"
-                    if (branch == 'refs/heads/production'){
+                   
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
@@ -60,7 +58,7 @@ pipeline {
                                 """
                             }
                         }
-                    }
+                    
                     // else if (branch == 'refs/heads/staging'){
                     //     dir('ansible'){
                     //         withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
@@ -70,9 +68,7 @@ pipeline {
                     //         }
                     //     }
                     // }
-                    else {
-                        echo "Skipped deploying to production"
-                    }
+                 
                 }
             }
         }
@@ -81,7 +77,7 @@ pipeline {
             steps {
                 script {
                     echo "SSL encryption setup"
-                    if (branch == 'refs/heads/production'){
+                   
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'sylcon-ssh-key', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
@@ -89,10 +85,8 @@ pipeline {
                                 """
                             }
                         }
-                    }
-                    else {
-                        echo "Skipping SSL"
-                    }
+                    
+                   
                 }
             }
         }
