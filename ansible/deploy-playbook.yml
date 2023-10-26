@@ -3,7 +3,7 @@
   become: yes # Execute tasks as the root user
   vars:
     deploy_user: ubuntu
-    repo_url: "git@github.com:loyalcomps/sylcon_odoo.git"
+    repo_url: "git@github.com:ajnaikka/sylcon-oddo.git"
     deploy_dir: "/home/{{ deploy_user }}/{{ env_name }}"
     temp_deploy_dir: "/home/{{ deploy_user }}/temp_{{ env_name }}"
     deploy_branch: "{{ env_name }}"
