@@ -1,5 +1,8 @@
 pipeline {
     agent any
+     tools{
+        jdk 'jdk17'
+     }
     environment {
         SSH_CREDENTIALS = credentials('odoo-deploy-server')
         SCANNER_HOME= tool 'sonar-scanner'
