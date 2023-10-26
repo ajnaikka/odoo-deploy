@@ -36,12 +36,19 @@ pipeline {
             }
         }
         
-        stage("quality gate"){
-           steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
-                }
-            } 
+//        stage("quality gate"){
+//           steps {
+//                script {
+//                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
+//                }
+//            } 
+//        }
+
+        stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
         }
 
         stage('Install Ansible Role Requirements') {
