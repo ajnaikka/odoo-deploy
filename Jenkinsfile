@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         SSH_CREDENTIALS = credentials('odoo-deploy-server')
+        SCANNER_HOME= tool 'sonar-scanner'
     }
     stages {
         
