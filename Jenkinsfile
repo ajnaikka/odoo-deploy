@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     echo "Installing Ansible Role Requirements"
-                   {
+                   
                         dir('ansible') {
                             // Install the roles listed in the requirements.yml file.
                             sh 'ansible-galaxy install -r requirements.yml'
