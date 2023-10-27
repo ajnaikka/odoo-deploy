@@ -16,7 +16,6 @@ pipeline {
             }
         }
    
-
         stage ('Setup Environment') {
             steps {
                 script {
@@ -122,6 +121,14 @@ pipeline {
                 }
             }
         }
+
+        stage("TRIVY image scan"){
+            steps{
+                sh "trivy master-web:latest postgres:15 > trivyimage.txt" 
+                
+            }
+        }
+
 
         stage ('SSL Reverse proxy') {
             steps {
