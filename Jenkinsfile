@@ -35,19 +35,19 @@ pipeline {
             }
         }
         
-        stage("quality gate"){
-            steps {
-                script {
-                   waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
-               }
-            } 
-        }
+//        stage("quality gate"){
+//           steps {
+//                script {
+//                   waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
+//               }
+//            } 
+//        }
         
-        stage('Install Dependencies') {
-            steps {
-                sh "npm install"
-            }
-        }
+//        stage('Install Dependencies') {
+//           steps {
+//               sh "npm install"
+//           }
+//        }
 
         stage('OWASP FS SCAN') {
             steps {
@@ -58,7 +58,7 @@ pipeline {
 
         stage('TRIVY FS SCAN') {
             steps {
-                sh "trivy fs . > trivyfs.txt"
+                sh "trivy fs ."
             }
         }
 
