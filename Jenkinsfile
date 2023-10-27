@@ -122,12 +122,11 @@ pipeline {
             }
         }
 
-        stage("TRIVY image scan"){
-            steps{
-                sh "trivy master-web:latest postgres:15 > trivyimage.txt" 
-                
-            }
-        }
+//        stage("TRIVY image scan"){
+//            steps{
+//                sh "trivy master-web:latest postgres:15 > trivyimage.txt"                 
+//            }
+//        }
 
 
         stage ('SSL Reverse proxy') {
@@ -148,5 +147,22 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            // This block is executed regardless of the build result
+            echo 'This is the "always" post-build action.'
+        }
+        
+        success {
+            // This block is executed only if the build is successful
+            echo 'This is the "success" post-build action.'
+        }
+        
+        failure {
+            // This block is executed only if the build fails
+            echo 'This is the "failure" post-build action.'
+        }
+    }
 }
+
 
