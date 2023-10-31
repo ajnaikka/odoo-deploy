@@ -29,7 +29,7 @@ pipeline {
             steps{
                 script {
                     dir('py'){
-                        sh "coverage run test_example.py"
+                        sh "coverage run -m unittest discover -s ."
                         sh "coverage xml -o coverage.xml"
                         
                     }
