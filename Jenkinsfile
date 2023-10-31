@@ -50,7 +50,7 @@ pipeline {
                     -Dsonar.sources=./addons \
                     -Dsonar.projectName=test \
                     -Dsonar.projectKey=test \
-                    -Dsonar.python.coverage.reportPath=./coverage.xml'''
+                    -Dsonar.python.coverage.reportPaths=./coverage.xml'''
                 }
             }
         }
