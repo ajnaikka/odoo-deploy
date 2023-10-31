@@ -39,7 +39,7 @@ pipeline {
         }
 
 
-        stage("Sonarqube Analysis "){
+        stage("Sonarqube Analysis for py "){
             steps{
                 withSonarQubeEnv('sonar-server') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner \
