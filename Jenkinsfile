@@ -24,6 +24,18 @@ pipeline {
                 }
             }
         }
+
+         stage ('Sonar coverage report') {
+            steps {
+                sh """
+                coverage run -m unittest discover -s ./addons
+                coverage xml -o coverage.xml
+                """
+                    
+                }
+            }
+        }
+
         stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-server') {
