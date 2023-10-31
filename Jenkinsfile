@@ -25,6 +25,32 @@ pipeline {
             }
         }
 
+        stage('py sonar'){
+            steps{
+                script {
+                    dir('py'){
+                        sh '''
+                        coverage run test_example.py \
+                        coverage xml -o coverage.xml \
+                        '''
+                    }
+                }
+            }
+        }
+
+
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.sources=./py \
+                    -Dsonar.projectName=py \
+                    -Dsonar.projectKey=py \
+                    -Dsonar.python.coverage.reportPaths=./py/coverage.xml'''
+                }
+            }
+        }
+
         stage ('Sonar coverage report') {
             steps {
                 script {
@@ -35,7 +61,7 @@ pipeline {
                     } catch (Exception e) {
                         currentBuild.result = 'SUCCESS' // Mark the build as successful even if this stage fails
                         echo "Sonar coverage report failed, but continuing with the pipeline"
-                        sh " coverage xml -o coverage.xml"
+                        sh "coverage xml -o coverage.xml"
                     }
                 }
                     
