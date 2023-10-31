@@ -25,7 +25,7 @@ pipeline {
             }
         }
 
-         stage ('Sonar coverage report') {
+        stage ('Sonar coverage report') {
             steps {
                 sh """
                 coverage run -m unittest discover -s ./addons
@@ -34,7 +34,7 @@ pipeline {
                     
                 }
             }
-        }
+        
 
         stage("Sonarqube Analysis "){
             steps{
