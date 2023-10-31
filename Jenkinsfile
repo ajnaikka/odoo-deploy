@@ -49,7 +49,8 @@ pipeline {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner \
                     -Dsonar.sources=./addons \
                     -Dsonar.projectName=test \
-                    -Dsonar.projectKey=test '''
+                    -Dsonar.projectKey=test \
+                    -Dsonar.python.coverage.reportPath=./coverage.xml'''
                 }
             }
         }
