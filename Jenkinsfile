@@ -29,10 +29,9 @@ pipeline {
             steps{
                 script {
                     dir('py'){
-                        sh '''
-                        coverage run test_example.py \
-                        coverage xml -o coverage.xml \
-                        '''
+                        sh "coverage run test_example.py"
+                        sh "coverage xml -o coverage.xml"
+                        
                     }
                 }
             }
