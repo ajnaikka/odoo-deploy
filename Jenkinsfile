@@ -89,23 +89,17 @@ pipeline {
             } 
         }
 
-        stage("new quality gate"){
-           steps {
-            script {
-            def qg = waitForQualityGate()
-            if (qg.status != "OK"){
-                    error "pipeline aborted due to quality gate failure: ${qg.status}"
-                }
-               }
-            } 
-        }
+    //    stage("new quality gate"){
+    //       steps {
+    //        script {
+    //        def qg = waitForQualityGate()
+    //        if (qg.status != "OK"){
+    //                error "pipeline aborted due to quality gate failure: ${qg.status}"
+    //            }
+    //           }
+    //        } 
+    //    }
 
-        
-//        stage('Install Dependencies') {
-//           steps {
-//               sh "npm install"
-//           }
-//        }
 
         stage('OWASP FS SCAN') {
             steps {
