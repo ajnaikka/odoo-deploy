@@ -7,7 +7,7 @@
       certbot_certs:
         - domains:
             - odoo.fashionbeetle.in
-          email: info@loyalitsolutions.com
+          email: gauthamparera@gmail.com
   tasks:
     - name: Install Nginx
       apt:
@@ -25,7 +25,7 @@
     - name: Enable Nginx configuration for Odoo
       file:
         src: /etc/nginx/sites-available/odoo.fashionbeetle.in
-        dest: /etc/nginx/sites-enabled/secops-deploy-server.loyalerp.in
+        dest: /etc/nginx/sites-enabled/odoo.fashionbeetle.in
         state: link
 
     - name: Remove default nginx site
