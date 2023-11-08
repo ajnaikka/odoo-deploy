@@ -6,7 +6,7 @@
       certbot_create_if_missing: yes
       certbot_certs:
         - domains:
-            - secops-deploy-server.loyalerp.in
+            - odoo.fashionbeetle.in
           email: info@loyalitsolutions.com
   tasks:
     - name: Install Nginx
@@ -18,13 +18,13 @@
     - name: Set up reverse proxy for Odoo
       template:
         src: odoo_nginx.conf.j2
-        dest: /etc/nginx/sites-available/secops-deploy-server.loyalerp.in
+        dest: /etc/nginx/sites-available/odoo.fashionbeetle.in
       notify:
         - Reload Nginx
 
     - name: Enable Nginx configuration for Odoo
       file:
-        src: /etc/nginx/sites-available/secops-deploy-server.loyalerp.in
+        src: /etc/nginx/sites-available/odoo.fashionbeetle.in
         dest: /etc/nginx/sites-enabled/secops-deploy-server.loyalerp.in
         state: link
 
