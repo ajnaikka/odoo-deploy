@@ -5,7 +5,7 @@ pipeline {
         stage('branch test') {
             steps {
                 script {
-                    echo "Current branch: ${BRANCH_NAME}"
+                    echo "branch test"
                     if (branch == 'refs/remotes/origin/production'){
                            sh 'uname'
                     }
