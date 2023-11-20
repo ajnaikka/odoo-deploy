@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     echo "branch test"
-                    if (branch == 'refs/remotes/origin/production'){
+                    if (ref == 'refs/remotes/origin/production'){
                            sh 'uname'
                     }
                     else {
