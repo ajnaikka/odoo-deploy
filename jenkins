@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     echo "Current branch: ${BRANCH_NAME}"
-                    if (env.BRANCH_NAME == 'refs/heads/production'){
+                    if (branch == 'refs/remotes/origin/production'){
                            sh 'uname'
                     }
                     else {
