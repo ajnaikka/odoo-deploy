@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+ 
+    stages {
+        stage('branch test') {
+            steps {
+                script {
+                    echo "Testing branch name"
+                    if (branch == 'refs/heads/production'){
+                           sh 'uname'
+                    }
+                    else {
+                        echo "branch is not production"
+                    }
+                }
+            }
+        }
+    }
+}
+
