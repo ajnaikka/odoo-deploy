@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     echo "Testing branch name"
-                    if (branch == 'refs/heads/production'){
+                    if (env.BRANCH_NAME == 'refs/heads/production'){
                            sh 'uname'
                     }
                     else {
