@@ -5,7 +5,7 @@ pipeline {
         stage('branch test') {
             steps {
                 script {
-                    echo "Testing branch name"
+                    echo "Current branch: ${env.BRANCH_NAME}"
                     if (env.BRANCH_NAME == 'refs/heads/production'){
                            sh 'uname'
                     }
