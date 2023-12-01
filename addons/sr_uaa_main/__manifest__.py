@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'UAA Backend Main',
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Website/Website',
     'summary': 'Module that contains core configurations for UAA project.',
     'description': """Module that contains core configurations for UAA project.""",

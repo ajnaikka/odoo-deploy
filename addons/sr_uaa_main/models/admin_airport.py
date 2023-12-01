@@ -13,7 +13,6 @@ class AdminAirport(models.Model):
             if record.enquiry_ids:
                 enquiry_count = len(record.enquiry_ids)
             record.enquiry_count = enquiry_count
-            print(enquiry_count,"@@@@@@@@@@@@@@")
 
     country_id = fields.Many2one('res.country', string='Country')
     name = fields.Char('Airport')

@@ -73,35 +73,35 @@
             </field>
         </record>
 
-        <record id="email_template_payment_receipt_new" model="mail.template">
-            <field name="name">Payment receipt mail</field>
-            <field name="model_id" ref="account.model_account_payment"/>
-            <field name="subject">${object.company_id.name} Payment Receipt (Ref ${object.name or 'n/a' })</field>
-            <field name="partner_to">${object.partner_id.id}</field>
-            <field name="email_from">${(user.email_formatted) | safe}</field>
-            <field name="body_html" type="xml">
-                <div style="margin: 0px; padding: 0px;">
-                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                        Dear ${object.traveler_name or object.partner_id.name},
-                        <br/>
-                        <br/>
-                        Thank you for the payment. Please find the attached payment receipt for your reference.
-                        <br/>
-                        <br/>
-                        Thanks &amp; Regards,
-                        % if user.partner_id:
-                        <br/>
-                        ${user.partner_id.name | safe}
-                        % endif
-                    </p>
-                </div>
-            </field>
-            <field name="report_template" ref="sr_uaa_main.action_report_payment_receipt_uaa"/>
-            <field name="report_name">${('Payment Receipt').replace('/','-')}</field>
+<!--        <record id="email_template_payment_receipt_new" model="mail.template">-->
+<!--            <field name="name">Payment receipt mail</field>-->
+<!--            <field name="model_id" ref="account.model_account_payment"/>-->
+<!--            <field name="subject">${object.company_id.name} Payment Receipt (Ref ${object.name or 'n/a' })</field>-->
+<!--            <field name="partner_to">${object.partner_id.id}</field>-->
+<!--            <field name="email_from">${(user.email_formatted) | safe}</field>-->
+<!--            <field name="body_html" type="xml">-->
+<!--                <div style="margin: 0px; padding: 0px;">-->
+<!--                    <p style="margin: 0px; padding: 0px; font-size: 13px;">-->
+<!--                        Dear ${object.traveler_name or object.partner_id.name},-->
+<!--                        <br/>-->
+<!--                        <br/>-->
+<!--                        Thank you for the payment. Please find the attached payment receipt for your reference.-->
+<!--                        <br/>-->
+<!--                        <br/>-->
+<!--                        Thanks &amp; Regards,-->
+<!--                        % if user.partner_id:-->
+<!--                        <br/>-->
+<!--                        ${user.partner_id.name | safe}-->
+<!--                        % endif-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </field>-->
+<!--            <field name="report_template" ref="sr_uaa_main.action_report_payment_receipt_uaa"/>-->
+<!--            <field name="report_name">${('Payment Receipt').replace('/','-')}</field>-->
 
 
-            <!--            <field name="lang">${object.create_uid.lang}</field>-->
-        </record>
+<!--            &lt;!&ndash;            <field name="lang">${object.create_uid.lang}</field>&ndash;&gt;-->
+<!--        </record>-->
 
     </data>
 </odoo>

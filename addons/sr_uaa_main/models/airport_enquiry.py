@@ -1962,6 +1962,7 @@ class AirportEnquiry(models.Model):
                     description += self.drop_off_location
                     description += """</b>"""
 
+
                 if self.service_type_id == self.env.ref("sr_uaa_main.departure_service_type"):
                     description += """<br/><span style="color:black;">Pick Up Location : </span>"""
                     description += """<b>"""
@@ -1974,6 +1975,7 @@ class AirportEnquiry(models.Model):
                     description += " " + "(" + self.drop_off_airport_id.code + ")"
                     description += " " + "/" + " " + self.drop_off_airport_id.country_id.name
                     description += """</b>"""
+
 
                 if self.pickup_date_str:
                     description += """<br/><span style="color:black;">Pickup Date-Time: </span>"""

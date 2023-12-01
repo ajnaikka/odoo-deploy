@@ -298,7 +298,6 @@ class SaleOrder(models.Model):
             ctx = res.get('context')
             if ctx.get('default_template_id'):
                 template = self.env['mail.template'].browse(ctx.get('default_template_id'))
-                print("TTTTTTTTTTTTTTTTTT",template)
                 if template:
                     body_html = """
                      Hello"""
