@@ -15,7 +15,7 @@
                     <field name="service_date"/>
 
                     <field name="payment_amount" optional="hide"/>
-                    <!--                    <field name="invoice_payments_widget" widget="payment" optional="hide"/>-->
+                    <!--                    <field name="invoice_payments_widget"  widget="payment" optional="hide"/>-->
                     <field name="payment_status" optional="hide"/>
 
                     <field name="uaa_services_id" optional="hide"
@@ -206,7 +206,7 @@
                             <field name="quotation_id" invisible="1"/>
                             <field name="payment_received" invisible="1"/>
                             <field name="company_id" invisible="1"/>
-                            <field name="enquiry_partner_id" invisible="1"/>
+                            <field name="enquiry_partner_id" invisible="0"/>
                             <field name="services" placeholder="Type of Service" invisible="1"/>
                             <field name="enquiry_receive_date" invisible="1"/>
                             <field name="service_date" invisible="1"/>
@@ -376,14 +376,14 @@
                             <page string="Payments" attrs="{'invisible': [('payment_done', '=', False)]}">
                                 <group col="4" string="Payments">
                                     <field name="payment_status"/>
-                                    <field name="payment_amount" widget="monetary"
-                                           options="{'currency_field': 'company_currency_id'}"/>
-                                    <field name="service_category_id" readonly="1"
-                                           options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                    <field name="payment_amount" widget="monetary"/>
+                                    options="{'currency_field': 'company_currency_id'}"/>
+                                    <field name="service_category_id" readonly="1"/>
+                                    options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
                                 </group>
                                 <group col="4" string="Payment History">
                                     <group>
-<!--                                        <field name="invoice_payments_widget" colspan="2" widget="payment"/>-->
+                                        <!--                                        <field name="invoice_payments_widget" nolabel="1" widget="payment"/>-->
                                     </group>
                                 </group>
                             </page>

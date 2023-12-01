@@ -37,11 +37,12 @@ class AdditionalChargeWiz(models.TransientModel):
             if record.response_status_id and cancelled_enq and \
                     record.response_status_id.id == cancelled_enq.id:
                 raise UserError(_('Enquiry was cancelled'))
-
+            
+            
             if record.traveler_name:
                 if not record.enquiry_partner_id:
                     raise UserError(_('Please add Customer'))
-
+                
                 partner_id = record.enquiry_partner_id
                 traveler_name = record.traveler_name
 
