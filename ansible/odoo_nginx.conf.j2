@@ -1,15 +1,15 @@
 server {
     listen 80;
-    server_name odoo.fashionbeetle.in;
+    server_name testenv.loyalerp.in;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name odoo.fashionbeetle.in;
+    server_name testenv.loyalerp.in;
 
-    ssl_certificate /etc/letsencrypt/live/odoo.fashionbeetle.in/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/odoo.fashionbeetle.in/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/testenv.loyalerp.in/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/testenv.loyalerp.in/privkey.pem;
 
     location / {
         proxy_pass http://127.0.0.1:8069;

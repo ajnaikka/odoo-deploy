@@ -6,7 +6,7 @@
       certbot_create_if_missing: yes
       certbot_certs:
         - domains:
-            - odoo.fashionbeetle.in
+            - testenv.loyalerp.in
           email: gauthamparera@gmail.com
   tasks:
     - name: Install Nginx
@@ -18,14 +18,14 @@
     - name: Set up reverse proxy for Odoo
       template:
         src: odoo_nginx.conf.j2
-        dest: /etc/nginx/sites-available/odoo.fashionbeetle.in
+        dest: /etc/nginx/sites-available/testenv.loyalerp.in
       notify:
         - Reload Nginx
 
     - name: Enable Nginx configuration for Odoo
       file:
-        src: /etc/nginx/sites-available/odoo.fashionbeetle.in
-        dest: /etc/nginx/sites-enabled/odoo.fashionbeetle.in
+        src: /etc/nginx/sites-available/testenv.loyalerp.in
+        dest: /etc/nginx/sites-enabled/testenv.loyalerp.in
         state: link
 
     - name: Remove default nginx site

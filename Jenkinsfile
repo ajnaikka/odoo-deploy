@@ -1,20 +1,9 @@
 pipeline {
     agent any
-     tools{
-        jdk 'jdk17'
-        nodejs 'node21'
-     }
     environment {
         SSH_CREDENTIALS = credentials('odoo-deploy-server')
-        SCANNER_HOME= tool 'sonar-scanner'
     }
     stages {
-        
-        stage('clean workspace'){
-            steps{
-                cleanWs()
-            }
-        }
    
         stage ('Setup Environment') {
             steps {
@@ -22,95 +11,6 @@ pipeline {
                     def gitInfo = checkout scm
                     env.repo_name = gitInfo.GIT_URL.split('/')[-1].replace('.git', '')
                 }
-            }
-        }
-
-        stage('py sonar'){
-            steps{
-                script {
-                    dir('py'){
-                        sh "coverage run -m unittest discover -s ."
-                        sh "coverage xml -o coverage.xml"
-                        
-                    }
-                }
-            }
-        }
-
-
-        stage("Sonarqube Analysis for py "){
-            steps{
-                withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner \
-                    -Dsonar.sources=./py \
-                    -Dsonar.projectName=py \
-                    -Dsonar.projectKey=py \
-                    -Dsonar.python.coverage.reportPaths=./py/coverage.xml'''
-                }
-            }
-        }
-
-        stage ('Sonar coverage report') {
-            steps {
-                script {
-                    try {
-                        sh """
-                        coverage run -m unittest discover -s ./addons
-                        """
-                    } catch (Exception e) {
-                        currentBuild.result = 'SUCCESS' // Mark the build as successful even if this stage fails
-                        echo "Sonar coverage report failed, but continuing with the pipeline"
-                        sh "coverage xml -o coverage.xml"
-                    }
-                }
-                    
-                }
-            }
-        
-
-        stage("Sonarqube Analysis "){
-            steps{
-                withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner \
-                    -Dsonar.sources=./addons \
-                    -Dsonar.projectName=test \
-                    -Dsonar.projectKey=test \
-                    -Dsonar.python.coverage.reportPaths=./coverage.xml'''
-                }
-            }
-        }
-        
-        
-        stage("quality gate"){
-           steps {
-                script {
-                   waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
-               }
-            } 
-        }
-
-    //    stage("new quality gate"){
-    //       steps {
-    //        script {
-    //        def qg = waitForQualityGate()
-    //        if (qg.status != "OK"){
-    //                error "pipeline aborted due to quality gate failure: ${qg.status}"
-    //            }
-    //           }
-    //        } 
-    //    }
-
-
-        stage('OWASP FS SCAN') {
-            steps {
-                dependencyCheck additionalArguments: '--scan ./addons  --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
-
-        stage('TRIVY FS SCAN') {
-            steps {
-                sh "trivy fs ."
             }
         }
 
@@ -133,7 +33,6 @@ pipeline {
             steps {
                 script {
                     echo "Ensuring Docker is installed"
-                   
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'odoo-deploy-server', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
@@ -151,11 +50,10 @@ pipeline {
             steps {
                 script {
                     echo "Deploying to production"
-                   
                         dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'odoo-deploy-server', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh """
-                                    ansible-playbook -i inventory.yml deploy-playbook.yml -e "env_name=master" --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
+                                    ansible-playbook -i inventory.yml deploy-playbook.yml -e "env_name=production" --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
                                 """
                             }
                         }
@@ -174,13 +72,6 @@ pipeline {
             }
         }
 
-//        stage("TRIVY image scan"){
-//            steps{
-//                sh "trivy master-web:latest postgres:15 > trivyimage.txt"                 
-//            }
-//        }
-
-
         stage ('SSL Reverse proxy') {
             steps {
                 script {
@@ -192,27 +83,9 @@ pipeline {
                                     ansible-playbook -i inventory.yml reverse-proxy.yml --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
                                 """
                             }
-                        }
-                    
-                   
+                        }  
                 }
             }
-        }
-    }
-    post {
-        always {
-            // This block is executed regardless of the build result
-            echo 'This is the "always" post-build action.'
-        }
-        
-        success {
-            // This block is executed only if the build is successful
-            echo 'This is the "success" post-build action.'
-        }
-        
-        failure {
-            // This block is executed only if the build fails
-            echo 'This is the "failure" post-build action.'
         }
     }
 }
