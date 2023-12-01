@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="uaa_report_payment_transaction_document">
+        <t t-call="sr_uaa_main.uaa_report_payment_receipt_layout">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+
+
+            <div class="page">
+
+                <div class="col-12" style="height: 100px; background-color:#0eb4df;">
+                    <img class="mt-2" src='/sr_uaa_main/static/src/images/new_logo.png'
+                         style="float:left;height: 90px;"/>
+                    <span class="mt-5" style="color:white;background-color:#0eb4df;float:right;
+                                                    vertical-align: middle;font-size:20px;">Visit :
+                        <t t-esc="o.company_id.website"/>
+                    </span>
+                </div>
+
+
+                <table width="100%" class="table table-bordered "
+                       style="font-size:18px;border: 1px solid #dddddd;border-collapse: collapse;margin-bottom:0px;">
+                    <tr style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <h3 style="text-align:center;">
+                                <b>Payment Receipt</b>
+                            </h3>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <t t-set="vals" t-value="o.get_payment_receipt_values()"/>
+                <table width="100%" class="table table-bordered "
+                       style="font-size:18px;border: 1px solid #dddddd;border-collapse: collapse;margin-bottom:0px;">
+
+                    <tr style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>BOOKING NUMBER</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('booking_number')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>TRANSACTION REFERENCE NUMBER</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="o.acquirer_reference"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>PAYMENT DATE</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="o.date.strftime('%d-%b-%Y')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>NAME</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('partner_name')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>AIRPORT NAME</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('airport_name')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+
+ <!--                    service and service type-->
+
+                     <tr style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>SERVICES</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('services')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>SERVICE TYPE</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('service_type')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+<!--                    -->
+
+                    <!--                    arrival service details-->
+
+                    <tr t-if="not vals.get('service_type_id').is_departure" style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>ARRIVAL FLIGHT</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('arrival_flight_number')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr t-if="not vals.get('service_type_id').is_departure" style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>ARRIVAL DATE</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('arrival_date')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr t-if="not vals.get('service_type_id').is_departure" style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>ARRIVAL TIME</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('arrival_time')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+<!--                    -->
+
+<!--                    departure service details-->
+
+                    <tr t-if="not vals.get('service_type_id').is_arrival" style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>DEPARTURE FLIGHT</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('departure_flight_number')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr t-if="not vals.get('service_type_id').is_arrival" style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>DEPARTURE DATE</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('departure_date')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr t-if="not vals.get('service_type_id').is_arrival" style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>DEPARTURE TIME</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="vals.get('departure_time')"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+<!--                    -->
+
+                    <tr style="border: 1px solid #dddddd; border-collapse: collapse;">
+                        <td width="40%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;color:#0eb4df;">
+                                <b>SERVICE FEE</b>
+                            </p>
+                        </td>
+                        <td width="60%" style="border: 1px solid #dddddd;">
+                            <p style="padding-bottom:0px;">
+                                <b>
+                                    <t t-esc="o.amount"
+                                       t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                </b>
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div class="col-12" style="background-color:#0eb4df;">
+                    <p class="text-center"
+                       style="color:white;">For any feedback, please email us: service@mailuaa.com
+                    </p>
+                </div>
+
+
+            </div>
+        </t>
+    </template>
+
+    <template id="uaa_report_payment_transaction">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.partner_id.lang or o.company_id.partner_id.lang"/>
+                <t t-call="sr_uaa_main.uaa_report_payment_transaction_document" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+
+

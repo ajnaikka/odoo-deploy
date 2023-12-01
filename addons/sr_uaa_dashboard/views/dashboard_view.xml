@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <!-- Action For Menu UAA Dashboard -->
+        <record id="action_uaa_dashboard" model="ir.actions.client">
+            <field name="name">Dashboard</field>
+            <field name="tag">uaa_dashboard</field>
+        </record>
+        <menuitem id="menu_uaa_dashboard"
+                  name="Dashboard"
+                  action="sr_uaa_dashboard.action_uaa_dashboard"
+                  web_icon="sr_uaa_dashboard,static/description/dashboard_icon.png"
+                  groups="sr_uaa_main.view_dashboard_menu"
+                  sequence="-200"/>
+    </data>
+</odoo>

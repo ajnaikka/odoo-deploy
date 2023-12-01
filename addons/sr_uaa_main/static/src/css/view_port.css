@@ -1,0 +1,158 @@
+
+@charset "utf-8";
+/*dons feb 3,2022*/
+@media screen and (max-width: 768px){
+.form-group-50{  width: 100%; margin: 0 0%;}
+}
+
+/*========================  Mobile  ========================*/
+@media screen and (max-width: 480px) {
+#book_now { min-height: 260px; }
+.mail li a { top: 0 !important; }
+#book_now h3 { padding: 0 }
+#book_now a.btn { margin-top: 5px }
+.mail li a, #book_now a.btn { padding: 8px 11px; font-size: 13px; text-align: left }
+.logo { max-width: 150px; }
+.navbar-toggle { top: 10px !important }
+.carousel-caption p { font-size: 10px; width: 100%; margin: 0 auto; line-height: 10px; padding: 0 }
+.carousel-caption h1 { font-size: 12px; padding: 0 }
+.btn_all, .btn_all:hover { padding: 8px; font-size: 10px }
+.carousel ol { margin-bottom: -10px }
+.carousel-caption .btn { margin: 0 auto; width: 100px; display: block; padding: 5px; font-size: 8px }
+.whatsapp_{float:none !important; margin:0 0 10px !important}
+.navbar-default .navbar-toggle .icon-bar {background-color: #ccc !important;width: 22px;height: 2px;}
+.navbar-default .navbar-toggle {border: 1px solid #ddd;background: none;margin-top: 4px !important; margin-bottom:0 !important}
+header .navbar {padding: 0 0 0 !important;}
+.logo{max-width:150px !important;}
+}
+
+@media (min-width: 480px) and (max-width: 500px) {
+#book_now { min-height: 230px; }
+.logo { max-width: 150px; }
+.navbar-toggle { top: 10px !important }
+.carousel-caption p { font-size: 10px; width: 100%; margin: 0 auto }
+.carousel-caption h1 { font-size: 20px; padding: 0 }
+.btn_all, .btn_all:hover { padding: 8px; font-size: 10px }
+}
+
+@media (max-width: 767px) {
+.custom_nav .nav { width: 100% }
+.social { top: 0px }
+ul.social-network.social-circle { padding-left: 0 }
+#book_now .book_btn, #book_now .btn-group { top: 20px }
+.mail { top: 40px }
+.left_p, .right_p { float: left; line-height: 50px; margin-bottom: 0 }
+.custom_nav .nav a { font-size: 13px; }
+.carousel-caption { padding-bottom: 0 }
+.navbar-toggle { top: 25px }
+/*------------25jan2023-----------------*/
+.navbar-collapse .nav.navbar-nav{display:block !important; margin: 0;}
+header .navbar-default .navbar-nav>li>a.active, header .navbar-default .navbar-nav>li>a:hover
+{ background-color: #0eb4df !important; color: #ffffff!important;  border-radius: 10px;}
+.navbar-toggle { width: 41px; margin:15px 0 0 0;}
+.chat_sec
+ {  padding: 1px;  margin: -5px 0 10px!important;  width: 40px;  float: right;  text-align: center;}
+ .custom_nav .navbar-collapse
+ {width: 100%;}
+ .uaa_form_div input#mobile { width: 100% !important;  float: left; padding-top:15px}
+span.select2.select2-container.select2-container--default{
+    max-width: 100% !important; width: 100% !important;  min-width: 250px;}
+/*------------------------*/
+/*dons*/
+nav.navbar ul.dropdown-menu.show{ position: static;  float: none;  width: auto;  margin-top: 0;  background-color: transparent; border: 0;  box-shadow: none;}
+.navbar-default .navbar-nav .dropdown-menu>li>a { color: #777;}
+.chat_sec { padding-right: 9px; padding-top: 20px;  position: absolute;  right: 10px; top: -100px;}
+button.navbar-toggle { margin-bottom: 40px;}
+.open .dropdown-menu {display: none;}
+.open.show .dropdown-menu  {display: block;}
+header .navbar-default .navbar-nav>li>a.active {  border-bottom: 0 !important;}
+.uaa_form_div input#mobile {  margin-top: 15px !important;}
+.key {padding: 10px;}
+.sub-menu{position: inherit !important;text-align: center !important;background: #f9f9f9;width: 100%;padding-top: 0 !important;}
+.sub-menu li a{background:transparent !important;}
+header .navbar-default .navbar-nav > li > a.active, header .navbar-default .navbar-nav > li > a:hover {background-color: transparent !important;color: #0eb4df !important;border-radius: 0 !important;}
+header .navbar-default .navbar-nav > li > a.active{border-bottom: 4px solid #0eb4df !important;}
+}
+@media (min-width: 768px) {
+.navbar-header{float:none !important;}
+}
+@media (min-width: 600px) and (max-width: 767px) {
+#book_now { min-height: 220px; }
+.carousel-caption p { font-size: 10px; width: 100%; margin: 0 auto }
+.carousel-caption h1 { font-size: 20px; padding: 0 }
+.btn_all, .btn_all:hover { padding: 8px; font-size: 10px }
+.carousel-indicators { bottom: -10px }
+/*------------------------------*/
+#book_now{  display: block;   float: left;   width: 100%;   padding: 20px 0;margin-bottom: 20px; }
+/*-----------------------------*/
+.whatsapp_ { margin: -51px 65px 10px !important;}
+.navbar-default .navbar-toggle .icon-bar {background-color: #ccc !important;width: 22px;height: 2px;}
+.navbar-default .navbar-toggle {border-color: #ddd;background: #ddd;margin-top: 0;margin-bottom: 0;}
+header .navbar {padding: 0 0 15px !important;}
+}
+
+/*========================  Tab mini  ========================*/
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+.custom_nav .nav { top: 0px }
+.custom_nav .nav > li > a { padding: 12px 8px; font-size: 11px }
+.custom_nav .nav > li > ul > li > a{ font-size: 11px}
+.social { top: 0px }
+.social ul { padding-left: 0 }
+.mail { top: 60px }
+#book_now { min-height: 280px }
+.carousel-caption p { font-size: 15px; width: 100%; margin: 0 auto }
+.carousel-caption h1 { font-size: 30px; padding: 0 }
+.carousel-caption { padding-bottom: 50px; }
+.left_p, .right_p {font-size:12px}
+.logo{margin-top: 0;}
+/*------------------------------*/
+#book_now{  display: block;   float: left;   width: 100%;   padding: 20px 0;margin-bottom: 20px; }
+/*-----------------------------*/
+.custom_nav .nav{display:block !important}
+}
+
+/*========================  1024 re small scree  ========================*/
+@media only screen and (min-width: 1023px) and (max-width: 1100px) {
+.custom_nav .nav { top: 40px }
+.custom_nav .nav a { font-size: 13px; }
+.carousel-caption { padding-bottom: 42px !important; text-align: left !important; }
+.carousel-caption h1 { font-size: 40px; line-height: 18px !important; }
+.carousel-caption h2 { font-size: 45px !important; }
+.carousel-caption p { margin-top: 10px; font-size: 15px; width: 47%; margin-bottom: 15px; }
+.carousel-caption { padding-bottom: 0 }
+.book_btn { padding: 8px 12px; FONT-SIZE: 11PX; }
+.carousel-caption { padding-bottom: 10px }
+.short_links li { padding: 5px 5px;}
+footer a{font-size:12px}
+.nav>li>a{padding:10px}
+/*------------------------------*/
+#book_now
+{  display: block;   float: left;   width: 100%;   padding: 20px 0;margin-bottom: 20px; }
+/*-----------------------------*/
+}
+
+/*========================  1200 re large scree  ========================*/
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 1200px) and (max-width: 1290px) {
+.carousel-caption { padding-bottom: 141px !important; text-align: left !important; }
+.carousel-caption h1 { font-size: 40px; line-height: 18px !important; }
+.carousel-caption h2 { font-size: 45px !important; }
+.carousel-caption p { margin-top: 10px; font-size: 15px; width: 36%; margin-bottom: 15px; }
+}
+
+@media (min-width: 1300px) and (max-width: 1366px) {
+.carousel-caption { text-align: left !important; }
+.carousel-caption h1 { font-size: 40px; line-height: 18px !important; }
+.carousel-caption h2 { font-size: 45px !important; }
+.carousel-caption p { margin-top: 10px; font-size: 15px; width: 40%; margin-bottom: 15px; }
+}
+
+@media (min-width: 1400px) and (max-width: 1450px) {
+}
+
+@media (min-width: 1920px) and (max-width: 1925px) {
+}
+/* CSS Document */

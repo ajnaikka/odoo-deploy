@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+
+        <record id="view_response_status_tree" model="ir.ui.view">
+            <field name="name">response.status.name.tree</field>
+            <field name="model">response.status.name</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" create="0">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_response_status_form" model="ir.ui.view">
+            <field name="name">response.status.name.form</field>
+            <field name="model">response.status.name</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="2">
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_response_status_view" model="ir.actions.act_window">
+            <field name="name">Response Status</field>
+            <field name="res_model">response.status.name</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+    </data>
+</odoo>

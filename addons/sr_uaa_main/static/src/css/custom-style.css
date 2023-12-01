@@ -1,0 +1,72 @@
+.form_image_ { width: 65%; margin: 0 auto; }
+.form_image_ p { font-size: 14px; color: #666; }
+.form_image_ img { max-width: 100% }
+
+	 .main-title {}
+
+	 h1.main-title {
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+/*h1:before {*/
+.uaa_form_div h1:before {
+    width: 28px;
+    height: 5px;
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    margin-left: -14px;
+    background-color: #0eb4df;
+    top: -28px;
+}
+h1.main-title:after {
+    width: 100px;
+    height: 1px;
+    display: block;
+    content: "";
+    position: relative;
+    margin-top: 25px;
+    left: 50%;
+    margin-left: -50px;
+    background-color: #68cdec;
+}
+h1.main-title {
+    font-weight: bold;
+    color: #0eb4df;
+    font-size: 31px !important;
+}
+section#form_one_ h1 span {
+    text-align: left;
+    font-size: 21px;
+    font-weight: 600;
+    color: #0eb4df;
+    padding: 20px 0;
+    width: 100%;
+    display: block;
+}
+.form_image_ {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.paymenticons img {
+    float: left;
+    margin-right: 5px;
+}
+.social {
+    top: 0;
+    position: relative;
+    float: left;
+    width: 100%;
+}
+.paymenticons {
+    float: left;
+    width: 100%;
+}
+
+ul.social-network.social-circle {
+    padding-left: 0;
+}

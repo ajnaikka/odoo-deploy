@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_tree_uaa" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.uaa</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='invoice_status']" position="attributes">
+                <attributes name="invisible">1</attributes>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_status']" position="before">
+                <field name="state"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="traveler_name" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="view_order_form_simple_case" model="ir.ui.view">
+        <field name="name">sale.order.form.line.uaa</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4">
+                    <field name="name"/>
+                    <field name="product_id" string="Service Category"
+                           options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                    <field name="price_unit" string="Service Charge"/>
+                    <field name="late_booking_fee" invisible="1"/>
+                    <field name="discount"/>
+                    <field name="service_price_total" string="Total Service Charge" invisible="0"/>
+                    <field name="price_subtotal" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_order_form_inherit_uaa" model="ir.ui.view">
+        <field name="name">sale.order.form.uaa</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='action_done']" position="attributes">
+                <attribute name="groups">sr_uaa_main.view_lock_quotation</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_unlock']" position="attributes">
+                <attribute name="groups">sr_uaa_main.view_lock_quotation</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_quotation_send'][4]" position="attributes">
+                <attribute name="groups">sr_uaa_main.view_send_by_email_quotation</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='other_information']" position="after">
+                <page string="Terms &amp; Conditions" name="terms_conditions_info_id">
+                    <group>
+                        <field name="terms_conditions" nolabel="1"/>
+                    </group>
+                </page>
+                <page string="Cancellation Policy" name="cancellation_policy_info_id">
+                    <group>
+                        <field name="cancellation_policy" nolabel="1"/>
+                    </group>
+                </page>
+                <page string="Additional Charges" name="additional_charges_ids"
+                      invisible="1"
+                      attrs="{'invisible': [('additional_charges_ids', '=', False)]}">
+                    <group>
+                        <field name="additional_charges_ids" nolabel="1">
+                            <tree create="0" edit="0" delete="0 ">
+                                <field name="state" readonly="1" force_save="1"/>
+                                <field name="amount" sum="Total"/>
+                            </tree>
+                            <form create="0" edit="0" delete="0 ">
+                                <group col="2">
+                                    <field name="amount" readonly="1"/>
+                                    <field name="state" invisible="1"/>
+                                </group>
+                                <group col="2">
+                                    <field name="description" type="html" readonly="1"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="action_sale_payment_transactions"
+                        class="oe_stat_button"
+                        width="200"
+                        icon="fa-pencil-square-o"
+                        attrs="{'invisible':[('pay_trans_no', '=', 0)]}"
+                        type="object">
+                    <field name="pay_trans_no"
+                           widget="statinfo"
+                           string="Payment Transactions"/>
+                </button>
+            </xpath>
+
+            <!--            <xpath expr="//page[@name='other_information']" position="attributes">-->
+            <!--                <attribute name="groups">base.group_no_one</attribute>-->
+            <!--            </xpath>-->
+            <xpath expr="//field[@name='note']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+            <xpath expr="//form" position="attributes">
+                <attribute name="edit">1</attribute>
+            </xpath>
+            <xpath expr="//form" position="attributes">
+                <attribute name="duplicate">0</attribute>
+            </xpath>
+            <xpath expr="//create[@name='add_product_control']" position="attributes">
+                <attribute name="string">Add Service</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">Traveller Name</attribute>
+                <attribute name="options">{'no_create':True,'no_create_edit':True, 'no_open': True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="traveler_name"/>
+                <field name="service_type_id" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                <field name="uaa_services_id" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                <field name="services_ids" invisible="1" widget="many2many_tags" options="{'no_create': True}"/>
+                <field name="enquiry_id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="create_quotation_bool_0" groups="base.group_no_one"/>
+                <field name="additional_charge_bool_0" groups="base.group_no_one"/>
+            </xpath>
+            <xpath expr="//group/group/div[3]/field[@name='pricelist_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//label[@for='pricelist_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//sheet/group/group[2]/field[@name='currency_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_total']"
+                   position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+<!--            &lt;!&ndash;            &lt;!&ndash;            <xpath expr="//group[@name='sale_total']/field[@name='amount_untaxed']" position="attributes">&ndash;&gt;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &lt;!&ndash;                <attribute name="invisible">1</attribute>&ndash;&gt;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &lt;!&ndash;            </xpath>&ndash;&gt;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &lt;!&ndash;            <xpath expr="//group[@name='sale_total']/field[@name='amount_tax']" position="attributes">&ndash;&gt;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &lt;!&ndash;                <attribute name="invisible">1</attribute>&ndash;&gt;&ndash;&gt;-->
+<!--            &lt;!&ndash;            &lt;!&ndash;            </xpath>&ndash;&gt;&ndash;&gt;-->
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="enquiry_id" invisible="1"/>
+                <field name="is_expired" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='validity_date']" position="after">
+                <!--                <field name="validity_date_hour" attrs="{'invisible': [('state', 'in', ['sale', 'done'])]}"/>-->
+                <field name="validity_date_hour"/>
+                <!---->
+                <!--may03-->
+                <field name="config_sale_order_validity_hours" attrs="{'invisible': [('state', 'in', ['sale', 'done'])],
+                'readonly': [('state', 'in', ['done', 'cancel', 'expiry'])]}"
+                       string="Validity Hours"/>
+                <!---->
+                <field name="send_by_mail_date" invisible="1"
+                       readonly="1"/>
+                <!---->
+            </xpath>
+            <xpath expr="//field[@name='validity_date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!---->
+            <xpath expr="//page[2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+<!---->
+<!--            &lt;!&ndash;            <xpath expr='//field[@name="date_order"]' position='after'>&ndash;&gt;-->
+<!--            &lt;!&ndash;               &ndash;&gt;-->
+<!--            &lt;!&ndash;            </xpath>&ndash;&gt;-->
+
+            <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                <attribute name="class">sortable</attribute>
+                <attribute name="editable">
+                </attribute>
+            </xpath>
+
+<!--            <xpath expr="//field[@name='order_line']/tree" position="before">-->
+<!--                <script>-->
+<!--                    $(docuaat).ready(function() {-->
+<!--                    $( ".sortable" ).find('table').sortable();-->
+<!--                    $( ".sortable" ).find('table').disableSelection();-->
+<!--                    });-->
+<!--                </script>-->
+<!--            </xpath>-->
+
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='customer_lead']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="mode">tree</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="attributes">
+                <attribute name="string">Service Category</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="before">
+                <field name="active_check"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <!--                <field name="late_booking_fee" invisible="1"/>-->
+                <field name="discount"/>
+                <field name="service_price_total"/>
+            </xpath>
+            <!--            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">-->
+            <!--                -->
+            <!--            </xpath>-->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="attrs">{'readonly':[('active_check','!=',False)]}</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="string">Service Charge</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="attributes">
+                <attribute name="context">{'form_view_ref':'sr_uaa.view_product_simple_form'}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='qty_invoiced']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="context">{'form_view_ref':'sr_uaa.view_order_form_simple_case'}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/form" position="replace">
+                <form>
+                    <group col="2">
+                        <field name="active_check" widget="boolean_toggle"/>
+                    </group>
+                    <group col="4">
+                        <!---->
+                        <field name="product_id" string="Service Category"
+                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                        <field name="price_unit" string="Service Charge"/>
+                        <!--                        <field name="late_booking_fee" />-->
+                        <field name="discount"/>
+                        <field name="service_id" string="Service"
+                               groups="base.group_no_one"
+                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                        <!---->
+                        <field name="service_price_total" string="Total Service Charge"/>
+                        <field name="price_subtotal" invisible="1"/>
+                        <field name="name" string="Service Name" invisible="1"/>
+                        <field name="company_id" invisible="1"
+                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                        <!---->
+                    </group>
+                    <group col="2">
+                        <field name="description" style="max-width: 700px"/>
+                    </group>
+                </form>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+                <!---->
+            </xpath>
+            <!--            <xpath expr="//button[@name='preview_sale_order']" position="attributes">-->
+            <!--                <attribute name="invisible">1</attribute>-->
+            <!--            </xpath>-->
+            <!---->
+            <xpath expr="//button[@name='action_confirm']" position="after">
+                <button name="uaa_quotation_confirm" id="uaa_quotation_confirm"
+                        string="Confirm" class="btn-primary" type="object"
+                        attrs="{'invisible': [('state', 'not in', ('sent'))]}"/>
+                <!---->
+                <!--                <button name="uaa_quotation_confirm"-->
+                <!--                        string="Confirm" type="object"-->
+                <!--                        attrs="{'invisible': [('state', 'in', 'sent')]}"/>-->
+                <!---->
+            </xpath>
+
+            <!--&lt;!&ndash;            <xpath expr="//button[@name='preview_sale_order']" position="after">&ndash;&gt;-->
+            <!--&lt;!&ndash;                <button class="oe_stat_button" type="object" string="View Enquiry"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        name="get_enquiry" icon="fa-external-link-square"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        attrs="{'invisible': [('enquiry_id', '=', False)]}">&ndash;&gt;-->
+            <!--&lt;!&ndash;                </button>&ndash;&gt;-->
+            <!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
+
+            <xpath expr="//button[@name='action_quotation_send']" position="after">
+                <button name="action_additional_charge" type="object" string="Send Additional Charge"
+                        class="btn-primary" invisible="1"
+                        attrs="{'invisible': [('state', 'not in', ('sale','done'))]}"/>
+
+                <button name="get_payments_view"
+                        string="View Payment Receipt"
+                        class="oe_highlight"
+                        type="object"
+                        groups="sr_uaa_main.view_payment_receipt_quotation"/>
+
+                <button name="change_state_to_sale_order" string="Reset To Sale Order" class="oe_highlight"
+                        confirm="This Action will Reset Quotation to Sale Order State. Do you want to proceed?"
+                        type="object" attrs="{'invisible':[('state','!=','expiry')]}"/>
+            </xpath>
+
+            <xpath expr="//div[hasclass('oe_button_box')]" position="after">
+                <div>
+                    <widget name="web_ribbon" title="Expired" bg_color="bg-danger"
+                            attrs="{'invisible': [('is_expired','=',False)]}"/>
+                    <widget name="web_ribbon" title="Cancelled" bg_color="bg-danger"
+                            attrs="{'invisible': [('state','!=','cancel') ]}"/>
+                    <widget name="web_ribbon" title="Confirmed" bg_color="bg-success"
+                            attrs="{'invisible': [('state','not in',['sale','done']) ]}"/>
+                </div>
+            </xpath>
+            <!--            <xpath expr="//field[@name='amount_total']" position="attributes">-->
+            <!--                <attribute name="attrs">{'invisible':[('state','!=',['sale','done'])]}</attribute>-->
+            <!--            </xpath>-->
+            <!--            &lt;!&ndash;            &lt;!&ndash;            <xpath expr="//label[@for='amount_total']" position="attributes">&ndash;&gt;&ndash;&gt;-->
+            <!--            &lt;!&ndash;            &lt;!&ndash;                <attribute name="attrs">{'invisible':[('state','!=',['sale','done'])]}</attribute>&ndash;&gt;&ndash;&gt;-->
+            <!--            &lt;!&ndash;            &lt;!&ndash;            </xpath>&ndash;&gt;&ndash;&gt;-->
+            <!--            &lt;!&ndash;            &lt;!&ndash;            <xpath expr="//field[@name='amount_total']" position="attributes">&ndash;&gt;&ndash;&gt;-->
+            <!--            &lt;!&ndash;            &lt;!&ndash;                <attribute name="attrs">{'invisible':[('state','!=',['sale','done'])]}</attribute>&ndash;&gt;&ndash;&gt;-->
+            <!--            &lt;!&ndash;            &lt;!&ndash;            </xpath>&ndash;&gt;&ndash;&gt;-->
+
+        </field>
+    </record>
+    <record id="view_quotation_tree_inherit_uaa" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">Traveller</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

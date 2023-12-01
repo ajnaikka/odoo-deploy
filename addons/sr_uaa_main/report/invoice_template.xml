@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="external_layout_uaa_invoice">
+        <div>
+            <t t-if="false" t-set="address" style="display:block;float:left;width:100%;">
+
+                <address style="display:block;float:left;width:100%;"
+                         t-field="company.partner_id"
+                         t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                <div t-if="false" class="mt16">
+                    <!--                            <div t-if="o.partner_id.vat" class="mt16">-->
+                    <t t-if="o.company_id.country_id.vat_label"
+                       t-esc="o.company_id.country_id.vat_label"
+                       id="inv_tax_id_label"/>
+                    <t t-else="">Tax ID</t>:
+                    <span t-field="o.partner_id.vat"/>
+                </div>
+            </t>
+        </div>
+        <div class="article o_report_layout_standard" style="font-family: 'Arial,Helvetica,sans-serif' !important;"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+    </template>
+
+    <template id="report_uaa_invoice_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <t t-call="sr_uaa_main.external_layout_uaa_invoice">
+            <t t-raw="0"/>
+        </t>
+    </template>
+
+    <template id="account.report_invoice_document">
+<!--        <t t-call="sr_uaa_main.report_uaa_invoice_layout">-->
+        <t t-call="sr_uaa_main.uaa_external_layout_standard">
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <t t-if="false" t-set="address">
+                <address t-field="o.partner_id"
+                         t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+                <div t-if="o.partner_id.vat" class="mt16">
+                    <t t-if="o.company_id.country_id.vat_label" t-esc="o.company_id.country_id.vat_label"
+                       id="inv_tax_id_label"/>
+                    <t t-else="">Tax ID</t>:
+                    <span t-field="o.partner_id.vat"/>
+                </div>
+            </t>
+            <div class="page">
+                <div class="col-12" style="width:100%;">
+                    <div style="width:50%;float:left;">
+                         <span>
+                            <strong>INVOICE</strong>
+                        </span>
+                        <br/>
+
+                        <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                    <br/>
+                        <span>
+                            <strong>TRN :</strong>
+                        </span>
+                        <t>
+                            <span>100602663500003</span>
+                        </t>
+                         <br/>
+                        <span>
+                            <strong>Email :</strong>
+                        </span>
+                        <t t-if="company.partner_id">
+                            <span t-if="company.partner_id.email"
+                                  t-esc="company.partner_id.email"/>
+                        </t>
+                        <br/>
+                         <span>
+                            <strong>Website:</strong>
+                        </span>
+                        <t t-if="company.partner_id">
+                            <span t-if="company.partner_id.website"
+                                  t-esc="company.partner_id.website"/>
+                        </t>
+
+                        <t t-else="">
+                            <span t-if="company.partner_id.email" t-esc="company.partner_id.email"/>
+                        </t>
+                        <div t-if="false" class="mt16">
+                            <!--                            <div t-if="o.partner_id.vat" class="mt16">-->
+                            <t t-if="o.company_id.country_id.vat_label"
+                               t-esc="o.company_id.country_id.vat_label"
+                               id="inv_tax_id_label"/>
+                            <t t-else="">Tax ID</t>:
+                            <span t-field="o.partner_id.vat"/>
+                        </div>
+                    </div>
+
+                </div>
+                <br/>
+                <div class="col-12" style="width:100%; margin-top:32px">
+
+                    <div style="float: right;position: absolute;right: -130px;top: 67px;">
+                        <h6 style="float:right;text-transform: uppercase;width: 100%;">
+                            <b><span style="margin-top: 5px;width: 100%;float: right;"
+                                  t-if="o.move_type == 'out_invoice' and o.state == 'posted'">
+                                Invoice
+                                Number
+                            </span></b>
+                            <b><span style="margin-top: 5px;width: 100%;float: right;"
+                                  t-if="o.move_type == 'out_invoice' and o.state == 'draft'">Draft
+                                Invoice Number
+                            </span></b>
+                            <b><span style="margin-top: 5px;width: 100%;float: right;"
+                                  t-if="o.move_type == 'out_invoice' and o.state == 'cancel'">
+                                Cancelled
+                                Invoice Number
+                            </span></b>
+                           <b> <span style="margin-top: 5px;width: 100%;float: right;" t-if="o.move_type == 'out_refund'">
+                                Credit Note
+                            </span></b>
+                            <b><span style="margin-top: 5px;width: 100%;float: right;" t-if="o.move_type == 'in_refund'">
+                                Vendor Credit Note
+                            </span></b>
+                            <b><span style="margin-top: 5px;width: 100%;float: right;" t-if="o.move_type == 'in_invoice'">
+                                Vendor Bill
+                            </span></b>
+                            <t t-if="o.name != '/'" t-set="no" t-value="o.name"/>
+                            <b><span style="width:100%;" t-esc='no'/></b>
+                        </h6>
+                    </div>
+                    <div style="float:right;">
+                        <div t-if="o.invoice_date" name="date_order">
+                            <strong>Date:</strong>
+                            <span t-field="o.invoice_date"
+                                  t-options='{"widget": "date"}'/>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <div class="row" style="margin-left:15px;margin-top:15px;width:100%;float:left;">
+                    <div t-if="o.partner_id">
+                        <span>
+                            <strong>To:</strong>
+                        </span>
+                        <t t-esc="o.enquiry_id.traveler_name"/>
+                        <t t-if="o.partner_id.email">
+                            <br/>
+                            <t t-esc="o.partner_id.email"/>
+                        </t>
+                        <br/>
+                    </div>
+                </div>
+                <br/>
+
+                <div t-if="false" id="informations" class="row mt32 mb32"
+                     style="float:left;width: 100%;margin-left: 10px;">
+                    <div style="float: right;" t-if="o.invoice_date" name="invoice_date">
+                        <strong>Date:</strong>
+                        <span class="m-0" t-field="o.invoice_date"/>
+                    </div>
+
+                    <div t-if="o.partner_id" style="margin-top: 5px;width: 100%;float: left;">
+                        <span>To:</span>
+                        <t t-esc="o.partner_id.name"/>
+                        <t t-if="o.partner_id.mobile">
+                            <br/>
+                            <t t-esc="o.partner_id.mobile"/>
+                        </t>
+                        <t t-if="o.partner_id.email">
+                            <br/>
+                            <t t-esc="o.partner_id.email"/>
+                        </t>
+                    </div>
+                </div>
+                <t t-set="display_discount" t-value="any(l.discount for l in o.invoice_line_ids)"/>
+
+                <br/>
+                <table t-if="o.enquiry_id" class="uaa-main-table"
+                       style="width:100%;border: solid #4F4C4D 1px !important;margin-top:20px;"
+                       name="invoice_line_table">
+                    <thead>
+                        <tr>
+                            <th name="th_serv_details" style="color:black;text-align:center;border: solid #4F4C4D px !important;">
+                                <span>Service Details</span>
+                            </th>
+                            <th name="th_serv_charges" style="color:black;text-align:center;border: solid #4F4C4D 1px !important;">
+                                <span>Service Charges</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice_tbody">
+                        <tr class="bg-200 o_line_section">
+                            <td style="border: solid #4F4C4D 1px !important;">
+                                <table class="uaa-sub-table"
+                                       style="border:none !important;margin-left:10px;width:100%;"
+                                       cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="border:none !important;">
+                                                <span style="width:40%;margin-left: 10px;">Service</span>
+                                            </td>
+                                            <td style="border:none !important;">
+                                                <span>:</span>
+                                                <span t-if="o.uaa_services_id" t-esc="o.uaa_services_id.name">
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none !important;">
+                                                <span style="margin-left: 10px;">Service Details</span>
+                                            </td>
+                                            <td style="border:none !important;">
+                                                <span>:</span>
+                                                <t t-set="count" t-value="0"/>
+                                                <t t-foreach="o.enquiry_id.services_ids" t-as="serv">
+                                                    <span t-if="count != 0">,</span>
+                                                    <span t-esc="serv.name"/>
+                                                    <t t-set="count" t-value="1"/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none !important;">
+                                                <span style="margin-left: 10px;">Service Type</span>
+                                            </td>
+                                            <td style="border:none !important;width:50%;">
+                                                <span>:</span>
+                                                <span t-if="o.service_type_id" t-esc="o.service_type_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr t-if="not o.service_type_id.is_departure">
+                                            <td style="border:none !important;">
+                                                <span
+                                                        style="margin-left: 10px;">Arrival Flight Number
+                                                </span>
+                                            </td>
+                                            <td style="border:none !important;">
+                                                <span>:</span>
+                                                <span t-esc="o.enquiry_id.arrival_flight_number"/>
+
+                                            </td>
+                                        </tr>
+                                        <tr t-if="not o.service_type_id.is_arrival">
+                                            <td style="border:none !important;">
+                                                <span style="margin-left: 10px;">Departure Flight Number</span>
+                                            </td>
+                                            <td style="border:none !important;">
+                                                <span>:</span>
+                                                <span t-esc="o.enquiry_id.departure_flight_number"/>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none !important;">
+                                                <span style="margin-left: 10px;">Airport</span>
+                                            </td>
+                                            <td style="border:none !important;">
+                                                <span>:</span>
+                                                <t t-if="o.enquiry_id.airport_id">
+                                                    <span t-esc="o.enquiry_id.airport_id.name"/>
+                                                    <t t-if="o.enquiry_id.airport_id and o.enquiry_id.airport_id.code">
+                                                        <span>(</span>
+                                                        <span t-esc="o.enquiry_id.airport_id.code"/>
+                                                        <span>)</span>
+                                                    </t>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                         <tr t-if="o.enquiry_id.service_date">
+                                            <td style="border:none !important;">
+                                                <span style="margin-left: 10px;">Date of Service</span>
+                                            </td>
+                                            <td style="border:none !important;">
+                                                <span>:</span>
+                                                <span t-esc="o.enquiry_id.service_date" t-options='{"widget": "date"}'/>
+                                            </td>
+                                        </tr>
+                                         <tr t-if="o.enquiry_id.name">
+                                            <td style="border:none !important;">
+                                                <span style="margin-left: 10px;">Booking Reference</span>
+                                            </td>
+                                            <td style="border:none !important;">
+                                                <span>:</span>
+                                                <span t-esc="o.enquiry_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </td>
+                            <td class="text-right" style="border: solid #4F4C4D 1px !important;">
+                                <div style="margin-right: 50px;margin-top:10px">
+                                    <span>USD</span>
+                                    <span t-esc="o.amount_total"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="text-right" style="border: solid #4F4C4D 1px !important;">Total</th>
+                            <th class="text-right" style="border: solid #4F4C4D 1px !important;">
+                                <div style="margin-right: 10px;">
+                                    <span>USD</span>
+                                    <span t-esc="o.amount_total"/>
+                                    <p>
+                                        <span t-if="o.currency_id"
+                                              t-esc="o.currency_id.amount_to_text(o.amount_total)"/>
+                                    </p>
+                                </div>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="col-12">
+                    <br/>
+                    <t t-if="o.terms_conditions">
+                        <span><u>Terms and Conditions</u>:
+                        </span>
+                        <br/>
+                        <span>
+                        1. Payment needs to be made in advance by Credit Card or Online Bank Transfer to the below mentioned bank account.<br/>
+                        2. Need to submit all the required documents requested by the company for successful completion of the service.<br/>
+                        3. In case of cancellation after booking confirmation already covered cost will be deducted.</span>
+                        <br/>
+                        <br/>
+                        <span><u>Bank Account Details</u>:
+                        </span>
+                        <br/>
+                        <span> Bank Account Name:</span> Universal Travel Assistance LLC<br/>
+                        <span> Bank account     :</span> 0662656203001<br/>
+                        <span> IBAN             :</span> AE63 0400 0006 6265 6203 001<br/>
+                        <span> Bank             :</span> RAK Bank<br/>
+                        <span> Branch           :</span> JAFZA, Dubai <br/>
+                        <span> Currency         :</span> AED<br/>
+                        <span> Swift Code       :</span> NRAKAEAK<br/>
+                        <br/>
+                    </t>
+                    <t t-if="o.cancellation_policy">
+                        <span><u>Cancellation Policy</u>:
+                        </span>
+                        <br/>
+                        <span t-field="o.cancellation_policy"/>
+                        <br/>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <record id="paperformat_uaa" model="report.paperformat">
+        <field name="name">UAA Letter</field>
+        <field name="default" eval="True"/>
+        <field name="format">Letter</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">25</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="paperformat_uaa_new" model="report.paperformat">
+        <field name="name">UAA Letter New</field>
+        <field name="default" eval="True"/>
+        <field name="format">Letter</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">23</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="account.account_invoices" model="ir.actions.report">
+        <field name="paperformat_id" ref="sr_uaa_main.paperformat_uaa_new"/>
+    </record>
+    <record id="account.account_invoices_without_payment" model="ir.actions.report">
+        <field name="binding_model_id" eval="False"/>
+    </record>
+</odoo>

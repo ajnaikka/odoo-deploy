@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="additional_charge_wiz_form" model="ir.ui.view">
+            <field name="name">additional.charge.wiz.form</field>
+            <field name="model">additional.charge.wiz</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="2">
+                        <field name="amount" required="1"/>
+                    </group>
+                    <group col="2">
+                        <field name="description" required="1"
+                        		type="html" style="max-width: 735px"/>
+                    </group>
+                    <footer>
+                        <button  class="btn btn-primary" name="create_additional_charge" 
+                        		string="Create Quotation" type="object"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_additional_charge_wiz_form" model="ir.actions.act_window">
+            <field name="name">Additional Charge</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">additional.charge.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

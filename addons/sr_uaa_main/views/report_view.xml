@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account.action_report_payment_receipt" model="ir.actions.report">
+            <field name="binding_model_id" eval="False"/>
+        </record>
+
+        <record id="action_report_payment_receipt_uaa" model="ir.actions.report">
+            <field name="name">Payment Receipt</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sr_uaa_main.uaa_report_payment_receipt</field>
+            <field name="report_file">sr_uaa_main.uaa_report_payment_receipt</field>
+            <field name="binding_model_id" ref="account.model_account_payment"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+        <record id="action_report_booking_confirmation" model="ir.actions.report">
+            <field name="name">Booking Confirmation</field>
+            <field name="model">airport.enquiry</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sr_uaa_main.report_booking_confirmation</field>
+            <field name="report_file">sr_uaa_main.report_booking_confirmation</field>
+            <field name="binding_model_id" ref="sr_uaa_main.model_airport_enquiry"/>
+            <field name="binding_type">report</field>
+        </record>
+
+         <record id="action_report_payment_transaction_uaa" model="ir.actions.report">
+            <field name="name">Payment Receipt</field>
+            <field name="model">payment.transaction</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sr_uaa_main.uaa_report_payment_transaction</field>
+            <field name="report_file">sr_uaa_main.uaa_report_payment_transaction</field>
+        </record>
+    </data>
+</odoo>
+

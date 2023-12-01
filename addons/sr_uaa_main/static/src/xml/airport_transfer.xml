@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="request_airport_transfer_page" name="Airport Transfer">
+        <t t-call="sr_uaa_main.uaa_main_website_layout">
+            <div class="container">
+                <div class="row">
+                    <h1 class="main-title" style="margin-top: 5px;">
+                        <t t-esc="title"/>
+                    </h1>
+                    <div class="col-lg-4">
+                        <div class="form_image_">
+                            <img src="/sr_uaa_main/static/src/images/meet_greet-3.png"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <t t-if="success">
+                            <div id="booking_success" class="booking_success_message_">
+                                <h3 div="" class="thank">Thank you for your enquiry!!
+                                    <br/>
+                                </h3>
+                                <h3 class="sub_header">Booking Reference:
+                                    <t t-esc="booking_ref"/>
+                                </h3>
+                                <!--                                <t t-raw="booking_success_complete"/>-->
+                                <!--                                <p>-->
+                                <!--                                    <b>Your booking is now complete.</b>-->
+                                <!--                                </p>-->
+                                <!--                                <span>Booking Reference:-->
+                                <!--                                    <div id="book_no">-->
+                                <!--                                        <t t-esc="booking_ref"/>-->
+                                <!--                                    </div>-->
+                                <!--                                </span>-->
+                                <!--                                <p>Your booking will be processed by our Booking team, invoice and payment link will be-->
+                                <!--                                    sent-->
+                                <!--                                    shortly by email.-->
+                                <!--                                </p>-->
+
+                                <!--                                <p>You will receive a thank you mail automatically after submitting the enquiry.</p>-->
+                                <!--                                <p>To ensure that you are properly receiving our email, Please add <a-->
+                                <!--                                        href="mailto:booking@universalairportassistance.com">-->
+                                <!--                                    booking@universalairportassistance.com-->
+                                <!--                                </a> to your safe contacts or address book.-->
+                                <!--                                </p>-->
+
+                                <!--                                <p>If you did not receive the mail, please check your SPAM or junk folder.</p>-->
+
+                                <!--                                <span>Emails have been sent to <div id="customer_email"></div>,if this is not correct,-->
+                                <!--                                    or-->
+                                <!--                                    you-->
+                                <!--                                    have not received the Thank You mail, please contact us <a-->
+                                <!--                                            href="mailto:booking@universalairportassistance.com">here</a>.-->
+                                <!--                                </span>-->
+                                <!--                                <p>Please note the above booking reference, which should be used in all further-->
+                                <!--                                    communication-->
+                                <!--                                    with our Customer Support.-->
+                                <!--                                </p>-->
+                            </div>
+                            <p class="text_det">
+                                <span class="next">Next Steps:</span>
+
+                            </p>
+
+
+                            <ul class="list_style">
+                                <li>
+                                    <span class="list_s">1</span>
+                                    Thank you Message
+                                </li>
+                            </ul>
+
+                            <p class="text__l">You will receive a thank you email upon receipt of the enquiry
+                                successfully.
+                            </p>
+                            <ul class="list_style">
+                                <li>
+                                    <span class="list_s">2</span>
+                                    Quotation &amp; Payment Link
+                                </li>
+                            </ul>
+
+                            <p class="text__l">Our Booking team will review your enquiry and share the best possible
+                                quotes with
+                                Payment link via email.
+                            </p>
+                            <ul class="list_style">
+                                <li>
+                                    <span class="list_s">3</span>
+                                    Quote Comparison &amp; Client Confirmation
+                                </li>
+                            </ul>
+
+                            <p class="text__l">Client has the opportunity to compare the quotes received and fix the
+                                best service
+                                that suits their requirement and proceed with corresponding payment.
+                            </p>
+                            <ul class="list_style">
+                                <li>
+                                    <span class="list_s">4</span>
+                                    Confirmation Email
+                                </li>
+                            </ul>
+
+                            <p class="text__l">Upon receipt of the payment, our service team will confirm the
+                                service
+                                and a
+                                Confirmation Voucher will be sent across for your further reference.
+                            </p>
+                            <ul class="list_style">
+                                <li>
+                                    <span class="list_s">5</span>
+                                    Meet you at the Airport
+                                </li>
+                            </ul>
+
+                            <p class="text__l">Start your journey with UAA and enjoy the unique experience with our
+                                professional
+                                greeter who will be ready to take care of you from the meeting point.
+                                <p class="text__l">All further information will be sent by email. If you have any
+                                    queries,
+                                    please
+                                    contact us at
+                                    <a href="mailto:booking@mailuaa.com">
+                                        booking@mailuaa.com
+                                    </a>
+                                </p>
+                            </p>
+                        </t>
+                        <t t-else="">
+                            <form action="/airport-transfer-form"
+                                  style="margin-top: 50px;"
+                                  id="airport_transfer_request_form" method="post"
+                                  accept-charset="utf-8">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" id="timezone" name="timezone"></input>
+                                <div id="div_transfer_first_page"
+                                     t-attf-class="uaa_form_div #{second_page and  'tab_hide' or ''}">
+                                    <h1>Airport And Personal Details</h1>
+                                    <div class="form-group">
+                                        <label>Service Type
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <select id="service_types"
+                                                name="service_types"
+                                                t-attf-class="form_select form-control select_service service_types #{error.get('service_types') and 'is-invalid' or ''}">
+                                             <option></option>
+                                            <t t-foreach="service_type_ids" t-as="type_id"
+                                            >
+                                                <option t-att-value="type_id.id"
+                                                        t-att-data-is-arrival="type_id.is_arrival"
+                                                        t-att-data-is-departure="type_id.is_departure"
+                                                        t-att-data-is-transit="type_id.is_transit"
+                                                        t-att-selected="type_id.id == service_types">
+                                                    <span t-esc="type_id.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+
+                                        <!--                                        <select class="form-control selct_service #{error.get('service_types') and 'is-invalid' or ''}"-->
+                                        <!--                                                id="service_types" name="service_types">-->
+                                        <!--                                            <option value="arrival" t-att-selected="service_types == 'arrival'">Arrival-->
+                                        <!--                                                Service-->
+                                        <!--                                            </option>-->
+                                        <!--                                            <option value="departure" t-att-selected="service_types == 'departure'">-->
+                                        <!--                                                Departure Service-->
+                                        <!--                                            </option>-->
+                                        <!--                                        </select>-->
+                                        <span t-if="error.get('service_types')" t-esc="error.get('service_types')"
+                                              id="err_service_types" class="err_msg"/>
+
+                                    </div>
+                                    <div class="clearfix"/>
+                                    <div t-att-class="'form-group' if service_types_name=='arrival' or service_types_name == '' else 'form-group tab_hide'"
+                                         id="arrival_airport_div">
+                                        <label>Pick Up Location
+                                            <span class="required-field"></span>
+                                        </label>
+
+                                        <select name="pick_up_airport_id"
+                                                t-attf-class="form_select form-control #{error.get('pick_up_airport_id') and 'is-invalid' or ''}">
+
+                                            <option value="">Select Pick Up Location</option>
+                                            <t t-foreach="airport_names" t-as="airport"
+                                            >
+                                                <option t-att-value="airport.id"
+                                                        t-att-selected="pick_up_airport_id == airport.id">
+                                                    <span t-esc="airport.name"/>
+                                                    <span>(</span>
+                                                    <span t-esc="airport.code"/>
+                                                    <span>)</span>
+                                                    <t t-if="airport.country_id and airport.country_id.name">
+                                                        <span>/</span>
+                                                        <span t-esc="airport.country_id.name"/>
+                                                    </t>
+                                                </option>
+                                            </t>
+                                        </select>
+                                        <span t-if="error.get('pick_up_airport_id')"
+                                              t-esc="error.get('pick_up_airport_id')"
+                                              id="err_origin_code" class="err_msg"/>
+                                    </div>
+                                    <div class="clearfix"/>
+                                    <div class="form-group"
+                                         t-att-class="'form-group' if service_types_name=='departure' else 'form-group tab_hide'"
+                                         id="arrival_location_div">
+
+                                        <label>Pick Up Location
+                                            <span class="required-field"></span>
+                                        </label>
+
+                                        <input name="pick_up_location_id" id="pick_up_location_id"
+                                               type="text"
+                                               t-attf-class="form_select form-control #{error.get('pick_up_location_id') and 'is-invalid' or ''}"
+                                               t-att-value="pick_up_location_id or ''"
+                                               placeholder="Home or Hotel Address with Pincode"
+                                        />
+
+                                        <span t-if="error.get('pick_up_location_id')"
+                                              t-esc="error.get('pick_up_location_id')"
+                                              id="err_pick_up_location_id" class="err_msg"/>
+                                    </div>
+                                    <div class="clearfix"/>
+                                    <div
+                                            t-att-class="'form-group' if service_types_name=='departure' else 'form-group tab_hide'"
+                                            id="departure_airport_div">
+                                        <label>Drop Off Location
+                                            <span class="required-field"></span>
+                                        </label>
+
+                                        <select name="drop_off_airport_id"
+                                                t-attf-class="form_select form-control #{error.get('drop_off_airport_id') and 'is-invalid' or ''}">
+
+                                            <option value="">Select Drop Off Location</option>
+                                            <t t-foreach="airport_names" t-as="airport">
+                                                <option t-att-value="airport.id"
+                                                        t-att-selected="drop_off_airport_id == airport.id">
+                                                    <span t-esc="airport.name"/>
+                                                    <span>(</span>
+                                                    <span t-esc="airport.code"/>
+                                                    <span>)</span>
+                                                </option>
+                                            </t>
+                                        </select>
+                                        <span t-if="error.get('drop_off_airport_id')"
+                                              t-esc="error.get('drop_off_airport_id')"
+                                              id="err_origin_code" class="err_msg"/>
+                                    </div>
+                                    <div class="clearfix"/>
+                                    <div class="form-group"
+                                         t-att-class="'form-group' if service_types_name=='arrival' or service_types_name == '' else 'form-group tab_hide'"
+                                         id="departure_location_div">
+                                        <label>Drop Off Location
+                                            <span class="required-field"></span>
+                                        </label>
+
+                                        <input name="drop_off_location_id" id="drop_off_location_id"
+                                               type="text"
+                                               t-attf-class="form_select form-control #{error.get('drop_off_location_id') and 'is-invalid' or ''}"
+                                               t-att-value="drop_off_location_id or ''"
+                                               placeholder="Home or Hotel Address with Pincode"
+                                        />
+
+                                        <span t-if="error.get('drop_off_location_id')"
+                                              t-esc="error.get('drop_off_location_id')"
+                                              id="err_drop_off_location_id" class="err_msg"/>
+                                    </div>
+                                    <div class="clearfix"/>
+                                    <div class="form-group form-group-50">
+                                        <label>Name of the Traveller
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <input type="text"
+                                               t-attf-class="form-control #{error.get('traveler_name') and 'is-invalid' or ''}"
+                                               name="traveler_name" id="traveler_name"
+                                               t-att-value="traveler_name"/>
+                                        <span t-if="error.get('traveler_name')" t-esc="error.get('traveler_name')"
+                                              id="err_origin_code" class="err_msg"/>
+                                    </div>
+                                    <div class="form-group form-group-50">
+                                        <label>Email
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <input type="text"
+                                               t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}"
+                                               name="email" id="email" t-att-value="email or ''"
+                                        ></input>
+                                        <span t-if="error.get('email')" t-esc="error.get('email')"
+                                              id="err_origin_code" class="err_msg"/>
+                                    </div>
+                                    <div class="clearfix"/>
+                                    <div class="form-group contact_number">
+                                        <label>Contact Number
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <div class="input-group contact_number">
+                                            <select name="country_id" id="country_code"
+                                                    t-attf-class="input-group-addon form-control #{error.get('country_id') and 'is-invalid' or ''}">
+                                                <option value="">Select Country Code</option>
+                                                <t t-foreach="country" t-as="line">
+                                                    <option t-att-value="line.id"
+                                                            t-att-selected="country_id == line.id">
+                                                        <span>
+                                                            <span t-esc="line.name"/>(+<span t-esc="line.phone_code"/>)
+                                                        </span>
+
+                                                    </option>
+                                                </t>
+                                            </select>
+                                            <span t-if="error.get('country_id')" t-esc="error.get('country_id')"
+                                                  id="err_code" class="err_msg err_select"/>
+                                            <input type="text" id="mobile"
+                                                   t-attf-class="form-control #{error.get('contact_number') and 'is-invalid' or ''}"
+                                                   name="contact_number"
+                                                   placeholder="Contact Number"
+                                                   t-att-value="contact_number or ''"></input>
+
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"/>
+                                    <div class="submit_">
+                                        <button id="transfer_first_page" name="submit"
+                                                style="margin-top: 60px;"
+                                                class="pull-right submit button btn_all btn btn-primary frm-sbt"
+                                        >Next
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="div_transfer_second_page"
+                                     t-attf-class="uaa_form_div #{not second_page and  'tab_hide' or ''}">
+                                    <h1>Service Details</h1>
+
+                                    <div t-att-class="'form-group' if service_types_name=='arrival' or service_types_name=='transit' or service_types_name == '' else 'form-group tab_hide'"
+                                         id="arrival_flight_div">
+                                        <label>Arrival Flight Number
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <input type="text"
+                                               t-attf-class="form-control #{error.get('arrival_flight_number') and 'is-invalid' or ''}"
+                                               name="arrival_flight_number" id="arrival_flight_number"
+                                               t-att-value="arrival_flight_number or ''" placeholder="Eg : EK220"
+                                        ></input>
+                                        <span t-if="error.get('arrival_flight_number')"
+                                              t-esc="error.get('arrival_flight_number')"
+                                              id="err_arrival_flight_number" class="err_msg"/>
+                                    </div>
+
+                                    <div t-att-class="'form-group form-group-50' if service_types_name=='arrival' or service_types_name=='transit' or service_types_name == '' else 'form-group form-group-50 tab_hide'"
+                                         id="arrival_date_div">
+                                        <label>Arrival Date
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <input type="date"
+                                               t-attf-class="form-control hasDatepicker #{error.get('arrival_date') and 'is-invalid' or ''}"
+                                               name="arrival_date" id="arrival_date" t-att-value="arrival_date or ''"
+                                        ></input>
+                                        <span t-if="error.get('arrival_date')" t-esc="error.get('arrival_date')"
+                                              id="err_arrival_date" class="err_msg err_select"/>
+                                    </div>
+                                    <div t-att-class="'form-group form-group-50' if service_types_name=='arrival' or service_types_name=='transit' or service_types_name == '' else 'form-group form-group-50 tab_hide'"
+                                         id="arrival_time_div">
+                                        <label style="width:100%;">Arrival Time
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <!--                                        <input type="time"-->
+                                        <!--                                               t-attf-class="form-control #{error.get('arrival_time') and 'is-invalid' or ''}"-->
+                                        <!--                                               name="arrival_time" t-att-value="arrival_time or ''"-->
+                                        <!--                                               onkeydown="return false;"></input>-->
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <select id="arrival_hours_id"
+                                                        name="arrival_hours_id"
+                                                        t-attf-class="form_select form-control  #{error.get('arrival_time') and 'is-invalid' or ''}">
+                                                    <option value="">HH</option>
+                                                    <t t-foreach="hours" t-as="hour">
+                                                        <option t-att-value="hour"
+                                                                t-att-selected="hour == arrival_hours_id">
+                                                            <span t-esc="hour"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select id="arrival_minutes_id"
+                                                        name="arrival_minutes_id"
+                                                        t-attf-class="form_select form-control  #{error.get('arrival_time') and 'is-invalid' or ''}">
+                                                    <option value="">MM</option>
+                                                    <t t-foreach="minutes" t-as="minute"
+                                                    >
+                                                        <option t-att-value="minute"
+                                                                t-att-selected="minute == arrival_minutes_id">
+                                                            <span t-esc="minute"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <span t-if="error.get('arrival_time')" t-esc="error.get('arrival_time')"
+                                              id="err_arrival_time" class="err_msg"/>
+                                    </div>
+
+                                    <div t-att-class="'form-group' if service_types_name=='departure' or service_types_name=='transit' else 'form-group tab_hide'"
+                                         id="departure_flight_div">
+                                        <label>Departure Flight Number
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <input type="text"
+                                               t-attf-class="form-control #{error.get('departure_flight_number') and 'is-invalid' or ''}"
+                                               name="departure_flight_number" id="departure_flight_number"
+                                               t-att-value="departure_flight_number or ''" placeholder="Eg : EK220"
+                                        ></input>
+                                        <span t-if="error.get('departure_flight_number')"
+                                              t-esc="error.get('departure_flight_number')"
+                                              id="err_departure_flight_number" class="err_msg"/>
+                                    </div>
+
+                                    <div t-att-class="'form-group form-group-50' if service_types_name=='departure' or service_types_name=='transit' else 'form-group form-group-50 tab_hide'"
+                                         id="departure_date_div">
+                                        <label>Departure Date
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <input type="date"
+                                               t-attf-class="form-control hasDatepicker #{error.get('departure_date') and 'is-invalid' or ''}"
+                                               name="departure_date" id="departure_date"
+                                               t-att-value="departure_date or ''"
+                                        ></input>
+                                        <span t-if="error.get('departure_date')" t-esc="error.get('departure_date')"
+                                              id="err_departure_date" class="err_msg err_select"/>
+                                    </div>
+                                    <div t-att-class="'form-group form-group-50' if service_types_name=='departure' or service_types_name=='transit' else 'form-group form-group-50 tab_hide'"
+                                         id="departure_time_div">
+                                        <label style="width:100%;">Departure Time
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <!--                                        <input type="time"-->
+                                        <!--                                               t-attf-class="form-control #{error.get('departure_time') and 'is-invalid' or ''}"-->
+                                        <!--                                               name="departure_time" t-att-value="departure_time"-->
+                                        <!--                                               onkeydown="return false;"-->
+                                        <!--                                        ></input>-->
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <select id="departure_hours_id"
+                                                        name="departure_hours_id"
+                                                        t-attf-class="form_select form-control  #{error.get('departure_time') and 'is-invalid' or ''}">
+                                                    <option value="">HH</option>
+                                                    <t t-foreach="hours" t-as="hour">
+                                                        <option t-att-value="hour"
+                                                                t-att-selected="hour == departure_hours_id">
+                                                            <span t-esc="hour"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select id="departure_minutes_id"
+                                                        name="departure_minutes_id"
+                                                        t-attf-class="form_select form-control  #{error.get('departure_time') and 'is-invalid' or ''}">
+                                                    <option value="">MM</option>
+                                                    <t t-foreach="minutes" t-as="minute"
+                                                    >
+                                                        <option t-att-value="minute"
+                                                                t-att-selected="minute == departure_minutes_id">
+                                                            <span t-esc="minute"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <span t-if="error.get('departure_time')" t-esc="error.get('departure_time')"
+                                              id="err_departure_time" class="err_msg"/>
+
+                                    </div>
+
+                                    <div class="clearfix"/>
+                                    <div class="form-group form-group-50">
+                                        <label>No of Travellers
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <input type="number" min="1" max="100" step="1"
+                                               t-attf-class="form-control #{error.get('travelers_count') and 'is-invalid' or ''}"
+                                               name="travelers_count" id="travelers_count"
+                                               t-att-value="travelers_count or ''"
+                                        ></input>
+                                        <span t-if="error.get('travelers_count')" t-esc="error.get('travelers_count')"
+                                              id="err_adults" class="err_msg"/>
+                                    </div>
+                                    <div class="form-group form-group-50">
+                                        <label>No. of Luggage
+                                            <span class="required-field"></span>
+                                        </label>
+                                        <input type="number" min="1" max="100" step="1"
+                                               t-attf-class="form-control #{error.get('luggage_count') and 'is-invalid' or ''}"
+                                               name="luggage_count" id="luggage_count" t-att-value="luggage_count or ''"
+                                        ></input>
+                                        <span t-if="error.get('luggage_count')" t-esc="error.get('luggage_count')"
+                                              id="err_adults" class="err_msg"/>
+                                    </div>
+                                    <div class="clearfix"/>
+                                    <div class="form-group">
+                                        <label>Message</label>
+                                        <textarea type="text"
+                                                  t-attf-class="form-control #{error.get('customer_message') and 'is-invalid' or ''}"
+                                                  name="customer_message" id="customer_message"
+                                                  rows="3">
+                                            <t t-esc="customer_message"/>
+                                        </textarea>
+                                        <span t-if="error.get('customer_message')" t-esc="error.get('customer_message')"
+                                              id="err_adults" class="err_msg"/>
+                                    </div>
+                                    <div id="captcha" class="imageContainer">
+                                        <div class="form-group">
+                                            <!--  specify your site  in data-sitekey attribute -->
+                                            <div class="g-recaptcha"
+                                                 data-sitekey="6Le5nMQUAAAAALpK02mtPPGnpjVlnq6orhz4Zj0u"
+                                                 data-callback="verifyRecaptchaCallback"
+                                                 data-expired-callback="expiredRecaptchaCallback"/>
+                                            <input type="hidden" class="form-control d-none" data-recaptcha="true"/>
+                                            <div class="help-block with-errors" id="err" style="color: red"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="submit_">
+                                        <button type="submit" id="submit" name="book"
+                                                class="pull-right submit button btn_all btn btn-primary frm-sbt wait"
+                                        >Book Now
+                                        </button>
+                                        <button id="transfer_second_page" name="back" style="float:left;"
+                                                class="back back_new submit button btn_all btn btn-primary frm-sbt"
+                                        >Back
+                                        </button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

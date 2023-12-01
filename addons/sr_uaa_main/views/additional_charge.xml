@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="additional_charge_form" model="ir.ui.view">
+            <field name="name">additional_charge_form</field>
+            <field name="model">additional.charge.sale</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="2">
+                        <field name="amount"/>
+                        <field name="state" invisible="1"/>
+                    </group>
+                    <group col="2">
+                        <field name="description" type="html" style="max-width: 735px"/>
+                    </group>
+                    <footer>
+<!--                        <button  class="btn btn-primary" name="action_additional_charge_send" string="Send by Email" type="object"/>-->
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_additional_charge" model="ir.actions.act_window">
+            <field name="name">Additional Charge</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">additional.charge.sale</field>
+            <field name="view_mode">form</field>
+             <field name="view_id" ref="sr_uaa_main.additional_charge_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

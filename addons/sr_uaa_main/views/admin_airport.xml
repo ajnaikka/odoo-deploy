@@ -1,0 +1,138 @@
+<odoo>
+    <data>
+
+        <record id="view_admin_airport_tree" model="ir.ui.view">
+            <field name="name">admin.airport.tree</field>
+            <field name="model">admin.airport</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="country_id" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_admin_airport_form" model="ir.ui.view">
+            <field name="name">admin.airport.form</field>
+            <field name="model">admin.airport</field>
+            <field name="arch" type="xml">
+                <form create="0">
+                    <sheet>
+                        <field name="enquiry_count" invisible="1"/>
+                        <div name="button_box" position="inside">
+                            <button class="oe_stat_button" type="object" name="get_enquiry" string="Enquiry"
+                                    icon="fa-external-link-square"
+                                    attrs="{'invisible': [('enquiry_count', '=', 0)]}">
+                            </button>
+                        </div>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="country_id"
+                                   options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                            <field name="code" widget="char"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <notebook>
+                            <page id="airport_tab" invisible="1"
+                                  string="Airport Charges">
+                                <field name="service_line_ids"
+                                       mode="tree">
+                                    <tree create="1" edit="1" delete="1" string="Airport">
+
+                                        <field name="uaa_services_id" required="1"
+                                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+
+                                        <field name="service_type_id" required="1"
+                                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                        <field name="service_category_id" widget='selection' required="1"
+                                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                        <!--                                        <field name="service_id"  widget='selection' required="1"/>-->
+                                        <field name="amount"/>
+                                        <field name="service_type" required="0" invisible="1"/>
+                                        <field name="services" required="0" invisible="1"/>
+                                    </tree>
+                                    <form>
+                                        <group col="4">
+
+                                            <field name="uaa_services_id" required="1"
+                                                   options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+
+                                            <field name="service_type_id" required="1"
+                                                   options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                            <field name="service_category_id" required="1"
+                                                   options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                            <field name="amount"/>
+                                            <field name="services" required="0" invisible="1"/>
+                                            <field name="service_type" required="0" invisible="1"/>
+                                        </group>
+                                        <group col="4">
+                                            <field name="description"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page id="enquiry_tab"
+                                  string="Enquiry Charges">
+                                <field name="service_ids"
+                                       mode="tree">
+                                    <tree create="1" edit="1" delete="1" string="Enquiry">
+                                        <field name="uaa_services_id" required="1"/>
+                                        <field name="service_type_id" required="1"/>
+                                        <field name="price_text"/>
+                                        <button type="object" string="Update" class="btn btn-primary"
+                                                name="update_services"/>
+                                        <field name="services" invisible="1"/>
+                                        <field name="service_type" invisible="1"/>
+                                    </tree>
+                                    <form>
+                                        <group col="4">
+                                            <field name="uaa_services_id" required="1"
+                                                   options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                            <field name="service_type_id" required="1"
+                                                   options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                            <!--                                            <field name="service_category_id" widget='selection' required="1"/>-->
+                                            <field name="price_text" invisible="1"/>
+                                            <field name="services" invisible="1"/>
+                                            <field name="service_type" invisible="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="admin_airport_search_view" model="ir.ui.view">
+            <field name="name">search</field>
+            <field name="model">admin.airport</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name"/>
+                    <field name="country_id"/>
+                    <field name="code"/>
+                    <field name="active"/>
+
+                    <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+
+                    <group expand="0" string="Group By">
+                        <filter string="Airport" name="name" context="{'group_by':'name'}"/>
+                        <filter string="Country" name="country_id" context="{'group_by':'country_id'}"/>
+                        <filter string="Status" name="status" context="{'group_by':'active'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_admin_airport_view" model="ir.actions.act_window">
+            <field name="name">Admin Airport</field>
+            <field name="res_model">admin.airport</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

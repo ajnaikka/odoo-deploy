@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+        <record id="view_service_line_pricelist_tree" model="ir.ui.view">
+            <field name="name">service.line.tree</field>
+            <field name="model">service.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="airport_id"/>
+                    <field name="service_type_id" context="{'service_type_id': uaa_services_id}"/>
+                    <field name="uaa_services_id"/>
+                    <!--                    <field name="services"/>-->
+                    <!--                    <field name="service_type"/>-->
+                    <field name="price_text"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_service_line_pricelist_form" model="ir.ui.view">
+            <field name="name">service.line.form</field>
+            <field name="model">service.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4">
+
+                            <field name="airport_id" readonly="1" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                            <field name="service_type_id" context="{'service_type_id': uaa_services_id}" readonly="1" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                            <field name="uaa_services_id" readonly="1" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+
+                            <!--                            <field name="services" readonly="1"/>-->
+                            <!--                            <field name="service_type" readonly="1"/>-->
+                            <field name="price_text"/>
+                        </group>
+                        <group>
+                            <field name="services_ids">
+                                <tree>
+                                    <field name="airport_id"/>
+                                    <field name="service_type_id" context="{'service_type_id': uaa_services_id}"/>
+                                    <field name="uaa_services_id"/>
+                                    <field name="service_category_id"/>
+                                    <field name="amount"/>
+                                </tree>
+                                <form>
+                                    <group col="4">
+
+                                        <field name="airport_id" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                        <field name="service_type_id" options="{'no_create':True,'no_create_edit':True, 'no_open': True}" context="{'service_type_id': uaa_services_id}"/>
+                                        <field name="uaa_services_id" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                        <field name="service_category_id" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+
+                                        <field name="amount"/>
+                                    </group>
+                                    <group col="4">
+                                        <field name="description"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_service_line_pricelist_view" model="ir.actions.act_window">
+            <field name="name">Service Line Pricelist</field>
+            <field name="res_model">service.line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

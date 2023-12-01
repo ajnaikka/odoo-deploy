@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="sr_uaa_main.website_assets" name="Assets For Website">
+        <link rel="shortcut icon" type="image/x-icon" href="/sr_uaa_main/static/src/faveicon.png"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/owl.carousel.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/owl.theme.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/fonts/stylesheet.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/font-awesome.min.css"/>
+
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/animate.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/ie8-and-down.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/jquerysctipttop.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/normalize.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/responsive-accordion.css"/>
+
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/view_port.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/style_about.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/custom-style.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/src/css/custom.css"/>
+        <link rel="stylesheet" type="text/css" href="/sr_uaa_main/static/plugins/select2/css/select2.min.css"/>
+
+
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/owl.carousel.js"></script>
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/css3-mediaqueries.js"></script>
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/html5.js"></script>
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/respond.js"></script>
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/responsive-accordion.min.js"></script>
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/script.js"></script>
+
+        <script src="https://www.google.com/recaptcha/api.js"/>
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/main.js"></script>
+
+        <script type="text/javascript" src="/sr_uaa_main/static/src/js/custom.js"></script>
+        <script src="/sr_uaa_main/static/plugins/select2/js/select2.full.min.js"></script>
+        <!--        <script type="text/javascript" src="/sr_uaa_main/static/src/js/payment_form.js"></script>-->
+    </template>
+
+
+    <template id="uaa_main_website_layout" name="Main Uaa Website Layout">
+        <html lang="en" async="">
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+                <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+                <title>Universal Airport Assistance</title>
+                <meta name="robots" content="noindex, follow"/>
+                <meta name="description" content=""/>
+                <!-- Favicon -->
+                <link rel="icon" href="/sr_uaa_main/static/src/faveicon.png"/>
+
+                <t t-call-assets="sr_uaa_main.website_assets" t-js="false"/>
+            </head>
+            <body style="font-family:Arial,Helvetica,sans-serif !important;">
+                <t t-call="sr_uaa_main.uaa_website_header"/>
+                <main class="mt-30">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <t t-raw="0"/>
+                </main>
+                <a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647;">
+                    <i class="lastudioicon-up-arrow"></i>
+                </a>
+
+                <t t-call-assets="web.assets_common_minimal_js" t-css="false" defer_load="True"/>
+                <t t-call-assets="web.assets_frontend_minimal_js" t-css="false" defer_load="True"/>
+                <t t-call="web.conditional_assets_tests"/>
+                <t t-call-assets="web.assets_common_lazy" t-css="false" lazy_load="True"/>
+                <t t-call-assets="web.assets_frontend_lazy" t-css="false" lazy_load="True"/>
+
+                <t t-call="sr_uaa_main.uaa_website_footer"/>
+                <t t-call-assets="sr_uaa_main.website_assets" t-css="false"/>
+            </body>
+        </html>
+    </template>
+
+    <template id="uaa_website_header" name="UAA Website Header">
+        <header>
+            <nav class="navbar navbar-default "><!--/*navbar-fixed-top*-->
+                <div class="container">
+
+                    <div class="navbar-header custom_nav row">
+                        <div class="col-lg-3 col-sm-2 col-xs-12">
+                            <button type="button" class="collapsed navbar-toggle" data-toggle="collapse"
+                                    data-target="#bs-example-navbar-collapse-6" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="logo">
+                                <a href="https://universalairportassistance.com/">
+                                    <img src="/sr_uaa_main/static/src/images/logo.png" width="226" height="100"
+                                         alt="UAA Logo"/>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-9 col-sm-10 col-xs-12">
+
+
+                                <div class="whatsapp_">
+                                    <a data-phone="+1 720 9178700" data-message="" href="https://web.whatsapp.com/send?phone=+1 720 9178700&amp;text=" target="_blank">
+                                        <img src="/sr_uaa_main/static/src/images/whatsapp_.png" alt=""/>WhatsApp
+                                    </a>
+                                </div>
+
+
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6" style="clear:both">
+
+
+                                <ul class="nav navbar-nav">
+                                    <li>
+                                        <a href="https://universalairportassistance.com/">Home</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://universalairportassistance.com/few-words-about-us/">About
+                                            Us
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://universalairportassistance.com/airport-services/">
+                                            Services
+                                        </a>
+                                    </li>
+                                    <!--<li><a href="services.html">Services</a></li>-->
+                                    <li>
+                                        <a href="" class="service active">Request a Service</a>
+                                        <ul class="sub-menu">
+                                            <t t-foreach="uaa_services" t-as="uaa_serv">
+                                                <t t-if="uaa_serv.url">
+                                                    <li>
+                                                        <a t-attf-class="#{'active' if request.httprequest.path == uaa_serv.url else ''}"
+                                                           t-att-href="uaa_serv.url">
+                                                            <t t-esc="uaa_serv.name"/>
+                                                        </a>
+                                                    </li>
+                                                </t>
+                                            </t>
+
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="https://universalairportassistance.com/testimonial/">
+                                            Testimonial
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://universalairportassistance.com/blog">
+                                            Blog
+                                        </a>
+                                    </li>
+                                    <!--                                    <li>-->
+<!--                                        <a href="/request-a-service/airports_served">-->
+<!--                                            Airports Served-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+                                    <li>
+                                        <a href="https://universalairportassistance.com/faq/">FAQ</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://universalairportassistance.com/contact-information/">
+                                            Contact Us
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </nav>
+        </header>
+        <!--header area end-->
+
+
+    </template>
+
+    <template id="uaa_website_footer" name="UAA Website Footer">
+
+        <!--footer area start-->
+
+        <footer>
+            <section id="footer_top">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-4 col-sm-6">
+                            <h3 class="bold">QUICK links</h3>
+                            <div class="row">
+                                <div class="col-lg-6 short_links">
+                                    <ul>
+                                        <li>
+                                            <a href="https://universalairportassistance.com/">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://universalairportassistance.com/few-words-about-us/">About
+                                                Us
+                                            </a>
+                                        </li>
+<!--                                        <li>-->
+<!--                                            <a href="https://universalairportassistance.com/request-a-service/airports_served">-->
+<!--                                                Airport Served-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <a href="https://universalairportassistance.com/airport-services/">-->
+<!--                                                Services-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+                                        <li>
+                                            <a href="https://universalairportassistance.com/contact-information/">
+                                                Contact Us
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://universalairportassistance.com/privacy-policy/">Privacy
+                                                Policy
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6 short_links">
+                                    <ul>
+<!--                                        <t t-foreach="uaa_services" t-as="uaa_serv">-->
+<!--                                            <t t-if="uaa_serv.url">-->
+<!--                                                <li>-->
+<!--                                                    <a t-att-href="uaa_serv.url">-->
+<!--                                                        <t t-esc="uaa_serv.name"/>-->
+<!--                                                    </a>-->
+<!--                                                </li>-->
+<!--                                            </t>-->
+<!--                                        </t>-->
+
+                                        <li>
+                                            <a href="https://universalairportassistance.com/faq/">FAQ</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="https://universalairportassistance.com/testimonial/">Testimonial
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="https://universalairportassistance.com/blog/">Blog</a>
+                                        </li>
+                                        <li>
+                                            <a href="https://universalairportassistance.com/terms-conditions/">Terms
+                                                &amp; Conditions
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <h3 class="bold">Contact</h3>
+                            <div class="row">
+                                <div class="address">
+                                    <ul>
+                                        <li class="mail_f">
+                                            <a href="mailto:booking@mailuaa.com">
+                                                booking@mailuaa.com
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="paymenticons">
+                                <h3 class="bold">Payment Options</h3>
+                                <img src="https://universalairportassistance.com/wp-content/themes/airport_assistance/images/image007.png"
+                                     alt=""/>
+                                <img src="https://universalairportassistance.com/wp-content/themes/airport_assistance/images/image008.png"
+                                     alt=""/>
+                            </div>
+                            <div class="social">
+                                <h3 class="bold">Social Network</h3>
+                                <ul class="social-network social-circle">
+                                    <li>
+                                        <a href="https://www.facebook.com/Universal-Airport-Assistance-202317847186120/?modal=admin_todo_tour"
+                                           target="_blank" class="icoFacebook" title="Facebook">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://twitter.com/Uairportassist" target="_blank" class="icoTwitter"
+                                           title="Twitter">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.linkedin.com/" target="_blank" class="icoLinkedin"
+                                           title="Linkedin">
+                                            <i class="fa fa-linkedin"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.instagram.com/universalairportassist/" target="_blank"
+                                           class="icoGoogle" title="Instagram">
+                                            <i class="fa fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--footer_bottom-->
+            <section id="footer_bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-12 col-sm-6">
+                            <p class="left_p">
+                                <span class="bold">© 2023 Universal Airport Assistance.</span>
+                                All Rights Reserved.
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-xs-12  col-sm-6">
+                            <p class="right_p">Powered by Seeroo</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </footer>
+        <!--footer area end-->
+
+    </template>
+
+</odoo>

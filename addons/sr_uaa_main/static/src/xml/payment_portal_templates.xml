@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="payment.pay" name="Payment">
+        <t t-call="sr_uaa_main.uaa_main_website_layout">
+<!--            <section id="about">-->
+<!--            </section>-->
+<!--            <section id="book_now">-->
+<!--                <div class="container ">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-4">-->
+<!--                            <h3>Wish to Book a Service?</h3>-->
+<!--                            <h4>Book any of our airport Meet and Assist / Lounge Services</h4>-->
+<!--                        </div>-->
+
+<!--                        <div class="col-lg-4">-->
+<!--                            <ul class="mail">-->
+<!--                                <li>-->
+<!--                                    <a href="mailto:booking@mailuaa.com">-->
+<!--                                        booking@mailuaa.com-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </section>-->
+            <section id="service">
+<!--                <form action="/website_payment/pay"-->
+<!--                      method="post" class="o_payment_form mt-3 clearfix"-->
+<!--                      t-att-action="form_action if form_action else '#'"-->
+<!--                      t-att-data-success-url="success_url or ''"-->
+<!--                      t-att-data-error-url="error_url or ''"-->
+<!--                      t-att-data-access-token="access_token or ''"-->
+<!--                      t-att-data-partner-id="partner_id"-->
+<!--                      t-att-data-callback-method="callback_method or ''"-->
+<!--                      t-att-data-order-id="order_id or ''"-->
+<!--                      t-att-data-invoice-id="invoice_id or ''"-->
+<!--                      t-att-data-mode="mode"-->
+<!--                >-->
+                    <div class="container">
+                        <div class="row">
+                            <h2 class="bold" style="text-transform: uppercase !important;">
+                                <t t-if="sale_order and sale_order.uaa_services_id">
+                                    <t t-esc="sale_order.uaa_services_id.name"/>
+                                </t>
+                                SUMMARY
+                            </h2>
+                          <style>
+                                .summary .leftPanel { padding: 0 25px; width: 70%; float: left;}
+                                .summary .rightPanel { width: 29%; float: right; color: #777; margin-bottom:
+                                30px;padding:
+                                25px 0;}
+                                .summary .leftSummary, .summary .rightPanel {
+                                background: #fff;
+                                border-radius: 15px;
+                                box-shadow: 0 8px 48px 0 rgb(0 0 0 / 10%);
+                                box-sizing: border-box;
+                                display: block;
+                                float: left;
+                                padding: 15px;
+                                min-height: 540px;
+                                }
+                                .summary h3 {font-size: 24px; color: #0eb4df; margin-top: 0; margin-bottom: 20px;
+                                font-weight: bolder; padding-bottom: 9px; border-bottom: 1px solid
+                                #d3eef5;text-transform:
+                                uppercase;}
+                                .key { background: #f0f7ff; padding: 25px; float: left; border-radius: 10px;width: 100%;
+                                margin-bottom: 20px;}
+                                .summary .leftPanel .arrDetail p strong { margin-right: 7px; float: left;}
+                                .summary .leftPanel .arrDetail p span { float: left;}
+                                .summary .leftPanel p { color: #777; float: left; padding-left: 0;}
+
+                                .summary .rightPanel h4 {
+                                font-size: 19px;
+                                font-weight: 900;
+                                margin: 0;
+                                color: #0f74bb;
+                                padding: 14px 25px 10px;
+                                }
+                                .summary .rightPanel .passDetail {
+                                padding: 10px 25px!important;
+                                width: 100%;
+                                float: left;
+                                }
+
+                                .summary .rightPanel strong {
+                                font-weight: 400;
+                                }
+
+                                .summary .rightPanel span {
+                                float: right;
+                                }
+
+                                .summary .rightPanel .total {
+                                font-size: 15px;
+                                font-weight: 600;
+                                width: 100%;
+                                float: left;
+                                padding: 5px 25px;
+                                box-sizing: border-box;
+                                margin-bottom: 30px;
+                                }
+                                .summary .rightPanel .seperate {
+                                border-top: 1px solid #ececec;
+                                margin: 2px 0 11px;
+                                width: 100%;
+                                float: left;
+                                }
+                                .summary .rightPanel .serviceS {
+                                margin: 10px 0 0;
+                                width: 100%;
+                                float: left;
+                                padding: 0;
+                                box-sizing: border-box;
+                                }
+                                .marginTop {
+                                margin-top: 15px!important;
+                                }
+                                .couponBox {
+                                width: 88%;
+                                float: left;
+                                margin: 0px 23px 10px;
+                                position: relative;
+                                height: 50px;
+                                }
+                                .couponBtn {
+                                width: 100%;
+                                background: #fff;
+                                border: 1px dashed #2EA8E6;
+                                color: #2EA8E6;
+                                font-size: 14px;
+                                cursor: pointer;
+                                padding: 10px;
+                                font-weight: 500;
+                                height: 45px;
+                                text-align: left;
+                                position: absolute;
+                                top: 0;
+                                left: 0
+                                }
+                                #applyCoupon {
+                                position: absolute;
+                                top: 0;
+                                width: 100%;
+                                margin-bottom: 20px;
+                                }
+                                .summary .rightPanel .total span:first-child {
+                                float: left;
+                                }
+                                .summary .rightPanel span {
+                                float: right;
+                                }
+                                .btn-continue {
+                                background-color: #0d96ca;
+                                padding: 15px 40px;
+                                border: 0.1rem transparent;
+                                border-radius: 3.2rem;
+                                box-shadow: 0 0.8rem 2.4rem 0 rgb(0 0 0 / 10%);
+                                color: #fff;
+                                transition-duration: .5s;
+                                }
+                                a.btn-continue:hover {
+                                text-decoration: none;
+                                box-shadow: 5px 5px 5px #0d96ca5c;
+
+
+                                }
+                                .key ul {
+                                padding-left: 0;
+                                }
+                                .key ul li {
+                                padding: 7px 0;
+                                color: #0f74bb;
+                                width: 33%;
+                                float: left;
+                                list-style: none;
+                                }
+                              .listing_custom li{list-style:inherit !important}
+                                .key ul li:first-child:before {
+
+                                margin-right: 10px;
+                                }
+                                .key ul li:nth-child(2):before {
+
+                                margin-right: 10px;
+                                }
+                                .key ul li:before, .key ul li:first-child:before, .key ul li:nth-child(2):before, .key
+                                ul
+                                li:nth-child(3):before, .key ul li:nth-child(4):before, .rate>label:before {
+                                font-family: FontAwesome;
+                                }
+                                .key ul li:nth-child(3):before {
+
+                                margin-right: 10px;
+                                }.key ul li:nth-child(4):before {
+
+                                margin-right: 10px;
+                                }.key ul li:nth-child(5):before {
+
+                                margin-right: 10px;
+                                }.key ul li:nth-child(6):before {
+
+                                margin-right: 10px;
+                                }.key ul li:nth-child(7):before {
+
+                                margin-right: 10px;
+                                }.key ul li:nth-child(8):before {
+
+                                margin-right: 10px;
+                                }
+                                .couponBtn img {
+                                margin-right: 10px;
+                                }
+                                .couponBtn img {
+                                width: 20px !important;
+                                float: left;
+                                }
+                                .summary h4 {
+                                font-size: 18px;
+                                margin: 0 0 15px;
+                                color: #224881;
+                                float: left;
+                                width: 100%;
+                                font-weight: bolder;
+                                text-align: left;
+                                }
+                                .text-center {
+                                text-align: center !important;
+                                }
+                                .key p {
+                                padding-bottom: 5px !important;
+                                }
+                                .summary .leftSummary { padding: 35px;}
+
+                                p.total.text-right {
+                                text-align: right !important;
+                                }
+                                p.serviceS {
+                                padding: 5px 25px !important;
+                                }
+
+                                /*Responsive Fix*/
+                              @media (max-width: 767px) {
+                            .summary .rightPanel {
+                                width: 100% !important;
+                                padding: 0 !important;
+                                float: right;
+                                color: #777;
+                                margin-bottom: 30px;
+                                padding: 25px 0;
+                            }
+                            .summary .leftPanel {
+                                padding: 0  !important;
+                                width: 100%  !important;
+                                float: left;
+                            }
+                            button#o_payment_form_pay {
+                                margin: 5%;
+                                width: 90%;
+                            }
+                            .summary h4 {
+                                text-align: center;
+                            }
+                            .summary .pull-right {
+                                float: right;
+                                float: none !important;
+                                margin: auto;
+                                text-align: center;
+                            }
+                            .content.summary p {
+                                padding-bottom: 10px !important;
+                            }
+
+
+
+                            .col-md-12.arrDetail p.col-md-6, .col-md-12.depDetail p.col-md-6 {
+                                width: 100% !important;
+                                padding-bottom: 10px !important;
+                            }
+                            .list-inline.service_description p {
+                                width: 100%;
+                                text-align: center !important;
+                            }
+                            .key {
+                              padding: 15px 30px !important;
+                            }
+                              .key.frst-box {
+                              padding: 15px 0px !important;
+                            }
+                            .col-md-12.arrDetail, .col-md-12.depDetail {
+                                padding: 0;
+                            }
+                            .mail {top: 0;}
+
+
+
+                            .o_website_payment {
+                                padding-top: 15px;
+                            }
+                            section#book_now {
+                                padding-top: 22px;
+                            }
+                            .left_p, .right_p {
+                                    line-height: 36px;
+                              }
+                              #about { min-height: 22vh;  background-size: cover;}
+                              section#service {padding-top: 15px;}
+
+                            }
+                              /*Responsive Fix*/
+
+                            </style>
+                            <div class="col-md-12 content summary">
+
+                                <div class="leftPanel">
+
+                                    <div class="leftSummary">
+                                        <t t-if="sale_order">
+                                            <h3 style="text-transform: uppercase !important;">
+                                                <t t-esc="sale_order.service_type_id.name"/>
+                                                <span>Summary</span>
+                                            </h3>
+                                        </t>
+                                        <h4>
+                                            <t t-if="sale_order">
+                                                <t t-if="sale_order.uaa_services_id">
+                                                    <span>
+    <!--                                                    <t t-foreach="sale_order.order_line" t-as="tline">-->
+    <!--                                                        <t t-if="tline.service_price_total == amount">-->
+    <!--                                                            <t t-if="tline.product_id" t-esc="tline.product_id.name"/>-->
+    <!--                                                        </t>-->
+    <!--                                                    </t>-->
+                                                        <t t-if="sale_order_line" t-esc="sale_order_line.product_id.name"/>
+                                                        <t t-if="additional_charges_id">
+                                                            <span>Additional Charge</span>
+                                                        </t>
+                                                        <t t-esc="sale_order.uaa_services_id.name"/>
+                                                    </span>
+                                                    <div class="pull-right">Reference No: -
+                                                        <t t-esc="sale_order.name"/>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </h4>
+
+                                        <div class="key frst-box ">
+                                            <div class="col-md-12">
+                                                <h4 class="text-center">Key Services</h4>
+                                                <div class="list-inline service_description listing_custom">
+<!--                                                    <t t-foreach="sale_order.order_line" t-as="tline">-->
+<!--                                                        <t t-if="tline.service_price_total == amount">-->
+<!--                                                            <t t-raw="tline.description"/>-->
+<!--                                                        </t>-->
+<!--                                                    </t>-->
+                                                     <t t-if="additional_charges_id" t-raw="additional_charges_id.description"/>
+                                                     <t t-if="sale_order_line" t-raw="sale_order_line.description"/>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <t t-if="sale_order">
+                                            <t t-if="sale_order.service_type_id.is_arrival or sale_order.service_type_id.is_transit">
+                                                <div class="col-md-12 arrDetail">
+                                                    <h4>Arrival Details</h4>
+                                                    <p class="col-md-6" style="width=100%;">
+                                                        <strong>Arrival Airport
+                                                            Name:
+                                                        </strong>
+                                                        <p>
+                                                            <t t-if="sale_order.enquiry_id.services == 'airport_transfer'">
+                                                                <t t-esc="sale_order.enquiry_id.pick_up_airport_id.name"/>
+                                                                <span> (</span>
+                                                                <span t-esc="sale_order.enquiry_id.pick_up_airport_id.code"/>
+                                                                <span>)</span>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t t-esc="sale_order.enquiry_id.airport_id.name"/>
+                                                                <span> (</span>
+                                                                <span t-esc="sale_order.enquiry_id.airport_id.code"/>
+                                                                <span>)</span>
+                                                            </t>
+                                                        </p>
+                                                    </p>
+
+                                                    <div class="key">
+                                                        <div class="row">
+                                                            <p class="col-md-4">
+                                                                <strong>Flight
+                                                                    Number:
+                                                                </strong>
+
+                                                            </p>
+                                                            <p class="col-md-4">
+                                                                <strong>Flight Arrival
+                                                                    Date:
+                                                                </strong>
+
+                                                            </p>
+                                                            <p class="col-md-4">
+                                                                <strong>Flight Arrival
+                                                                    Time:
+                                                                </strong>
+
+                                                            </p>
+                                                        </div>
+                                                        <div class="row">
+                                                            <p class="col-md-4">
+                                                                <span>
+                                                                    <t t-if="sale_order">
+                                                                        <t t-esc="sale_order.enquiry_id.arrival_flight_number"/>
+                                                                    </t>
+                                                                </span>
+                                                            </p>
+                                                            <p class="col-md-4">
+                                                                <span>
+                                                                    <t t-if="get_arrival_date">
+                                                                        <t t-esc="get_arrival_date"/>
+                                                                    </t>
+                                                                </span>
+                                                            </p>
+                                                            <p class="col-md-4">
+                                                                <span>
+                                                                    <t t-if="get_arrival_time">
+                                                                        <t t-esc="get_arrival_time"/>
+                                                                    </t>
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                            <t t-if="sale_order.service_type_id.is_departure or sale_order.service_type_id.is_transit">
+                                                <div class="col-md-12 depDetail">
+                                                    <h4>Departure Details</h4>
+                                                    <p class="col-md-6" style="width=100%;">
+                                                        <strong>Departure Airport Name:
+                                                        </strong>
+                                                        <p>
+                                                            <t t-if="sale_order.enquiry_id.services == 'airport_transfer'">
+                                                                <t t-esc="sale_order.enquiry_id.drop_off_airport_id.name"/>
+                                                                <span> (</span>
+                                                                <span t-esc="sale_order.enquiry_id.drop_off_airport_id.code"/>
+                                                                <span>)</span>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t t-esc="sale_order.enquiry_id.airport_id.name"/>
+                                                                <span> (</span>
+                                                                <span t-esc="sale_order.enquiry_id.airport_id.code"/>
+                                                                <span>)</span>
+                                                            </t>
+                                                        </p>
+                                                    </p>
+
+                                                    <div class="key">
+                                                        <div class="row">
+                                                            <p class="col-md-4">
+                                                                <strong>Flight Number:
+                                                                </strong>
+
+                                                            </p>
+                                                            <p class="col-md-4">
+                                                                <strong>Flight Departure Date:
+                                                                </strong>
+
+                                                            </p>
+                                                            <p class="col-md-4">
+                                                                <strong>Flight Departure Time:
+                                                                </strong>
+
+                                                            </p>
+                                                        </div>
+                                                        <div class="row">
+                                                            <p class="col-md-4">
+                                                                <span>
+                                                                    <t t-if="sale_order">
+                                                                        <t t-esc="sale_order.enquiry_id.departure_flight_number"/>
+                                                                    </t>
+                                                                </span>
+                                                            </p>
+                                                            <p class="col-md-4">
+                                                                <span>
+                                                                    <t t-if="get_departure_date">
+                                                                        <t t-esc="get_departure_date"/>
+                                                                    </t>
+                                                                </span>
+                                                            </p>
+                                                            <p class="col-md-4">
+                                                                <span>
+                                                                    <t t-if="get_departure_time">
+                                                                        <t t-esc="get_departure_time"/>
+                                                                    </t>
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </t>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <div class="separator" style="margin-top:40px;"></div>
+                                </div>
+
+                                <t t-if="sale_order">
+                                    <div class="rightPanel ">
+                                        <div class="o_website_payment">
+                                            <h4 class="">
+    <!--                                            <t t-foreach="sale_order.order_line" t-as="tline">-->
+    <!--                                                <t t-if="tline.service_price_total == amount">-->
+    <!--                                                    <t t-if="tline.product_id" t-esc="tline.product_id.name"/>-->
+    <!--                                                </t>-->
+    <!--                                            </t>-->
+    <!--                                            <div class="row">-->
+    <!--                                             <t t-if="additional_charges_id" t-esc="additional_charges_id.product_id.name"/>-->
+                                                 <t t-if="sale_order_line" t-esc="sale_order_line.product_id.name"/>
+                                                <t t-esc="sale_order.uaa_services_id.name"/>
+                                                Service
+    <!--                                            </div>-->
+                                            </h4>
+                                            <p class="passDetail">
+                                                <strong>Passengers</strong>
+                                                <span>
+                                                    <t t-if="sale_order">
+                                                        <t t-esc="sale_order.enquiry_id.adults_count"/>
+                                                        Adult,
+                                                        <t t-esc="sale_order.enquiry_id.children_count"/>
+                                                        Child,
+                                                        <t t-esc="sale_order.enquiry_id.infants_count"/>
+                                                        Infant
+                                                    </t>
+                                                </span>
+                                            </p>
+
+                                            <h4 class="serChargeHead">Service Charges</h4>
+
+                                            <div class="total">
+                                                <span>Total</span>
+                                                <span class="text-right posRel">
+                                                    <t t-if="amount">
+                                                        <span t-field="currency.symbol"/>
+                                                        <span t-esc="amount"/>
+                                                    </t>
+                                                </span>
+                                            </div>
+
+                                            <t t-call="sr_uaa_main.uaa_payment_tokens_list"
+                                               t-if="reference and amount and currency">
+
+                                                <t t-set="mode" t-value="'payment'"/>
+                                                <t t-set="_overriden_reference" t-value="reference"/>
+                                                <t t-set="reference" t-value="quote_plus(reference).replace('+','%20')"/>
+                                                <t t-set="prepare_tx_url"
+                                                   t-value="'/website_payment/transaction/v2/' + str(amount) + '/' + str(currency.id) + '/' + reference + (('/' + str(partner_id)) if partner_id else '')"/>
+                                                <t t-set="form_action"
+                                                   t-value="'/website_payment/token/v2/' + str(amount) + '/' + str(currency.id) + '/' + reference + (('/' + str(partner_id)) if partner_id else '')"/>
+                                                <t t-set="reference" t-value="_overriden_reference"/>
+
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+<!--                </form>-->
+            </section>
+        </t>
+    </template>
+</odoo>

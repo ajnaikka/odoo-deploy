@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="UAADashboardTemplate">
+        <div class="divmain" style="width: 100%;height:100%;">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 divright">
+
+                    <div class="row">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-2 divfirst">
+                            <div class="dash-box-icon0 dash-box-icon3">
+                                <i class="fa fa-arrow-circle-up"></i>
+                            </div>
+                            <div class="dash-box-body">
+                                <span class="dash-box-title">New Enquiries</span>
+                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_new_enquires"/></span>
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="dash-box-function my_new_enquires">
+                                <button>More Info</button>
+                            </div>
+                        </div>
+<!--                        <div class="col-md-2 divforth">-->
+<!--                            <div class="dash-box-icon0 dash-box-icon3">-->
+<!--                                <i class="fa fa-arrow-circle-up"></i>-->
+<!--                            </div>-->
+<!--                            <div class="dash-box-body">-->
+<!--                                <span class="dash-box-title">Upcoming Enquires</span>-->
+<!--                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_upcoming_enquires"/></span>-->
+<!--                            </div>-->
+<!--                            <div class="line">-->
+<!--                            </div>-->
+<!--                            <div class="dash-box-function my_upcoming_enquires">-->
+<!--                                <button>More Info</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <!--                        <t t-if="widget.crm_data.finance_group">-->
+                        <div class="col-md-2 divsecond">
+
+                            <div class="dash-box-icon0 dash-box-icon4">
+                                <i class="fa fa-folder-open" style="align-center"></i>
+                            </div>
+                            <div class="dash-box-body">
+                                <span class="dash-box-title">Open Enquiries</span>
+                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_open_enquires"/></span>
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="dash-box-function my_open_enquires">
+                                <button>More Info</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 divthird">
+                            <div class="dash-box-icon0 dash-box-icon3">
+                                <i class="fa fa-arrow-circle-up"></i>
+                            </div>
+                            <div class="dash-box-body">
+                                <span class="dash-box-title">Upcoming Services</span>
+                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_upcoming_services"/></span>
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="dash-box-function my_upcoming_services">
+                                <button>More Info</button>
+                            </div>
+                        </div>
+                        <!--                        </t>-->
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-2 divforth">
+                            <div class="dash-box-icon0">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="dash-box-body">
+                                <span class="dash-box-title">Customers</span>
+                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_customers"/></span>
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="dash-box-function my_customers">
+                                <button>More Info</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 divfifth">
+                            <div class="dash-box-icon0 dash-box-icon1">
+                                <i class="fa fa-plane"></i>
+                            </div>
+                            <div class="dash-box-body">
+                                <span class="dash-box-title">Airports</span>
+                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_airports"/> </span>
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="dash-box-function my_airports">
+                                <button>More Info</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 divsixth">
+                            <div class="dash-box-icon0 dash-box-icon2 ">
+                                <i class="fa fa-book" style="align-content:center"></i>
+                            </div>
+                            <div class="dash-box-body">
+                                <span class="dash-box-title">Enquiries</span>
+                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_enquires"/></span>
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="dash-box-function my_enquires">
+                                <button>More Info</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-2 divseventh">
+                            <div class="dash-box-icon0 dash-box-icon5">
+                                <i class="fa fa-check-square"></i>
+                            </div>
+
+                            <div class="dash-box-body">
+                                <span class="dash-box-title">Closed Enquiries</span>
+                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_close_enquires"/></span>
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="dash-box-function my_close_enquires">
+                                <button>More Info</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 diveighth">
+                            <div class="dash-box-icon0 dash-box-icon5">
+                                <i class="fa fa-close"></i>
+                            </div>
+
+                            <div class="dash-box-body">
+                                <span class="dash-box-title">Cancelled Enquiries</span>
+                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_cancelled_enquires"/></span>
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="dash-box-function my_cancelled_enquires">
+                                <button>More Info</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 divnineth">
+                            <div class="dash-box-icon0 dash-box-icon5">
+                                <i class="fa fa-usd"></i>
+                            </div>
+
+                            <div class="dash-box-body">
+                                <span class="dash-box-title">Paid Enquiries</span>
+                                <span class="dash-box-count"><t t-esc="widget.dashboard_data.my_paid_enquires"/></span>
+                            </div>
+                            <div class="line">
+                            </div>
+                            <div class="dash-box-function my_paid_enquires">
+                                <button>More Info</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row main-section" style="margin-top:20px;">
+                <div class="col-md-2 col-sm-2 dummy"></div>
+                <div class="col-sm-10 col-lg-10  monthly_enquiry_graph_view">
+                    <div class="oh-card text-color">
+                        <h1>Weekly Report</h1>
+                        <div class="enquiry_graph_week" style="margin-top: -75px;"/>
+
+                        <h1>6 Months Report</h1>
+                        <div class="enquiry_graph" style="margin-top: -75px;"/>
+
+                        <h1>Top Airports</h1>
+                        <div class="airport_graph" style="margin-top: -75px;"/>
+
+                        <h1>Top Countries</h1>
+                        <div class="country_graph" style="margin-top: -75px;"/>
+                </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="close_enquiry_wizard_form" model="ir.ui.view">
+            <field name="name">close.enquiry_wizard_form</field>
+            <field name="model">close.enquiry.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="response_status_id" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="Confirm"
+                                name="action_close_enquiry"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_close_enquiry_wizard" model="ir.actions.act_window">
+            <field name="name">Enquiry Close</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">close.enquiry.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

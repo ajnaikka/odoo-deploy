@@ -1,0 +1,591 @@
+<odoo>
+    <data>
+        <record id="view_airport_enquiry_tree" model="ir.ui.view">
+            <field name="name">airport.enquiry.tree</field>
+            <field name="model">airport.enquiry</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="create_date"/>
+                    <field name="name"/>
+                    <field name="create_date" optional="hide"/>
+                    <field name="traveler_name"/>
+
+                    <field name="airport_id" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                    <field name="service_type_id" options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                    <field name="service_date"/>
+
+                    <field name="payment_amount" optional="hide"/>
+                    <!--                    <field name="invoice_payments_widget" widget="payment" optional="hide"/>-->
+                    <field name="payment_status" optional="hide"/>
+
+                    <field name="uaa_services_id" optional="hide"
+                           options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+
+                    <field name="estimated_service_fee" optional="hide"/>
+                    <field name="country_id" optional="hide"
+                           options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                    <field name="country_code" optional="hide"/>
+                    <field name="contact_number" optional="hide"/>
+                    <field name="email" widget="email" optional="hide"/>
+                    <field name="travelers_count" optional="hide"/>
+                    <field name="response_status_id"/>
+                    <field name="status"/>
+                    <field name="cancel_reason" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_airport_enquiry_graph" model="ir.ui.view">
+            <field name="name">airport.enquiry.graph</field>
+            <field name="model">airport.enquiry</field>
+            <field name="arch" type="xml">
+                <graph string="Enquires" type="bar" sample="1">
+                    <field name="service_date" interval="month" type="col"/>
+                    <field name="service_date" interval="year" type="col"/>
+                    <field name="uaa_services_id" type="row"/>
+                    <field name="service_type_id" type="row"/>
+                    <!--                    <field name="name" type="measure"/>-->
+                </graph>
+            </field>
+        </record>
+
+        <record id="view_airport_enquiry_form" model="ir.ui.view">
+            <field name="name">airport.enquiry.form</field>
+            <field name="model">airport.enquiry</field>
+            <field name="arch" type="xml">
+                <form create="0">
+                    <header>
+                        <button name="check_create_quotation"
+                                string="Create Quotation"
+                                class="oe_highlight" type="object"
+                                attrs="{'invisible': [('quotation_id', '!=', False)]}"/>
+
+                        <button name="action_submit" string="Send Confirmation Mail"
+                                type="object" class="oe_highlight"
+                                attrs="{'invisible':[('response_status','in',['new_enquiry','payment_link_send',
+                                'additional_payment_link_send','additional_payment_link_send','payment_received','payment_completed',
+                                'send_service_req'])]}"
+                                confirm="This Action will Send Confirmation Mail. Do you want to proceed?"
+                                groups="sr_uaa_main.view_send_confirmation_mail_button"
+                        />
+
+
+                        <button name="change_status_to_close" string="Close Enquiry"
+                                type="object" class="oe_highlight"
+                                confirm="This Action will Close the Enquiry. Do you want to proceed?"
+                                groups="sr_uaa_main.view_change_status_to_close_id"
+                                attrs="{'invisible':['|',('is_booked','=',False),('status','=','close')]}"/>
+
+                        <button name="%(sr_uaa_main.action_close_enquiry_wizard)d"
+                                string="Close Enquiry" type="action" class="oe_highlight"
+                                attrs="{'invisible':['|',('payment_status','=','paid'),('status','=','close')]}"
+                                groups="sr_uaa_main.view_change_status_to_close_id"/>
+
+                        <!--                        <button name="action_submit" string="Resend Confirmation Mail"-->
+                        <!--                                confirm="This Action will Send Confirmation Mail. Do you want to proceed?"-->
+                        <!--                                type="object"/>-->
+                        <!--                                attrs="{'invisible':['|',('is_booked','=',False),('payment_done','=',False)]}"-->
+                        <!--                        />-->
+                        <!--                        <button name="action_confirm" string="Confirm" class="oe_highlight"-->
+                        <!--                                confirm="This Action will confirm the Enquiry. Do you want to proceed?"-->
+                        <!--                                type="object"/>-->
+                        <!--                                attrs="{'invisible':['|',('payment_done', '=', False),('status','!=','open')]}"/>-->
+
+                        <button name="%(sr_uaa_main.action_cancel_enquiry_wizard)d"
+                                string="Cancel"
+                                type="action"
+                                groups="sr_uaa_main.view_cancel_button_enquiry"
+                                attrs="{'invisible':[('response_status','=','cancelled')]}"/>
+
+                        <button name="change_resp_stus_to_service_req_snd" string="Send Service Request"
+                                class="oe_highlight"
+                                type="object"
+                                groups="sr_uaa_main.view_change_resp_stus_to_service_req_snd"
+                                attrs="{'invisible': [('response_status', '!=', 'payment_completed')]}"/>
+
+                        <button name="confirm_service" string="Confirm Service" class="oe_highlight"
+                                groups="sr_uaa_main.view_confirm_service_button"
+                                type="object" attrs="{'invisible':[('response_status','!=','send_service_req')]}"/>
+                        />
+                        <button name="%(sr_uaa_main.action_additional_charge_wiz_form)d"
+                                string="Send Additional Charge" class="oe_highlight"
+                                type="action" attrs="{'invisible':[('status','=','new')]}"
+                                groups="sr_uaa_main.view_send_additional_charges_enquiry"
+                        />
+                        <button name="enquiry_reminder_send_button"
+                                string="Send Reminder" class="oe_highlight"
+                                attrs="{'invisible':[('response_status','!=','confirmation_voucher_send')]}"
+                                groups="sr_uaa_main.view_send_reminder_button_enquiry"
+                                type="object" confirm="This will send Reminder to customer, Do you want to continue?"/>
+
+
+                        <!--                        <button name="enquiry_reminder_send_button_new"-->
+                        <!--                                string="Send Reminder new" class="oe_highlight"-->
+                        <!--                                type="object" confirm="This will send Reminder to customer, Do you want to continue?"/>-->
+
+                        <button name="send_custom_mail"
+                                string="Send Mail" class="oe_highlight"
+                                type="object"
+                                groups="sr_uaa_main.view_send_mail_button_enquiry"/>
+
+
+                        <button name="change_resp_stus_to_unfortunate_mail" string="Unfortunate Mail"
+                                class="oe_highlight"
+                                type="object" groups="sr_uaa_main.view_cancel_button_enquiry"
+                                attrs="{'invisible': True}"
+                                confirm="This Action will change Response status to Unfortunate Mail. Do you want to proceed?"/>
+
+                        <!--                                attrs="{'invisible': True}"-->
+                        <!--                                 attrs="{'invisible':[('response_status','not in',('new_enquiry','payment_link_send',-->
+                        <!--                                'additional_payment_link_send','additional_payment_link_send','payment_received','payment_completed',-->
+                        <!--                                'send_service_req','service_completed'))]}"-->
+
+
+                        <!-- <button name="reset_enquiry_new"
+                                  string="Reset Enquiry"
+                                  class="oe_highlight"
+                                  attrs="{'invisible':[('cancel_new','=',False)]}"
+                                  type="object"/> -->
+
+                        <!-- <button name="%(sr_uaa_main.action_payment_receipt_wizard)d"
+                                string="View Payment Receipt"
+                                attrs="{'invisible':['|',('payment_done','=',False), ('response_status','=','cancelled')]}"
+                                class="oe_highlight"
+                                type="action"/> -->
+
+                        <!--                        <button name="%(sr_uaa_main.action_payment_receipt_wizard)d"-->
+                        <!--                                string="View Payment Receipt"-->
+                        <!--                                attrs="{'invisible':['|',('payment_done','=',False), ('response_status','=','cancelled')]}"-->
+                        <!--                                class="oe_highlight"-->
+                        <!--                                type="action"/>-->
+
+                        <field name="status" widget="statusbar"
+                               statusbar_visible="new,open,close"/>
+                    </header>
+                    <sheet>
+                        <div name="button_box" position="inside">
+                            <button class="oe_stat_button" type="object" name="button_attachment" string="Attachment"
+                                    icon="fa-paperclip"/>
+
+                            <button name="view_quotation"
+                                    icon="fa-pencil-square-o"
+                                    class="oe_stat_button"
+                                    attrs="{'invisible':[('quotation_id','=',False)]}"
+                                    type="object">
+                                <field name="quotation_count" widget="statinfo" string="Quotation"/>
+                            </button>
+
+                            <button name="action_view_invoice"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-credit-card"
+                                    attrs="{'invisible': [('invoice_count', '=', 0)]}">
+                                <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                            </button>
+                            <button name="action_view_customer"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    string="Customer Details"
+                                    icon="fa-user"
+                                    attrs="{'invisible': [('enquiry_partner_id', '=', False)]}">
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                            <h2>
+                                <field name="uaa_services_id" required="1"
+                                       options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"
+                                       placeholder="Choose a UAA service"
+                                       attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                            </h2>
+                        </div>
+
+                        <group col="4">
+                            <field name="quotation_id" invisible="1"/>
+                            <field name="payment_received" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="enquiry_partner_id" invisible="1"/>
+                            <field name="services" placeholder="Type of Service" invisible="1"/>
+                            <field name="enquiry_receive_date" invisible="1"/>
+                            <field name="service_date" invisible="1"/>
+                            <field name="is_booked" invisible="1"/>
+                            <field name="payment_done" invisible="1"/>
+                            <field name="verified_by" invisible="1"/>
+                            <field name="service_type" invisible="1"/>
+                            <field name="company_currency_id" invisible="1"/>
+                            <field name="new_qtc_records" invisible="1"/>
+                            <field name="quotation_ids" invisible="1"/>
+                            <field name="cancel_new" invisible="1"/>
+                        </group>
+                        <group col="2">
+                            <field name="invoice_id"
+                                   attrs="{'invisible': [('invoice_id','=', False)]}"
+                                   options='{"no_open": True, "no_create": True}'/>
+                        </group>
+                        <group col="4">
+
+                            <!--                            		attrs="{'invisible':[('response_status','=','cancelled')]}"/>-->
+
+                            <field name="total_estimated_service_fee" string="Service Fee"
+                                   readonly="1" widget="monetary"
+                                   options="{'currency_field': 'company_currency_id'}"
+                                   attrs="{'invisible': [('payment_done', '=', False)]}"/>
+                            <field name="estimated_service_fee_words"
+                                   readonly="1"
+                                   attrs="{'invisible': [('payment_done', '=', False)]}"/>
+                            <field name="spp_status" widget="boolean_toggle" invisible="1"/>
+                            <field name="notified_customer" widget="boolean_toggle"
+                                   string="Reminder Mail" invisible="1"/>
+                            <field name="estimated_service_fee" invisible="1"
+                                   readonly="1" widget="monetary"
+                                   options="{'currency_field': 'company_currency_id'}"
+                                   attrs="{'invisible': [('payment_done', '=', False)]}"/>
+                        </group>
+                        <group col="2">
+                            <group>
+                                <field name="request_date"/>
+                                <field name="service_date"/>
+                                <field name="services_on" readonly="1"/>
+                                <field name="modify_enquiry"
+                                       widget="boolean_button"/>
+                            </group>
+                            <group>
+                                <field name="booking_ref_no"/>
+                                <field name="meeting_point"/>
+                                <field name="response_status_id"
+                                       options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                            </group>
+
+
+                            <!--                            <field name="response_bool" invisible="1"/>-->
+
+                        </group>
+
+                        <notebook>
+                            <page string="Personal Details">
+                                <group col="4" string="Personal Details">
+                                    <field name="traveler_name"/>
+                                    <field name="email"/>
+                                    <field name="country_code" readonly="True"/>
+                                    <field name="add_contact_number" widget="phone"
+                                           attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                    <field name="country_id"
+                                           options="{'no_quick_create':True,'no_create_edit':True,'no_open': True, 'no_create':True}"
+                                           required="1" attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                    <field name="contact_number" widget="char" required="1"
+                                           attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                </group>
+                            </page>
+                            <page string="Travel Details">
+                                <group col="4" string="Travel Details">
+                                    <group>
+                                        <field name="adults_count" required="1"
+                                               attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="children_count"
+                                               attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="infants_count"
+                                               attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="travelers_count" invisible="1"
+                                               attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="luggage_count" required="1"
+                                               attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="hours_count" widget="float_time"
+                                               attrs="{'invisible': [('services', 'not in', ['airport_hotel', 'airport_lounge'])], 'readonly': [('modify_enquiry', '=', False)]}"/>
+                                        <field name="need_wheelchair" widget="boolean_toggle"
+                                               attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="wheelchair_count"
+                                               attrs="{'invisible': [('need_wheelchair', '=', False)], 'readonly':[('modify_enquiry','=', False)]}"/>
+                                    </group>
+                                    <group>
+                                        <!--                                    <field name="created_timezone"/>-->
+                                        <field name="service_type_id"
+                                               required="1"
+                                               context="{'service_type_id': uaa_services_id}"
+                                               options="{'no_quick_create':True,'no_create_edit':True,'no_open': True}"
+                                               attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="airport_id"
+                                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"
+                                               attrs="{'invisible': [('services', '=', 'airport_transfer')],'required':[('services','!=','airport_transfer')],
+                                           'readonly':[('modify_enquiry','=', False)]}"/>
+
+                                        <field name="lounge_name"
+                                               attrs="{'invisible':[('services','!=','airport_lounge')]}"
+                                        />
+
+                                        <field name="entry_time"
+                                               attrs="{'invisible':[('services','!=','airport_lounge')]}"
+                                        />
+
+                                        <field name="pick_up_airport_id"
+                                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"
+                                               attrs="{'invisible': ['|',('services', '!=', 'airport_transfer'),('service_type', '=', 'departure')],
+                                           'required':[('services','=','airport_transfer'),('service_type', '=','arrival')], 'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="drop_off_location"
+                                               attrs="{'invisible': ['|',('services','!=','airport_transfer'),('service_type', '=', 'departure')],
+                                            'required':[('services','=','airport_transfer'),('service_type', '=','arrival')], 'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="pick_up_location"
+                                               attrs="{'invisible': ['|',('services','!=','airport_transfer'),('service_type', '=', 'arrival')],
+                                            'required':[('services','=','airport_transfer'),('service_type', '=','departure')], 'readonly':[('modify_enquiry','=', False)]}"/>
+
+                                        <field name="drop_off_airport_id"
+                                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"
+                                               attrs="{'invisible': ['|',('services', '!=', 'airport_transfer'),('service_type', '=', 'arrival')],
+                                            'required':[('services','=','airport_transfer'),('service_type', '=','departure')], 'readonly':[('modify_enquiry','=', False)]}"/>
+
+                                        <field name="services_ids" widget="many2many_tags"
+                                               domain="[('show_meet_greet','=',True)]"
+                                               options="{'no_create': True}"
+                                               attrs="{'required':[('services', '=','meet_assist')],
+                                            'invisible': ['|','|',('services', '=', 'airport_lounge'),('services', '=', 'airport_hotel'),('services', '=', 'airport_transfer')],
+                                            'readonly':[('modify_enquiry','=', False)]}"/>
+
+                                        <!--                                    <field name="class_of_travel"/>-->
+                                        <field name="travel_class_id"
+                                               options="{'no_create':True,'no_create_edit':True, 'no_open': True}"
+                                               attrs="{'invisible':[('services', '!=','meet_assist')],
+                                           'readonly':[('modify_enquiry','=', False)]}" required="1"/>
+
+                                        <field name="arrival_flight_number"
+                                               attrs="{'invisible': [('service_type', '=', 'departure')],
+                                    'required':[('service_type', '!=','departure')], 'readonly':[('modify_enquiry','=', False)]}"
+                                               placeholder="e.g:BA2490"/>
+                                        <!--                                    <field name="arrival_date"-->
+                                        <!--                                           attrs="{'invisible': [('service_type', '=', 'departure')],-->
+                                        <!--                                   'required':[('service_type', '!=','departure')], 'readonly':[('modify_enquiry','=', False)]}"/>-->
+                                        <field name="arrival_date_str"
+                                               attrs="{'invisible': [('service_type', '=', 'departure')],
+                                    'required':[('service_type', '!=','departure')], 'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <field name="departure_flight_number"
+                                               attrs="{'invisible': [('service_type', '=', 'arrival')],
+                                            'required':[('service_type', '!=','arrival')], 'readonly':[('modify_enquiry','=', False)]}"
+                                               placeholder="e.g:BA2490"/>
+                                        <field name="departure_date_str" attrs="{'invisible': [('service_type', '=', 'arrival')],
+                                            'required':[('service_type', '!=','arrival')], 'readonly':[('modify_enquiry','=', False)]}"/>
+                                        <!--                                    <field name="departure_date"-->
+                                        <!--                                           attrs="{'invisible': [('service_type', '=', 'arrival')],-->
+                                        <!--                                            'required':[('service_type', '!=','arrival')], 'readonly':[('modify_enquiry','=', False)]}"/>-->
+                                        <!--                                    <field name="pickup_date"-->
+                                        <!--                                            attrs="{'invisible': [('services', '!=', 'airport_transfer')],'readonly':[('modify_enquiry','=', False)]}"/>-->
+                                        <field name="pickup_date_str"
+                                               attrs="{'invisible': [('services', '!=', 'airport_transfer')],'readonly':[('modify_enquiry','=', False)]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Payments" attrs="{'invisible': [('payment_done', '=', False)]}">
+                                <group col="4" string="Payments">
+                                    <field name="payment_status"/>
+                                    <field name="payment_amount" widget="monetary"
+                                           options="{'currency_field': 'company_currency_id'}"/>
+                                    <field name="service_category_id" readonly="1"
+                                           options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                </group>
+                                <group col="4" string="Payment History">
+                                    <group>
+<!--                                        <field name="invoice_payments_widget" colspan="2" widget="payment"/>-->
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Comments">
+                                <group string="Comments">
+                                    <field name="customer_message"
+                                           attrs="{'readonly':[('modify_enquiry','=', False)]}"/>
+                                </group>
+                                <group>
+                                    <field name="status_comment_ids">
+                                        <tree editable="bottom">
+                                            <field name="create_uid"
+                                                   options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                            <field name="create_date"/>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Service Charges">
+                                <button name="get_service_charge" type="object" string="Load Charges"
+                                        class="btn btn-primary"/>
+                                <div>
+                                    <field name="services_charges_ids"
+                                           context="{'default_uaa_services_id': uaa_services_id ,'default_service_type_id': service_type_id,'default_enquiry_id': active_id}">
+                                        <tree create="1">
+                                            <field name="uaa_services_id" force_save="1" readonly="1" required="1"/>
+                                            <field name="service_type_id" force_save="1" readonly="1" required="1"/>
+                                            <field name="service_category_id" force_save="1" required="1"/>
+                                            <field name="amount" required="1"/>
+                                        </tree>
+                                        <form>
+                                            <group col="4">
+
+                                                <field name="uaa_services_id" force_save="1" readonly="1"
+                                                       required="1"
+                                                       options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                                <field name="service_type_id" force_save="1" readonly="1"
+                                                       required="1"
+                                                       options="{'no_create':True,'no_create_edit':True, 'no_open': True}"/>
+                                                <field name="service_category_id" force_save="1" required="1"
+                                                       options="{'no_quick_create': True, 'no_open': True}"/>
+
+                                                <field name="amount" required="1"/>
+                                            </group>
+                                            <group col="2">
+                                                <field name="description"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </div>
+                            </page>
+                            <page string="Other Info" name="other_info_tab">
+                                <group col="4" string="Other Information">
+                                    <field name="drivers_contact_number" widget="phone"/>
+                                    <field name="service_provider_book_number"/>
+                                    <field name="cancel_reason" readonly="1"
+                                           attrs="{'invisible':[('response_status', '!=', 'cancelled')]}"/>
+                                    <field name="cancel_date" readonly="1"
+                                           attrs="{'invisible':[('response_status', '!=', 'cancelled')]}"/>
+                                    <field name="emergency_number"/>
+                                    <field name="can_response_status" groups="base.group_no_one"/>
+                                    <field name="can_response_status_id" groups="base.group_no_one"/>
+                                    <field name="can_status" groups="base.group_no_one"/>
+                                    <field name="response_status"/>
+                                    <field name="resp_status_change" groups="base.group_no_one"/>
+                                </group>
+                            </page>
+                            <page string="Status History" name="status_history_tab">
+                                <form string="Status History">
+                                    <field name="status_history_ids" nolabel="1">
+                                        <tree create="0">
+                                            <field name="user_id"/>
+                                            <field name="status_change_time"/>
+                                            <field name="description"/>
+                                        </tree>
+                                    </field>
+                                </form>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="airport_enquiry_search_view" model="ir.ui.view">
+            <field name="name">search</field>
+            <field name="model">airport.enquiry</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name"/>
+                    <field name="traveler_name"/>
+                    <field name="airport_id"/>
+                    <field name="payment_status"/>
+                    <field name="email"/>
+                    <!--                    <field name="service_type_id"/>-->
+                    <field name="uaa_services_id"/>
+                    <field name="service_date"/>
+                    <field name="service_type_id"/>
+                    <field name="response_status_id"/>
+                    <field name="status"/>
+                    <!--                    <field name="services"/>-->
+                    <field name="country_id"/>
+                    <field name="quotation_id"/>
+                    <field name="invoice_id"/>
+
+                    <filter string="New" name="status_new" domain="[('status', '=', 'new')]"/>
+                    <filter string="Open" name="status_open" domain="[('status', '=', 'open')]"/>
+                    <filter string="Closed" name="status_closed" domain="[('status', '=', 'close')]"/>
+
+                    <separator string="Date Filter"/>
+                    <filter string="Today" name="today"
+                            domain="[('service_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Yesterday" name="yesterday"
+                            domain="[('service_date', '=', (context_today() + relativedelta(days=-1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="This Week" name="this_week" domain="[
+                            ('service_date', '>=', (datetime.datetime.combine(context_today() + relativedelta(weeks=-1,days=1,weekday=0), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S')),
+                            ('service_date', '&lt;', (datetime.datetime.combine(context_today() + relativedelta(days=1,weekday=0), datetime.time(0,0,0)).to_utc()).strftime('%Y-%m-%d %H:%M:%S'))]"/>
+                    <filter name="this_month" string="This Month"
+                            domain="[('service_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('service_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter name="month" string="Service Date" date="service_date"/>
+                    <separator string="Payment Status"/>
+
+                    <filter string="Payment Pending" name="payment_status"
+                            domain="[('payment_status', '=', 'not_paid')]"/>
+                    <!--                    <filter string="Cancel" name="payment_status" domain="[('payment_status', '=', 'cancel')]"/>-->
+                    <filter string="Payment Completed" name="payment_status"
+                            domain="[('payment_status', '=', 'paid')]"/>
+
+                    <group expand="0" string="Group By">
+                        <filter string="Airport" name="airport_id" context="{'group_by':'airport_id'}"/>
+                        <filter string="Customer Country" name="country_id" context="{'group_by':'country_id'}"/>
+                        <filter string="UAA Services" name="uaa_services_id" context="{'group_by':'uaa_services_id'}"/>
+                        <filter string="Service Type" name="service_type_id" context="{'group_by':'service_type_id'}"/>
+                        <filter string="Service Date" name="service_date" context="{'group_by':'service_date'}"/>
+                        <filter string="Response Status" name="response_status_id"
+                                context="{'group_by':'response_status_id'}"/>
+                        <filter string="Enquiry Status" name="status" context="{'group_by':'status'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_airport_enquiry_view" model="ir.actions.act_window">
+            <field name="name">Airport Enquiry</field>
+            <field name="res_model">airport.enquiry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">tree,form,search,graph</field>
+        </record>
+
+        <record id="action_airport_enquiry_meet_assist_view" model="ir.actions.act_window">
+            <field name="name">Meet &amp; Assist</field>
+            <field name="res_model">airport.enquiry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="domain">[('services','=','meet_assist')]</field>
+            <field name="context">{'search_default_meet_assist': 1,'default_services': 'meet_assist'}</field>
+            <field name="search_view_id" ref="sr_uaa_main.airport_enquiry_search_view"/>
+            <field name="view_mode">tree,form,search,graph</field>
+        </record>
+
+        <record id="action_airport_enquiry_airport_hotel_view" model="ir.actions.act_window">
+            <field name="name">Airport Hotel</field>
+            <field name="res_model">airport.enquiry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="domain">[('services','=','airport_hotel')]</field>
+            <field name="context">{'search_default_airport_hotel': 1,'default_services': 'airport_hotel'}</field>
+            <field name="search_view_id" ref="sr_uaa_main.airport_enquiry_search_view"/>
+            <field name="view_mode">tree,form,search,graph</field>
+        </record>
+        <record id="action_airport_enquiry_airport_lounge_view" model="ir.actions.act_window">
+            <field name="name">Airport Lounge</field>
+            <field name="res_model">airport.enquiry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="domain">[('services','=','airport_lounge')]</field>
+            <field name="context">{'search_default_airport_lounge': 1,'default_services': 'airport_lounge'}</field>
+            <field name="search_view_id" ref="sr_uaa_main.airport_enquiry_search_view"/>
+            <field name="view_mode">tree,form,search,graph</field>
+        </record>
+
+        <record id="action_airport_enquiry_airport_transfer_view" model="ir.actions.act_window">
+            <field name="name">Airport Transfer</field>
+            <field name="res_model">airport.enquiry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="domain">[('services','=','airport_transfer')]</field>
+            <field name="context">{'search_default_airport_transfer': 1,'default_services': 'airport_transfer'}</field>
+            <field name="search_view_id" ref="sr_uaa_main.airport_enquiry_search_view"/>
+            <field name="view_mode">tree,form,search,graph</field>
+        </record>
+
+        <record model="ir.ui.view" id="view_attachment_form_id">
+            <field name="name">ir.attachment.form.id</field>
+            <field name="model">ir.attachment</field>
+            <field name="inherit_id" ref="base.view_attachment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="create">false</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

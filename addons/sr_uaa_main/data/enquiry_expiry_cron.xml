@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Enquiry Expiry -->
+    <record id="ir_cron_enquiry_expiry" model="ir.cron">
+        <field name="name">Enquiry Expiry :Airport Enquiry</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="model_id" ref="model_airport_enquiry"/>
+        <field name="code">model.enquiry_expiry()</field>
+        <field name="state">code</field>
+    </record>
+</odoo>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="enquiry_report_xlsx_view" model="ir.ui.view">
+            <field name="name">Enquiry Report Form</field>
+            <field name="model">enquiry.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="start_date" required="1"/>
+                        <field name="end_date" required="1"/>
+                    </group>
+                    <group col="4">
+                        <field name="airport_id"/>
+                        <field name="uaa_services_id"/>
+                    </group>
+                    <group col="4">
+                        <field name="book_number"/>
+                        <field name="email"/>
+                    </group>
+                    <group col="4">
+                        <field name="payment_status"/>
+                        <field name="response_status_id"/>
+                        <field name="status"/>
+                        <field name="service_type_id"/>
+                    </group>
+
+                    <footer>
+                        <button name="print_xlsx_report" string="Print" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sr_enquiry_report" model="ir.actions.act_window">
+            <field name="name">Enquiry Report</field>
+            <field name="res_model">enquiry.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_sr_enquiry_report"
+                  parent="sr_uaa_main.menu_uaa_our_services"
+                  action="action_sr_enquiry_report"
+                  name="Enquiry Report"
+                  sequence="200"/>
+
+    </data>
+</odoo>

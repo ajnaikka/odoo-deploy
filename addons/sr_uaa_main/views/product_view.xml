@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id='view_product_simple_form' model='ir.ui.view'>
+	        <field name="name">product.template.form.uaa</field>
+	        <field name="model">product.template</field>
+	        <field name="arch" type="xml">
+	        	<form duplicate="false">
+	        		<sheet>
+	        			<group col="4">
+	        				<field name="name" string="Service" required="1"/>
+	        				<field name="type" required="1"/>
+	        				<field name="list_price" string="Service Charge"/>
+
+	        			</group>
+	        		</sheet>
+	        	</form>
+	        </field>
+	    </record>
+    
+    	<record id='view_product_simple_tree' model='ir.ui.view'>
+        <field name="name">product.template.tree.uaa</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+        	<tree duplicate="false">
+        				<field name="name" string="Service" required="1"/>
+        				<field name="type" required="1"/>
+        				<field name="list_price" string="Service Charge"/>
+        	</tree>
+        </field>
+    </record>
+    
+	<record id="service_product_template_action" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_id" ref="view_product_simple_tree"/>
+        <field name="context">{'form_view_ref':'sr_uaa_main.view_product_simple_form'}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to define a new product.
+            </p><p>
+                You must define a product for everything you sell, whether it's a physical product, a consumable or a service you offer to customers.
+            </p><p>
+                The product form contains information to simplify the sale process: price, notes in the quotation, accounting data, procurement methods, etc.
+            </p>
+        </field>
+    </record>
+</odoo>

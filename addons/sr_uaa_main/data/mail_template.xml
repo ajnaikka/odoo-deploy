@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="email_template_id_additional_charge" model="mail.template">
+            <field name="name">Additional Charge: Send by email</field>
+            <field name="model_id" ref="sr_uaa_main.model_sale_order"/>
+            <field name="subject">${object.company_id.name}</field>
+            <field name="email_from">${(user.email_formatted) | safe}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set doc_name = 'quotation' if object.state in ('draft', 'sent') else 'order'
+                        Hello,
+                        <br/><br/>
+                        Your
+                        <br/><br/>
+                        Do not hesitate to contact us if you have any questions.
+                        <br/>
+                    </p>
+                </div>
+            </field>
+<!--            <field name="report_template" ref="sr_uaa_main.action_report_additional_charge"/>-->
+            <field name="report_name">${(object.name or '').replace('/','_')}</field>
+        </record>
+
+
+        <record id="email_template_payment_response" model="mail.template">
+            <field name="name">Payment Response</field>
+            <field name="model_id" ref="sr_uaa_main.model_payment_transaction"/>
+            <field name="subject">Payment Response | Universal Airport Assistance</field>
+            <field name="email_from">${(user.email_formatted) | safe}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html">
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
