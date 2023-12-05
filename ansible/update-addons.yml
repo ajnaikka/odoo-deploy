@@ -1,14 +1,6 @@
 ---
-- name: Execute Script Playbook
+- name: Run Shell Script with Ansible
   hosts: all
-  become: yes  
-
   tasks:
-    - name: Copy script to remote host
-      copy:
-        src: scripts/update_modules.sh
-        dest: /home/ubuntu/scripts/update_modules.sh
-        mode: 0755  
-        remote_src: yes
-    - name: Execute the script
-      shell: /home/ubuntu/scripts/update_modules.sh
+    - name: Run the shell script
+      script: ./scripts/update_modules.sh
