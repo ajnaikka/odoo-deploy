@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    environment {
+        SSH_CREDENTIALS = credentials('UAA-SSH-KEY')
+    }
+    stages {
+        stage ('Setup Environment') {
+            steps {
+                script {
+                    def gitInfo = checkout scm
+                    env.repo_name = gitInfo.GIT_URL.split('/')[-1].replace('.git', '')
+                }
+            }
+        }
+
+        stage ('update addons') {
+            steps {
+                script {
+                    echo "Updating addons..."
+                    if (branch == 'refs/heads/staging'){
+                        dir('scripts'){
+                            withCredentials([sshUserPrivateKey(credentialsId: 'UAA-SSH-KEY', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
+                                sh  "chmod +x update_modules.sh"
+                                sh  "./update_modules.sh"
+                            }
+                        }
+                    }
+                    else {
+                        echo "Failed to update modules"
+                    }
+                }
+            }
+        }
+    }
+}
