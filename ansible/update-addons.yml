@@ -1,14 +1,14 @@
 ---
 - name: Execute Script Playbook
   hosts: all
-  become: yes  # This is to run the commands with elevated privileges, you might need to adjust this based on your requirements
+  become: yes  
 
   tasks:
     - name: Copy script to remote host
       copy:
         src: scripts/update_modules.sh
         dest: /home/ubuntu/scripts/update_modules.sh
-        mode: 0755  # Ensure that the script is executable
-
+        mode: 0755  
+        remote_src: yes
     - name: Execute the script
       shell: /home/ubuntu/scripts/update_modules.sh
