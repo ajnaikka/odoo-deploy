@@ -18,7 +18,7 @@ pipeline {
                 script {
                     echo "Updating addons..."
                     if (branch == 'refs/heads/production'){
-                        dir('scripts'){
+                        dir('ansible'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'UAA-SSH-KEY', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                               sh "ansible-playbook -i inventory.yml update-addons.yml --private-key=$SSH_KEY_PATH -u $SSH_USERNAME"
                             }
