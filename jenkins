@@ -20,7 +20,7 @@ pipeline {
                     if (branch == 'refs/heads/production'){
                         dir('scripts'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'UAA-SSH-KEY', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
-                               ansible-playbook -i inventory.yml update-addons.yml --private-key=$SSH_KEY_PATH -u $SSH_USERNAME
+                              sh "ansible-playbook -i inventory.yml update-addons.yml --private-key=$SSH_KEY_PATH -u $SSH_USERNAME"
                             }
                         }
                     }
