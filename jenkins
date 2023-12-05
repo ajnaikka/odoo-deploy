@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     echo "Updating addons..."
-                    if (branch == 'refs/heads/staging'){
+                    if (branch == 'refs/heads/production'){
                         dir('scripts'){
                             withCredentials([sshUserPrivateKey(credentialsId: 'UAA-SSH-KEY', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'SSH_USERNAME')]) {
                                 sh  "chmod +x update_modules.sh"
