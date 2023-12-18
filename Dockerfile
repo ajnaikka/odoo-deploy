@@ -1,11 +1,11 @@
-FROM odoo:16.0
+FROM odoo:14.0
 
 USER root
 
 COPY ./addons/requirements.txt /mnt/extra-addons/requirements.txt
 
 RUN set -e; \
-    pip install --no-cache-dir -r /mnt/extra-addons/requirements.txt
+    pip3 install --no-cache-dir -r /mnt/extra-addons/requirements.txt
 
 USER odoo
 

@@ -1,12 +1,14 @@
 server {
     listen 80;
     server_name testenv.loyalerp.in;
+    client_max_body_size 1024M;
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
     server_name testenv.loyalerp.in;
+    client_max_body_size 1024M;
 
     ssl_certificate /etc/letsencrypt/live/testenv.loyalerp.in/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/testenv.loyalerp.in/privkey.pem;
