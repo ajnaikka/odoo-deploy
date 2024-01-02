@@ -2,6 +2,6 @@
 all:
   hosts:
     ec2_instance_1:
-      ansible_host: 43.205.178.233
+      ansible_host: testenv.loyalerp.in
       ansible_port: 22
       ansible_user: ubuntu
