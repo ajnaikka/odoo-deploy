@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+ <record id="view_hr_employee_service_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.service.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+              <xpath expr="//field[@name='coach_id']" position="after">
+                <field name="ceo_id"/>
+                <field name="hr_manager_id"/>
+            </xpath>
+            <xpath expr="//page[@name='hr_settings']" position="after">
+
+                <page name="end_of_service" string="End of Service Form">
+                     <group>
+                    <group>
+                    <field name="end_of_service_type"/>
+                    </group>
+                    <group>
+                    <button string="End of Service Application" type="object"
+                            name="action_end_of_service_application_form"
+                            invisible="end_of_service_type != 'resignation'"/>
+                    </group>
+                    </group>
+                    <form>
+
+
+                        <field name="end_of_service_ids" invisible="end_of_service_type != 'resignation'">
+                            <tree delete="1" create="0">
+                                <field name="end_of_service_type"/>
+                                <field name="inv_letter" widget="binary"/>
+                                <field name="resi_acceptance_form" widget="binary"   invisible="state != 'ceo_accept'"/>
+                                <field name="state"/>
+
+                            </tree>
+
+
+                        </field>
+
+                    </form>
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

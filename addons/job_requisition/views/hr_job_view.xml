@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+
+        <record id="hr_job_position_inherit" model="ir.ui.view">
+            <field name="name">hr.job.position.kanban.inherit</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr_recruitment.view_hr_job_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_kanban_card_header')]" position="before">
+                    <field name="currently_available_position" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//div[@name='kanban_boxes']" position="inside">
+                    <div invisible="not currently_available_position">
+                        <span class="text-bg-success">Currently Available</span>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_job_position_form_view_inherit" model="ir.ui.view">
+            <field name="name">hr.job.position.form.view.inherit</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='recruitment2']" position="inside">
+                    <field name="currently_available_position"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_job_search_view_inherit" model="ir.ui.view">
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_job_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='message_needaction']" position="before">
+                    <filter name="currently_available_position" string="Currently Available" domain="[('currently_available_position', '=', True)]"/>
+                    <separator/>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <filter string="Currently Available" name="groupby_currently_available_position" domain="[]"
+                            context="{'group_by': 'currently_available_position'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="hr_recruitment.action_hr_job">
+            <field name="context">{'search_default_currently_available_position': 1}</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mail_compose_emp_ref_form_inherit" model="ir.ui.view">
+        <field name="name">mail.compose.message.emp.ref.form.inherit</field>
+        <field name="model">mail.compose.message</field>
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='subject']" position="before">
+                <field name="emp_ref_id" invisible="1"/>
+                <field name="emp_ref_bool" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

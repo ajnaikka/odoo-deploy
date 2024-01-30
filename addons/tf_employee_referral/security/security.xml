@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+
+    <data noupdate="1">
+
+        <record id="emp_ref_form_rule" model="ir.rule">
+            <field name="name">Emp Referral Form</field>
+            <field name="model_id" ref="model_employee_referral"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+        </record>
+
+
+    </data>
+
+</odoo>

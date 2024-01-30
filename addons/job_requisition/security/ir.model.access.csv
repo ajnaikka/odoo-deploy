@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_job_requisition_user,job.requisition user,model_job_requisition,hr.group_hr_user,1,1,1,1
+access_reject_job_requisition_user,reject.job.requisition user,model_reject_job_requisition,hr.group_hr_user,1,1,1,1
+access_job_description_user,job.description user,model_job_description,hr.group_hr_user,1,1,1,1

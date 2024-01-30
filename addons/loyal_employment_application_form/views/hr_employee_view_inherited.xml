@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_employee_view_form_inherit_application_form" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.application.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='hr_settings']" position="after">
+                <page name="employment_application_form" string="Employment Application" groups="hr.group_hr_user">
+                    <group string="Personal Information">
+                        <group>
+                            <field name="pinfo_name"/>
+                            <field name="pinfo_birthday"/>
+                            <field name="pinfo_marital_status"/>
+                            <field name="pinfo_no_of_dependents"/>
+                            <field name="pinfo_mailing_address"/>
+                            <field name="pinfo_email"/>
+                            <field name="pinfo_telephone"/>
+                        </group>
+                        <group>
+                            <field name="pinfo_place_of_birth"/>
+                            <field name="pinfo_country_id"/>
+                            <field name="pinfo_fax_no"/>
+                            <field name="pinfo_mobile"/>
+                        </group>
+                    </group>
+                    <group string="Academic Background (Please attach/send copies of qualifications listed below)">
+                        <field name="employee_education_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="years_from"/>
+                                <field name="years_to"/>
+                                <field name="grade_point"/>
+                                <field name="out_of"/>
+                                <field name="employee_id" invisible="1"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="employee_id" invisible="1"/>
+                                        <field name="name"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field string="Years Attended From" name="years_from"/>
+                                    </group>
+                                    <group>
+                                        <field name="years_to"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="languages"/>
+                                        <field name="certificates"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="grade_point"/>
+                                    </group>
+                                    <group>
+                                        <field name="out_of"/>
+                                    </group>
+                                </group>
+
+                            </form>
+                        </field>
+                    </group>
+
+                    <group string="Professional Qualifications">
+                        <field name="professional_qualification_ids" no_label="1">
+                            <tree>
+                                <field name="name_of_institution"/>
+                                <field name="qualification"/>
+                                <field name="date"/>
+                                <field name="class_of_membership"/>
+                                <field name="employee_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Languages">
+                        <field name="mother_tongue"/>
+                        <field name="languages_ids">
+                            <tree editable="bottom">
+                                <field name="language"/>
+                                <field name="spoken"/>
+                                <field name="written"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Computer Skills">
+                        <field name="employee_computer_skills_ids">
+                            <tree editable="bottom">
+                                <field name="software" width="55px"/>
+                                <field name="very_good"/>
+                                <field name="good"/>
+                                <field name="fair"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Condition of health">
+                        <field name="condition_of_health"
+                               placeholder="Please specify any current or previous disabilities or illness which may effect your choice of work or position (Eg: Epilepsy, heart condition, diabetes, nervous condition, etc.)"/>
+                        <field name="is_medication"/>
+                        <field name="medication" invisible="not is_medication"/>
+                        <field name="operations"
+                               placeholder="Please specify any surgical operations that you have undergone during the last five years"/>
+                    </group>
+                    <group string="Employment Details">
+                        <group>
+                            <field name="is_currently_employed"/>
+                        </group>
+                        <group>
+                            <field name="work_start_date"/>
+                        </group>
+                        <group>
+                            <field name="career_objective"/>
+                            <field name="skills"/>
+                        </group>
+                        <group>
+                            <field name="development_areas"/>
+                        </group>
+                        <group>
+                            <separator name="current_employer_details" string="Current Employer Details"/>
+                            <field name="name_of_current_employer"/>
+                            <field name="nature_of_business"/>
+                            <field name="postal_address"/>
+                        </group>
+                        <group>
+                            <separator name="current_employer_details" string=""/>
+                            <field name="joined_date"/>
+                            <field name="current_job_title"/>
+                            <field name="subordinates_job_titles"/>
+                            <field name="supervisor_job_title"/>
+                        </group>
+                        <group>
+                            <separator name="current_employer_details" string=""/>
+                            <field name="duties_and_responsibilities"/>
+                            <field name="leaving_reason"/>
+                        </group>
+                        <group>
+                            <separator name="current_employer_details" string=""/>
+                            <field name="current_monthly_salary"/>
+                            <field name="annual_compensation_package"/>
+                            <field name="required_annual_compensation"/>
+                        </group>
+                    </group>
+                    <group string="Past Employer Details">
+                        <field name="past_employer_ids">
+                            <tree>
+                                <field name="name_of_employer"/>
+                                <field name="nature_of_business"/>
+                                <field name="date_joined"/>
+                                <field name="job_title"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="name_of_employer"/>
+                                        <field name="job_title"/>
+                                        <field name="subordinates_job_title"/>
+                                        <field name="responsibilities"/>
+                                        <field name="supervisor_name"/>
+                                        <field name="reasons_for_leaving"/>
+                                    </group>
+                                    <group>
+                                        <field name="nature_of_business"/>
+                                        <field name="job_title_leaving"/>
+                                        <field name="postal_address"/>
+                                        <field name="date_joined"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                    <group string="References">
+                        <separator name="ref1"
+                                   string="Please specify two previous supervisors whom we may contact for job reference"/>
+                        <group>
+                            <field name="previous_supervisor_name_1"/>
+                            <field name="previous_supervisor_address_1"/>
+                            <field name="previous_supervisor_tel_no_1"/>
+                            <field name="previous_supervisor_fax_1"/>
+                        </group>
+                        <group>
+                            <field name="previous_supervisor_name_2"/>
+                            <field name="previous_supervisor_address_2"/>
+                            <field name="previous_supervisor_tel_no_2"/>
+                            <field name="previous_supervisor_fax_2"/>
+                        </group>
+                        <separator name="ref2"
+                                   string="Please specify two personal references whom we may contact for a character reference"/>
+                        <group>
+                            <field name="personal_reference_name_1"/>
+                            <field name="personal_reference_address_1"/>
+                            <field name="personal_reference_tel_no_1"/>
+                            <field name="personal_reference_fax_1"/>
+                        </group>
+                        <group>
+                            <field name="personal_reference_name_2"/>
+                            <field name="personal_reference_address_2"/>
+                            <field name="personal_reference_tel_no_2"/>
+                            <field name="personal_reference_fax_2"/>
+                        </group>
+
+                        <separator name="ref3"
+                                   string="Please specify two relatives or personal friends whom we may contact in case of emergencies"/>
+                        <group>
+                            <field name="personal_friends_name_1"/>
+                            <field name="personal_friends_address_1"/>
+                            <field name="personal_friends_tel_no_1"/>
+                            <field name="personal_friends_fax_1"/>
+                        </group>
+                        <group>
+                            <field name="personal_friends_name_2"/>
+                            <field name="personal_friends_address_2"/>
+                            <field name="personal_friends_tel_no_2"/>
+                            <field name="personal_friends_fax_2"/>
+                        </group>
+
+                        <group>
+                            <field name="introduced_to_ct"/>
+                            <field name="know_anyone"/>
+                        </group>
+                    </group>
+                    <separator name="declaration"
+                               string="I certify that the statements made by me in answer to the foregoing questions are true and accurate and to the best of my knowledge and belief"/>
+
+                    <group>
+                        <group>
+                            <field name="signature"/>
+                            <field name="date"/>
+                            <field name="place"/>
+                        </group>
+                    </group>
+                </page>
+                <page name="checklist" string="Candidate Checklist" groups="hr.group_hr_user">
+                    <field name="checklist_ids">
+                        <tree editable="bottom">
+                            <field name="is_checked"/>
+                            <field name="question_id" width="90px"/>
+                        </tree>
+                    </field>
+                    <group>
+                        <separator name="notes"
+                                   string="Notes"/>
+                        <field name="notes" placeholder="Notes"/>
+                        <group>
+                            <field name="recruitment_manager_sign"/>
+                            <field name="admin_manager_sign"/>
+
+                        </group>
+                        <group>
+                            <field name="recruitment_manager_date"/>
+                            <field name="admin_manager_date"/>
+                        </group>
+
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='coach_id']" position="after">
+                <field name="employee_unique_id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_employee_view_search_tf" model="ir.ui.view">
+        <field name="name">hr.employee.view.search.tf</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="employee_unique_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

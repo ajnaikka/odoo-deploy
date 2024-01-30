@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="head_count_planning_multi_company_rule" model="ir.rule">
+        <field name="name">Head count planning multi company rule</field>
+        <field ref="model_head_count_planning" name="model_id" />
+        <field eval="True" name="global" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+
+    <record id="head_count_planning_lines_multi_company_rule" model="ir.rule">
+        <field name="name">Head count planning lines multi company rule</field>
+        <field ref="model_head_count_planning_lines" name="model_id" />
+        <field eval="True" name="global" />
+        <field name="domain_force">
+            ['|',('company_id','=',False),('company_id','in',company_ids)]
+        </field>
+    </record>
+
+</odoo>

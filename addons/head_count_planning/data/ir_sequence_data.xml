@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="seq_head_count_planning" model="ir.sequence">
+        <field name="name">Yearly head count planning sequence</field>
+        <field name="code">head.count.planning</field>
+        <field name="prefix">YHCP</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False" />
+    </record>
+
+</odoo>

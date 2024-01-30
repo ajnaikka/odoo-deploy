@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_employee_termination_disability_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.termination.disability.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='end_of_service']" position="inside">
+                 <button string="Disability Termination"
+                            type="object"
+                            class="btn btn-secondary ms-4 mt-3"
+                            name="action_business_requirement"
+                            invisible="end_of_service_type != 'non_fitness'"
+
+                 />
+                    <form>
+                        <field name="emp_dis_ter_ids" invisible="end_of_service_type != 'non_fitness'">
+                            <tree delete="0" create="0">
+                                <field name="related_dis_id"/>
+                                <field name="email_from"/>
+                                <field name="email_to"/>
+                                <field name="inv_letter" widget="binary"/>
+                                <field name="states"/>
+                            </tree>
+                        </field>
+                    </form>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- HR manager approval mail request -->
+        <record model="mail.template" id="job_requisition_hr_approval">
+            <field name="name">Job Requisition HR Manager Approval Email Notification</field>
+            <field name="email_from">{{ object.requestor_id.work_email }}</field>
+            <field name="subject">Job Requisition</field>
+            <field name="model_id" ref="job_requisition.model_job_requisition"/>
+            <field name="email_to">{{ object.company_id.hr_manager_employee_id.work_email }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                     Hello,
+                        <br/>
+                        Job requisition (<span style="font-weight:bold;" t-out="object.name or ''"/>) has been approved by department manager. Please take the necessary action.
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px; text-align: center;">
+                            <a t-att-href="'/web#id=%s&amp;model=job.requisition&amp;view_type=form' % (object.id)" style="background-color: #9E588B; margin-top: 10px; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Job Requisition</a>
+                        </div>
+                        <br/>
+    					Thank you,
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <!-- HR manager requisition approved mail -->
+        <record model="mail.template" id="job_requisition_hr_manager_approved">
+            <field name="name">Job Requisition HR Manager Approved Email Notification</field>
+            <field name="email_from">{{ object.company_id.hr_manager_employee_id.work_email }}</field>
+            <field name="subject">Job Requisition - HR Manager Approved</field>
+            <field name="model_id" ref="job_requisition.model_job_requisition"/>
+            <field name="email_to">{{ object.requestor_id.work_email }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                     Hello,
+                        <br/>
+                        Job requisition (<span style="font-weight:bold;" t-out="object.name or ''"/>) has been approved by <span t-out="object.department_manager_signed_by or ' '"/>.
+                        Please check and create job description.
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px; text-align: center;">
+                            <a t-att-href="'/web#id=%s&amp;model=job.requisition&amp;view_type=form' % (object.id)" style="background-color: #9E588B; margin-top: 10px; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Job Requisition</a>
+                        </div>
+                        <br/>
+    					Thank you,
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <!-- To HR manager description created mail -->
+        <record model="mail.template" id="job_description_created">
+            <field name="name">Job Description Created Email Notification</field>
+            <field name="email_from">{{ object.requestor_id.work_email }}</field>
+            <field name="subject">Job Requisition - HR Manager Approved</field>
+            <field name="model_id" ref="job_requisition.model_job_requisition"/>
+            <field name="email_to">{{ object.company_id.hr_manager_employee_id.work_email }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                     Hello,
+                        <br/>
+                        Job description (<span style="font-weight:bold;" t-out="object.job_description_id.name or ''"/>) has been created.
+                        Please check and take necessary action.
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px; text-align: center;">
+                            <a t-att-href="'/web#id=%s&amp;model=job.requisition&amp;view_type=form' % (object.id)" style="background-color: #9E588B; margin-top: 10px; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Job Requisition</a>
+                        </div>
+                        <br/>
+    					Thank you,
+                    </p>
+                </div>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

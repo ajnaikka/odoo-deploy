@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+
+        <record id="reject_job_requisition_form" model="ir.ui.view">
+            <field name="name">reject.job.requisition.form</field>
+            <field name="model">reject.job.requisition</field>
+            <field name="arch" type="xml">
+                <form string="Reject Job Requisition">
+                    <group>
+                        <field name="reason"/>
+                        <field name="job_requisition_id" invisible="1"/>
+
+                    </group>
+                    <footer>
+                        <button
+                                name="reject_job_requisition"
+                                string="Reject"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="reject_job_requisition_action" model="ir.actions.act_window">
+            <field name="name">Reject Job Requisition</field>
+            <field name="res_model">reject.job.requisition</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_job_requisition_id': active_id}</field>
+        </record>
+
+    </data>
+</odoo>

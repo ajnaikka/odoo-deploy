@@ -1,0 +1,212 @@
+<odoo>
+    <data>
+        <record id="ikkama_tree" model="ir.ui.view">
+            <field name="name">ikkama.tree</field>
+            <field name="model">ikkama</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="issued_date"/>
+                    <field name="employee_id"/>
+                    <field name="state"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ikkama_form" model="ir.ui.view">
+            <field name="name">ikkama.form</field>
+            <field name="model">ikkama</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="ikkama_request" type="object" string="Ikkama Request" class="oe_highlight" invisible="state in ('ikkam_req', 'appointment', 'issued')"/>
+                        <button name="medical_request" type="object" string="Medical Request" class="oe_highlight" invisible="state != 'ikkam_req'" groups="tf_probation.group_line_manager"/>
+                        <button name="ikkama_issue" type="object" string="approve" class="oe_highlight" invisible="state != 'appointment'" groups="tf_probation.group_line_manager"/>
+                        <button name="ikkama_cancel" type="object" string="Cancel" class="oe_highlight" groups="tf_probation.group_line_manager"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="issued_date"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+
+                            </group>
+                            <group>
+                                <field name="hospital_name"/>
+                                <field name="Location"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Documents Details" id="interview_details">
+                                <field name="document_line_ids">
+                                     <tree editable="bottom">
+                                        <field name="document"/>
+                                        <field name="attachment"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="hr_employee_form_inherited_view">
+            <field name="name">hr.employee.form.inherited</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_open_contract']" position="after">
+                    <button
+                                    name="smart_ikkama"
+                                    class="oe_stat_button"
+                                    icon="fa-bars"
+                                    type="object"
+                                    string="Ikkama Request Forms"
+                            />
+
+                </xpath>
+                <xpath expr="//header" position="inside">
+<!--                    <button string="Generate and Save File" type="object" class="oe_highlight" icon="fa-save" name="generate_and_save_pdf" invisble="1"/>-->
+                    <button string="Send Mail" class="oe_highlight" type="object" name="action_send_mail" groups="tf_probation.group_line_manager"/>
+                    <button string="Request For Ikkama" class="oe_highlight" type="object" name="action_send_ikkama"/>
+                </xpath>
+                <xpath expr="//field[@name='work_email']" position="after">
+                    <field name="probation_status" groups="tf_probation.group_line_manager"/>
+                    <field name="identity_no"/>
+                    <field name="identity_status"/>
+                </xpath>
+                <xpath expr="//page[@name='public']" position="after">
+                    <page name="termination" string="Termination Form" invisible="probation_status == 'completed'" groups="tf_probation.group_line_manager">
+                       <div style="font-family: Arial, sans-serif; max-width: 1400px; margin: auto; border: 1px solid #000; direction: ltr;">
+                           <p style="margin-left: 20px;">
+                                   Date:<b><field name="date_creation_ter"/></b>
+                           </p>
+                            <p style="margin-left: 20px;">
+                                   <b>Dear Sir,</b>
+                           </p>
+
+                           <p style="margin-left: 20px;">
+                               After reviewing your performance report and penalty procedure issued against you by the
+                               investigation committee on
+                               <u>
+                                   <span style="text-decoration: underline; color: black; width: 100px;">
+                                       <field name="date"/>
+                                   </span>
+                               </u>
+                               ,
+                               corresponds to
+                               <u>
+                                   <span style="text-decoration: underline; color: black; width: 100px;">
+                                       <field name="text1"/>
+                                   </span>
+                               </u>
+                               we regret to inform you that employment with the
+                               company shall be terminated effective,
+                               <u>
+                                   <span style="text-decoration: underline; color: black; width: 100px;">
+                                       <field name="text2"/>
+                                   </span>
+                               </u>
+                               corresponding to,
+                               <u>
+                                   <span style="text-decoration: underline; color: black; width: 100px;">
+                                       <field name="text3"/>
+                                   </span>
+                               </u>
+                           </p>
+                           <br/>
+                           <br/>
+                           <br/>
+                           <p style="text-align: left; font-size: 14px; color: #888;">
+                               (Signature)
+                               <br/>
+                               (Title)
+                           </p>
+                           <p>
+                               Attachment:<b><field name="attachment1"/></b>
+                           </p>
+
+
+                       </div>
+
+                    </page>
+                    <page name="completion" string="Probation Details" invisible="probation_status == 'terminated'" groups="tf_probation.group_line_manager">
+                       <div style="font-family: Arial, sans-serif; max-width: 1400px; margin: auto; border: 1px solid #000; direction: ltr;">
+                           <p style="margin-left: 20px;">
+                                   Date:<b><field name ="date_creation_prob"/></b>
+                           </p>
+                           <p style="margin-left: 20px;">
+                                  <b>Dear:<field name="name"/></b>
+                           </p>
+
+                           <p style="margin-left: 20px;">
+                               I refer your appointment on probtion effective from
+                               <u>
+                                   <span style="text-decoration: underline; color: black; width: 100px;">
+                                       <field name="prob_date"/>
+                                   </span>
+                               </u>
+                               ,
+                               to the position of
+                               <u>
+                                   <span style="text-decoration: underline; color: black; width: 100px;">
+                                       <field name="prob_text1"/>
+                                   </span>
+                               </u>
+
+                               iam pleased to advice that you are sucessfully completed required probationary peroid and here by confirm your appointment.
+                               I would like to take this oppurtunity to offer you my congradulations and wish you continuing and rewarding assoication with agency
+                           </p>
+                           <br/>
+                           <br/>
+                           <br/>
+                           <p style="text-align: left; font-size: 14px; color: #888;">
+                               (Signature)
+                               <br/>
+                               (Title)
+                           </p>
+                            <p>
+                               Attachment:<b><field name="attachment"/></b>
+                           </p>
+
+                       </div>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_contract_form_inherited_view">
+            <field name="name">hr.contract.form.inherited</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_start']" position="after">
+                    <field name="probation_expiery"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="ikkama_action" model="ir.actions.act_window">
+            <field name="name">Ikkama</field>
+            <field name="res_model">ikkama</field>
+        </record>
+        <menuitem
+                id="ikkama_menu"
+                parent="hr.menu_hr_employee_payroll"
+                sequence="23"
+                name="Ikkma Form"
+                action="ikkama_action"
+        />
+    </data>
+</odoo>

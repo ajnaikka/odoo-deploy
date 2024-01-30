@@ -1,0 +1,179 @@
+<odoo>
+    <data>
+        <record id="job_requisition_search" model="ir.ui.view">
+            <field name="name">job.requisition.search</field>
+            <field name="model">job.requisition</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="department_id"/>
+                    <field name="requestor_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="job_requisition_tree" model="ir.ui.view">
+            <field name="name">job.requisition.tree</field>
+            <field name="model">job.requisition</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="requestor_id"/>
+                    <field name="job_position_id"/>
+                    <field name="company_id" groups="!base.group_multi_company" column_invisible="True"/>
+                    <field name="company_id"
+                       groups="base.group_multi_company"
+                       optional="hide"
+                       readonly="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="job_requisition_form" model="ir.ui.view">
+            <field name="name">job.requisition.form</field>
+            <field name="model">job.requisition</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="get_manager_approval" type="object" string="Manager Approval"
+                                invisible="state != 'draft'" class="oe_highlight"/>
+                        <button name="approve_requisition" type="object" string="Approve"
+                                invisible="state != 'manager_approval'" class="oe_highlight"/>
+                        <button
+                                name="%(reject_job_requisition_action)d"
+                                invisible="state != 'manager_approval'"
+                                type="action"
+                                string="Reject"
+                        />
+                        <button name="get_hr_approval" type="object" string="HR Approval"
+                                invisible="state != 'manager_approved'" class="oe_highlight"/>
+                        <button name="hr_approve_requisition" type="object" string="Approve"
+                                invisible="state != 'hr_approval'" class="oe_highlight"/>
+                        <button name="create_job_description" type="object" string="Job Description"
+                                invisible="state != 'hr_approved'" class="oe_highlight"/>
+                        <button name="process_job_requisition" type="object" string="Process"
+                                invisible="state != 'job_description_created'" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,manager_approval,manager_approved,hr_approval,hr_approved,job_description_created,processed"/>
+                    </header>
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+
+                        </div>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="job_position_id" readonly="state != 'draft'" options="{'no_create': True, 'no_open':True}"/>
+                                <field name="department_id" options="{'no_create': True, 'no_open':True}" readonly="state != 'draft'"/>
+                                <field name="grade_structure_id" options="{'no_create': True, 'no_open':True}"
+                                       readonly="state != 'draft'" />
+                                <field name="date_position_became_vacant" readonly="state != 'draft'"/>
+                                <field name="reason_for_vacancy" readonly="state != 'draft'"/>
+
+                                    <field name="permanent_fixed_term" widget="radio" readonly="state != 'draft'"/>
+                                    <field name="fixed_term_reason" invisible="permanent_fixed_term != 'fixed'"
+                                           readonly="state != 'draft'"
+                                           required="permanent_fixed_term == 'fixed'"/>
+                                    <field name="fixed_term_duration" invisible="permanent_fixed_term != 'fixed'"
+                                           readonly="state != 'draft'"
+                                           required="permanent_fixed_term == 'fixed'"/>
+
+                            </group>
+                            <group>
+                                <field name="requestor_id" options="{'no_create': True}" readonly="state != 'draft'"/>
+                                <field name="authorizing_director_id" options="{'no_create': True}"
+                                       readonly="state != 'draft'"/>
+                                <field name="salary_band" readonly="state != 'draft'"/>
+                                <field name="replacement_new_post" readonly="state != 'draft'"/>
+                                <field name="leaving_employee_id" options="{'no_create': True}"
+                                       invisible="replacement_new_post != 'replacement'" readonly="state != 'draft'"
+                                       required="replacement_new_post == 'replacement'"/>
+                                <field name="cost_centre" readonly="state != 'draft'"/>
+                                <field name="reason_for_rejection" invisible="state != 'rejected'" readonly="state != 'draft'"/>
+                                <field name="id" invisible="1"/>
+                                <field name="job_description_id" invisible="state not in ('hr_approved', 'job_description_created', 'processed')" readonly="state != 'hr_approved'" context="{'default_job_requisition_id':id}"/>
+                                <field name="user_id" options="{'no_create': True}" invisible="1"/>
+                                <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <group name="hr_use">
+                            <group string="FOR HR USE ONLY" invisible="state in ('draft', 'manager_approval', 'manager_approved')">
+                                <field name="job_title_code" readonly="state in ('draft', 'manager_approval', 'manager_approved', 'rejected', 'hr_approved')"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="AUTHORISATIONS" id="authorisations">
+                                <group string="HR Manager" name="hr_manager" invisible="state in ('draft', 'manager_approval', 'manager_approved')">
+                                    <group>
+                                        <field name="hr_signed_by" readonly="state in ('draft', 'manager_approval', 'manager_approved', 'hr_approved', 'rejected')"/>
+                                        <field name="hr_signature" widget="image" readonly="state in ('draft', 'manager_approval', 'manager_approved', 'hr_approved', 'rejected')"/>
+                                    </group>
+                                    <group>
+                                        <field name="hr_signed_on" readonly="state in ('draft', 'manager_approval', 'manager_approved', 'hr_approved', 'rejected')"/>
+                                        <field name="hr_initials" readonly="state in ('draft', 'manager_approval', 'manager_approved', 'hr_approved', 'rejected')"/>
+                                    </group>
+                                </group>
+                                <group string="Department Manager" name="department_manager" invisible="state in ('draft')">
+                                    <group>
+                                        <field name="department_manager_signed_by" readonly="state != 'manager_approval'"/>
+                                        <field name="department_manager_signature" widget="image" readonly="state != 'manager_approval'"/>
+                                    </group>
+                                    <group>
+                                        <field name="department_manager_signed_on" readonly="state != 'manager_approval'"/>
+                                        <field name="department_manager_initials" readonly="state != 'manager_approval'"/>
+                                    </group>
+                                </group>
+                                <group string="Finance Department" name="finance_department">
+                                    <group>
+                                        <field name="finance_department_signed_by" readonly="state in ('draft', 'rejected')"/>
+                                        <field name="finance_department_signature" widget="image" readonly="state in ('draft', 'rejected')"/>
+                                    </group>
+                                    <group>
+                                        <field name="finance_department_signed_on" readonly="state in ('draft', 'rejected')"/>
+                                        <field name="finance_department_initials" readonly="state in ('draft', 'rejected')"/>
+                                    </group>
+                                </group>
+                                <group string="Others" name="others_signature">
+                                    <group>
+                                        <field name="other_signed_by" readonly="state in ('draft', 'rejected')"/>
+                                        <field name="other_signature" widget="image" readonly="state in ('draft', 'rejected')"/>
+                                    </group>
+                                    <group>
+                                        <field name="other_signed_on" readonly="state in ('draft', 'rejected')"/>
+                                        <field name="other_initials" readonly="state in ('draft', 'rejected')"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="job_requisition_action" model="ir.actions.act_window">
+            <field name="name">Job Requisition</field>
+            <field name="res_model">job.requisition</field>
+        </record>
+
+        <menuitem
+                id="menu_hr_job_requisition_main"
+                name="Job Requisition"
+                parent="hr.menu_hr_root"
+                sequence="5"/>
+
+        <menuitem
+                id="job_requisition_menu"
+                parent="menu_hr_job_requisition_main"
+                sequence="1"
+                name="Requisition Form"
+                action="job_requisition_action"
+        />
+    </data>
+</odoo>

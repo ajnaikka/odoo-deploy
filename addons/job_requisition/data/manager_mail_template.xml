@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Department manager approval mail request -->
+        <record model="mail.template" id="job_requisition_manager_approval">
+            <field name="name">Job Requisition Manager Approval Email Notification</field>
+            <field name="email_from">{{ object.requestor_id.work_email }}</field>
+            <field name="subject">Job Requisition</field>
+            <field name="model_id" ref="job_requisition.model_job_requisition"/>
+            <field name="email_to">{{ object.authorizing_director_id.work_email }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                     Hello,
+                        <br/>
+                        Please check the created requisition (<span style="font-weight:bold;" t-out="object.name or ''"/>)and take the necessary action.
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px; text-align: center;">
+                            <a t-att-href="'/web#id=%s&amp;model=job.requisition&amp;view_type=form' % (object.id)" style="background-color: #9E588B; margin-top: 10px; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Job Requisition</a>
+                        </div>
+                        <br/>
+    					Thank you,
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Department manager requisition approved mail request -->
+        <record model="mail.template" id="job_requisition_manager_approved">
+            <field name="name">Job Requisition Manager Approved Email Notification</field>
+            <field name="email_from">{{ object.authorizing_director_id.work_email }}</field>
+            <field name="subject">Job Requisition - Manager Approved</field>
+            <field name="model_id" ref="job_requisition.model_job_requisition"/>
+            <field name="email_to">{{ object.requestor_id.work_email }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                     Hello,
+                        <br/>
+                        Job requisition (<span style="font-weight:bold;" t-out="object.name or ''"/>) has been approved by <span t-out="object.department_manager_signed_by or ' '"/>.
+                        Please check.
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px; text-align: center;">
+                            <a t-att-href="'/web#id=%s&amp;model=job.requisition&amp;view_type=form' % (object.id)" style="background-color: #9E588B; margin-top: 10px; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Job Requisition</a>
+                        </div>
+                        <br/>
+    					Thank you,
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Department manager requisition rejected mail request -->
+        <record model="mail.template" id="job_requisition_manager_rejected">
+            <field name="name">Job Requisition Manager Rejected Email Notification</field>
+            <field name="email_from">{{ object.authorizing_director_id.work_email }}</field>
+            <field name="subject">Job Requisition Rejected</field>
+            <field name="model_id" ref="job_requisition.model_job_requisition"/>
+            <field name="email_to">{{ object.requestor_id.work_email }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                     Hello,
+                        <br/>
+                        Job requisition (<span style="font-weight:bold;" t-out="object.name or ''"/>) has been declined by <span t-out="object.department_manager_signed_by or ' '"/>.
+                        Please check.
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px; text-align: center;">
+                            <a t-att-href="'/web#id=%s&amp;model=job.requisition&amp;view_type=form' % (object.id)" style="background-color: #9E588B; margin-top: 10px; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">View Job Requisition</a>
+                        </div>
+                        <br/>
+    					Thank you,
+                    </p>
+                </div>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Define the form view -->
+        <record id="view_employee_referral_form" model="ir.ui.view">
+            <field name="name">employee.referral.form</field>
+            <field name="model">employee.referral</field>
+            <field name="arch" type="xml">
+                <form string="Employee Referral Form">
+                    <header>
+                        <button name="action_mail_sent" string="Send Mail"
+                                type="object" class="oe_highlight" data-hotkey="w"
+                                invisible="state in ['app','proc','rej','hir']"
+                        />
+
+                        <button name="action_chr_approve" string="Approve"
+                                type="object" class="oe_highlight" data-hotkey="w"
+                                groups="tf_approval_user_groups.hr_id" invisible="state in ['app','draft','proc','rej','hir']"
+                        />
+
+                        <button name="action_chr_reject" string="Reject"
+                                type="object" class="oe_highlight" data-hotkey="w"
+                                groups="tf_approval_user_groups.hr_id" invisible="state != 'send'"
+                        />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name='reference_no'/>
+                            </h1>
+                        </div>
+
+                        <div class="oe_title pe-0">
+                            <label for="post_name" class="oe_edit_only"/>
+                            <h3 class="d-flex justify-content-between align-items-center">
+                                <field name="post_name" options="{'line_breaks': False}" widget="text"
+                                       placeholder="e.g. Sales Manager 2 year experience"/>
+                            </h3>
+                            <h3 class="o_row">
+                                <div>
+                                    <label for="partner_name" class="oe_edit_only"/>
+                                    <field name="partner_name" placeholder="e.g. John Doe"/>
+                                </div>
+                            </h3>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="emp_type"/>
+                                <field name="relation" invisible="emp_type != 'rel'"/>
+                                <field name="email_from"/>
+                                <field name="email_cc"/>
+                                <field name="partner_phone"/>
+                                <field name="partner_mobile"/>
+                                <field name="linkedln_profile"/>
+                            </group>
+                            <group>
+                                <field name="type_id"/>
+                                <field name="job_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="department_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="email_to" options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="resume" widget="binary" filename="filename"/>
+                                <field name="filename" invisible="1"/>
+                                <field name="applicant_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Define the tree view -->
+        <record id="view_employee_referral_tree" model="ir.ui.view">
+            <field name="name">employee.referral.tree</field>
+            <field name="model">employee.referral</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Referrals">
+                    <field name="reference_no"/>
+
+                    <field name="partner_name"/>
+                    <field name="state" widget="badge" decoration-success="state == 'proc'"
+                           decoration-warning="state == 'app'"
+                           decoration-danger="state == 'rej'"
+                           decoration-bf="state == 'draft'"
+                           decoration-info="state == 'send'"
+                           decoration-primary="state == 'hir'"
+
+                    />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Define the action for the tree view -->
+        <record id="action_employee_referral_tree" model="ir.actions.act_window">
+            <field name="name">Employee Referrals</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.referral</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Define the menu item -->
+        <menuitem id="menu_employee_referral" name="Employee Referrals" parent="hr.menu_hr_employee_payroll"
+                  sequence="20" action="action_employee_referral_tree"/>
+    </data>
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Form View -->
+        <record id="view_employee_termination_form" model="ir.ui.view">
+            <field name="name">employee.termination.form</field>
+            <field name="model">employee.termination</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="send_mail_hr" type="object" class="oe_highlight" string="Send Mail"
+                                invisible="state != 'req'" groups="tf_approval_user_groups.hr_id"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="req,app_1,app_2,app_3,done"/>
+
+                        <button name="approval_of_ceo" type="object" class="oe_highlight" string="Send Mail"
+                                invisible="state != 'req'"
+                                groups="tf_approval_user_groups.chief_executive_id"/>
+
+                        <button name="send_mail_hr_to_emp" type="object" class="oe_highlight" string="Send Mail"
+                                invisible="state != 'app_1'"
+                                groups="tf_approval_user_groups.hr_id"/>
+
+                        <button name="signed_mail_emp" type="object" class="oe_highlight" string="Send Mail"
+                                invisible="state != 'app_2'" />
+
+                        <button name="action_send_termination" type="object" class="oe_highlight" string="Send Mail"
+                                invisible="state != 'app_3'" />
+
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="related_emp_id" invisible="0"/>
+                                <field name="email_from"/>
+                                <field name="email_to" options="{'no_create': True,'no_create_edit': True, 'no_open': True}"/>
+                                <field name="file_name" invisible="1"/>
+                                <field name="inv_letter" filename="file_name"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_employee_termination_tree" model="ir.ui.view">
+            <field name="name">employee.termination.tree</field>
+            <field name="model">employee.termination</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="related_emp_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_employee_termination_visa" model="ir.actions.act_window">
+            <field name="name">Employee Termination</field>
+            <field name="res_model">employee.termination</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>

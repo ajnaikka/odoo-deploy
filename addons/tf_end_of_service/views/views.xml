@@ -1,0 +1,104 @@
+<odoo>
+  <data>
+       <record id="view_end_service_form" model="ir.ui.view">
+            <field name="name">end.service.form</field>
+            <field name="model">end.service</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_send_mail" type="object" class="oe_highlight" string="Resignation Request Mail"
+                                invisible="state != 'req'"/>
+                         <button name="action_discussion_mail" type="object" class="oe_highlight"
+                                string="Discussion with Manager Mail"
+                                      invisible="state != 'req_sent'"
+                                 groups="tf_approval_user_groups.senior_manager"/>
+                           <button name="action_manager_approve" type="object" class="oe_highlight"
+                                string="Manager Approve"
+                                      invisible="state != 'man_disc'"
+                                 groups="tf_approval_user_groups.senior_manager"/>
+
+                           <button name="action_req_hr_mail" type="object" class="oe_highlight"
+                                string="Request HR Approval"
+                                      invisible="state != 'man_ap'"
+                                 groups="tf_approval_user_groups.senior_manager"/>
+
+                          <button name="action_hr_accept" type="object" class="oe_highlight"
+                                string="HR Accept"
+                                      invisible="state != 'req_hr'"
+                                 groups="tf_approval_user_groups.hr_id"/>
+                         <button name="action_hr_reject" type="object" class="oe_highlight"
+                                string="HR Reject"
+                                      invisible="state != 'req_hr'"
+                                 groups="tf_approval_user_groups.hr_id"/>
+                          <button name="action_req_ceo_mail" type="object" class="oe_highlight"
+                                string="Request CEO Approval"
+                                      invisible="state != 'hr_accept'"
+                                 groups="tf_approval_user_groups.hr_id"/>
+
+                          <button name="action_ceo_accept" type="object" class="oe_highlight"
+                                string="CEO Approve"
+                                      invisible="state != 'req_ceo'"
+                                 groups="tf_approval_user_groups.chief_executive_id"/>
+                         <button name="action_ceo_reject" type="object" class="oe_highlight"
+                                string="CEO Reject"
+                                      invisible="state != 'req_ceo'"
+                                 groups="tf_approval_user_groups.chief_executive_id"/>
+                        <button name="action_send_resignation_acceptance_form" type="object" class="oe_highlight"
+                                string="Resignation Acceptance Form"
+                                      invisible="state != 'ceo_accept'"
+                                 groups="tf_approval_user_groups.hr_id"/>
+
+
+                          <field name="state" widget="statusbar" statusbar_visible="req,req_sent,man_disc,man_ap,req_hr,hr_accept,hr_reject"/>
+
+
+
+                    </header>
+                    <sheet>
+
+
+                        <group>
+                            <group>
+                                <field name="end_of_service_type"/>
+                                <field name="inv_letter" filename="file_name"/>
+                                <field name="resi_acceptance_form" widget="binary"   invisible="state != 'ceo_accept'"/>
+                                <field name="related_emp_id" invisible="1"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="state"/>
+
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_end_service_tree" model="ir.ui.view">
+            <field name="name">end.service.tree</field>
+            <field name="model">end.service</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="end_of_service_type"/>
+
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_end_service" model="ir.actions.act_window">
+            <field name="name">End of Service</field>
+            <field name="res_model">end.service</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+  </data>
+</odoo>

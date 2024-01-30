@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record model="ir.module.category" id="manager_approve_category">
+            <field name="name">Manager Approvals</field>
+            <field name="description">Manager Approval for Different Activities</field>
+            <field name="sequence">20</field>
+        </record>
+         <record id="senior_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="comment">Senior Manager Approval Permission Group.</field>
+            <field name="category_id" ref="manager_approve_category"/>
+        </record>
+
+        <record id="chief_executive_manager" model="res.groups">
+            <field name="name">Executive Administrator</field>
+            <field name="comment">Executive Administrator Approval Permission Group.</field>
+            <field name="category_id" ref="manager_approve_category"/>
+        </record>
+
+        <record id="department_manager" model="res.groups">
+            <field name="name">Department</field>
+            <field name="comment">Department Approval Permission Group.</field>
+            <field name="category_id" ref="manager_approve_category"/>
+        </record>
+
+
+        <record id="personal_specialist_id" model="res.groups">
+            <field name="name">Personal Specialist</field>
+            <field name="comment">Personal Specialist Approval Permission Group.</field>
+            <field name="category_id" ref="manager_approve_category"/>
+        </record>
+
+        <record id="hr_id" model="res.groups">
+            <field name="name">Hr</field>
+            <field name="comment">Hr Approval Permission Group.</field>
+            <field name="category_id" ref="manager_approve_category"/>
+        </record>
+
+        <record id="chief_executive_id" model="res.groups">
+            <field name="name">CEO</field>
+            <field name="comment">CEO Approval Permission Group.</field>
+            <field name="category_id" ref="manager_approve_category"/>
+        </record>
+
+
+
+    </data>
+</odoo>

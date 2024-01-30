@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_interview_evaluvations,interview.evaluvations,model_interview_evaluvations,,1,1,1,1
+access_interview_evaluvations_manager,interview.evaluvations,model_interview_evaluvations,,1,1,1,1
+access_interview_evaluvations_line,interview.evaluvations.line,model_interview_evaluvations_line,,1,1,1,1
+

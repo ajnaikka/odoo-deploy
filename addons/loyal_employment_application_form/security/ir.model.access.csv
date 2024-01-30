@@ -1,0 +1,8 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_employee_educational_qualification","access.employee.educational.qualification","model_hr_employee_educational_qualification","base.group_user",1,1,1,1
+"access_employee_professional_qualification","access.employee.professional.qualification","model_hr_employee_professional_qualification","base.group_user",1,1,1,1
+"access_employee_other_languages","access.employee.other.languages","model_hr_employee_other_languages","base.group_user",1,1,1,1
+"access_employee_computer_skills","access.employee.computer.skills","model_hr_employee_computer_skills","base.group_user",1,1,1,1
+"access_employee_past_employer","access.employee.past_employer","model_hr_employee_past_employer","base.group_user",1,1,1,1
+"access_employee_checklist_questions","access.employee.checklist_questions","model_hr_employee_checklist_questions","base.group_user",1,1,1,1
+"access_employee_checklist","access.employee.checklist","model_hr_employee_checklist","base.group_user",1,1,1,1

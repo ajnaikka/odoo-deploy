@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mail_compose_form_inherit" model="ir.ui.view">
+        <field name="name">mail.compose.message.form.inherit</field>
+        <field name="model">mail.compose.message</field>
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='template_id']" position="after">
+                <field name="emp_visa_id" invisible="1"/>
+                <field name="emp_send_mail" invisible="1"/>
+                <field name="partner_id" invisible="1"/>
+                <field name="emp_reject_mail" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

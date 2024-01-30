@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Form View -->
+        <record id="view_employee_visa_inherit_form" model="ir.ui.view">
+            <field name="name">employee.visa.form</field>
+            <field name="model">employee.visa.form</field>
+            <field name="arch" type="xml">
+
+
+                <form>
+
+
+                    <header>
+                        <button name="action_send_mail" type="object" class="oe_highlight" string="Send Mail"
+                                invisible="state != 'req'"/>
+
+
+                        <button string="Rejected" class="btn-secondary" name="action_reject_1" type="object"
+                               invisible="state != 'app_1'" />
+
+                        <button string="Rejected" class="btn-secondary" name="action_reject_2" type="object"
+                               invisible="state != 'app_2'" />
+
+                        <button string="Rejected" class="btn-secondary" name="action_reject_3" type="object"
+                               invisible="state != 'app_3'" />
+
+                        <field name="state" widget="statusbar" statusbar_visible="req,app_1,app_2,app_3,done"/>
+
+                        <button name="action_first_approval" type="object" class="oe_highlight" string="Approve"
+                                invisible="state != 'req'"
+                                groups="tf_employee_visa.department_manager"/>
+
+                        <button name="action_second_approval" type="object" class="oe_highlight" string="Approve"
+                                invisible="state != 'app_1'"
+                                groups="tf_employee_visa.senior_manager"/>
+
+                        <button name="action_third_approval" type="object" class="oe_highlight" string="Approve"
+                                invisible="state != 'app_2'"
+                                groups="tf_employee_visa.manager_id"/>
+
+                        <button name="action_final_approval" type="object" class="oe_highlight" string="Approve"
+                                invisible="state != 'app_3'"
+                                />
+
+                    </header>
+                    <sheet>
+
+
+                        <group>
+                            <group>
+                                <field name="applicant_name"/>
+                                <field name="relation"/>
+                                <field name="emp_id"/>
+                                <field name="file_name" invisible="1"/>
+                                <field name="inv_letter" filename="file_name"/>
+                                <field name="related_emp_id" invisible="1"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_employee_visa_tree" model="ir.ui.view">
+            <field name="name">employee.visa.tree</field>
+            <field name="model">employee.visa.form</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="applicant_name"/>
+                    <field name="relation"/>
+                    <field name="emp_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_employee_visa" model="ir.actions.act_window">
+            <field name="name">Employee Visa</field>
+            <field name="res_model">employee.visa.form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
+</odoo>

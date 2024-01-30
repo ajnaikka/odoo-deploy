@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="email_referral_applicant_id" model="mail.template">
+            <field name="name">Sample Email Template</field>
+            <field name="email_from">{{object.user_id.email_formatted}}</field>
+            <field name="subject">Employee Referral</field>
+            <field name="email_to">{{object.email_to.email}}</field>
+            <field name="model_id" ref="tf_employee_referral.model_employee_referral"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <div>
+                    Dear<span t-esc="object.email_to.name"/>,
+                    <br/>
+                    <br/>
+
+                    I hope you're doing well.
+
+                    I'm reaching out to refer [Employee Name] for the [Job Title] position. They're eager to join our
+                    team, and I'm confident they'd be an excellent fit.
+
+                    Please consider [Employee Name] for the role. I'm happy to provide more info if needed.
+
+                    Thanks for your attention to this.<br/><br/>
+
+                    Warm regards,
+                    <br/>
+                    <br/>
+
+                    <span t-esc="object.user_id.name"/>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,69 @@
+<odoo>
+    <data>
+
+        <record id="hr_job_grading_structure_form_view_inherit" model="ir.ui.view">
+            <field name="name">hr.job.grading.structure.form.view.inherit</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='recruitment2']" position="inside">
+                    <field name="grading_structure_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_grading_structure_tree" model="ir.ui.view">
+            <field name="name">grading.structure.tree</field>
+            <field name="model">grading.structure</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="job_position_ids" widget="many2many_tags"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                    <field name="company_id" column_invisible="True" groups="!base.group_multi_company"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_grading_structure_form" model="ir.ui.view">
+            <field name="name">grading.structure.form</field>
+            <field name="model">grading.structure</field>
+            <field name="arch" type="xml">
+                <form string="Grading Structure">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1><field name="name" options="{'line_breaks': False}" widget="text" placeholder="e.g. Grade 1"/></h1>
+                        </div>
+                        <group>
+                            <field name="job_position_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="salary_range"/>
+                            <field name="salary_from"/>
+                            <field name="salary_to"/>
+                            <field name="referral_recognition_amount" groups="grading_structure.group_hr_manager_user"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_grading_structure" model="ir.actions.act_window">
+            <field name="name">Grading Structure</field>
+            <field name="res_model">grading.structure</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="menu_grading_structure"
+                name="Grading Structure"
+                action="action_grading_structure"
+                parent="hr.menu_config_recruitment"
+                groups="hr.group_hr_manager"
+                sequence="101"/>
+
+    </data>
+</odoo>

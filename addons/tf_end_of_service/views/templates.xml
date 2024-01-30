@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="view_mail_compose_resi_form_inherit" model="ir.ui.view">
+        <field name="name">mail.compose.message.resi.form.inherit</field>
+        <field name="model">mail.compose.message</field>
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='subject']" position="before">
+            </xpath>
+
+
+        </field>
+    </record>
+       <record id="employee_resignation_email" model="mail.template">
+            <field name="name">Employee Resignation Template</field>
+            <field name="model_id" ref="tf_end_of_service.model_end_service"/>
+            <field name="subject">Resignation Request from {{(object.related_emp_id.name)}}</field>
+            <field name="email_from">{{object.related_emp_id.user_id.partner_id.email}}</field>
+            <field name="email_to">{{object.related_emp_id.parent_id.user_id.partner_id.email}}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear Manager,</p>
+                    <p>Please find attached resignation letter.</p>
+                    <p>Thankyou,
+
+                          </p>
+                          ]]>
+            </field>
+
+
+       </record>
+       <record id="manager_disc_email" model="mail.template">
+            <field name="name">Manager Discussion Template</field>
+            <field name="model_id" ref="tf_end_of_service.model_end_service"/>
+            <field name="subject">Resignation Discussion</field>
+            <field name="email_from">{{object.related_emp_id.parent_id.user_id.partner_id.email}}</field>
+            <field name="email_to">{{object.related_emp_id.user_id.partner_id.email}}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear ,</p>
+                    <p>I have received your resignation request.We have to conduct a discussion and we can move to further steps. </p>
+                    <p>Thankyou,
+
+                          </p>
+                          ]]>
+            </field>
+
+
+       </record>
+
+         <record id="req_hr_email" model="mail.template">
+            <field name="name">Request HR Template</field>
+            <field name="model_id" ref="tf_end_of_service.model_end_service"/>
+            <field name="subject">Employee Resignation Approval Request</field>
+            <field name="email_from">{{object.related_emp_id.parent_id.user_id.partner_id.email}}</field>
+            <field name="email_to">{{object.related_emp_id.hr_manager_id.user_id.partner_id.email}}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear HR ,</p>
+                    <p>Here iam sharing the resignation request of employee.Please review and move to next step.</p>
+                    <p>Thankyou,
+
+                          </p>
+                          ]]>
+            </field>
+
+
+       </record>
+
+        <record id="req_ceo_email" model="mail.template">
+            <field name="name">Request CEO Template</field>
+            <field name="model_id" ref="tf_end_of_service.model_end_service"/>
+            <field name="subject">Employee Resignation CEO Approval Request</field>
+            <field name="email_from">{{object.related_emp_id.hr_manager_id.user_id.partner_id.email}}</field>
+            <field name="email_to">{{object.related_emp_id.ceo_id.user_id.partner_id.email}}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear CEO ,</p>
+                    <p>Here iam sharing the resignation request of employee.The HR department has reviewed and accepted.
+
+                    Please take the next step for approvals.</p>
+                    <p>Thankyou,
+
+                          </p>
+                          ]]>
+            </field>
+
+
+       </record>
+
+        <record id="resignation_acceptance_email" model="mail.template">
+            <field name="name">Resignation Acceptance Mail Template</field>
+            <field name="model_id" ref="tf_end_of_service.model_end_service"/>
+            <field name="subject">Resignation Acceptance Form</field>
+            <field name="email_from">{{object.related_emp_id.hr_manager_id.user_id.partner_id.email}}</field>
+            <field name="email_to">{{object.related_emp_id.user_id.partner_id.email}}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear ,</p>
+                    <p>Here iam sharing the Resignation Acceptance For.
+                    Please fill the required details and add your signature and upload ender End of service view.</p>
+                    <p>Thankyou,
+
+                          </p>
+                          ]]>
+            </field>
+
+
+       </record>
+
+
+    </data>
+</odoo>

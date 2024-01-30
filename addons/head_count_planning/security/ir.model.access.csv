@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_head_count_planning_user,head.count.planning user,model_head_count_planning,hr.group_hr_user,1,1,1,1
+access_head_count_planning_lines_user,head.ount.planning.lines user,model_head_count_planning_lines,hr.group_hr_user,1,1,1,1

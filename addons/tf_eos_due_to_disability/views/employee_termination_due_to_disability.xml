@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_employee_termination_of_disability_form" model="ir.ui.view">
+            <field name="name">employee.termination.disability.form</field>
+            <field name="model">employee.disability.termination</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_send_mail_hr_manager" type="object" class="oe_highlight" string="Send Mail"
+                                invisible="states != 'req'"
+                                groups="tf_approval_user_groups.hr_id"/>
+                        <field name="states" widget="statusbar"/>
+
+                        <button name="action_send_mail_dis_dep_manager" type="object" class="oe_highlight"
+                                string="Send Mail"
+                                invisible="states != 'app_1'" groups="tf_approval_user_groups.department_manager"/>
+
+
+                        <button name="action_extension_yes" type="object" class="oe_highlight"
+                                string="Yes"
+                                invisible="states != 'app_2'"
+                                groups="tf_approval_user_groups.hr_id"/>
+
+                        <button name="action_extension_no" type="object" class="oe_highlight"
+                                string="No"
+                                invisible="states != 'app_2'"
+                                groups="tf_approval_user_groups.hr_id"/>
+
+                        <button name="action_send_mail_dep_to_hr" type="object"
+                                class="oe_highlight" string="Send Mail"
+                                invisible="states != 'app_3'"
+                                groups="tf_approval_user_groups.department_manager"/>
+
+                        <button name="action_send_mail_ceo_manager" type="object"
+                                class="oe_highlight" string="Send Mail"
+                                invisible="states != 'app_4'"
+                                groups="tf_approval_user_groups.chief_executive_id"/>
+
+                        <button name="action_send_mail_hr" type="object"
+                                class="oe_highlight" string="Send Mail"
+                                invisible="states != 'app_4'"
+                                groups="tf_approval_user_groups.hr_id"/>
+
+                        <button name="action_done" type="object"
+                                class="oe_highlight" string="Done"
+                                invisible="states != 'app_5'"
+                                groups="tf_approval_user_groups.hr_id"/>
+
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="related_dis_id" invisible="0"/>
+                                <field name="email_from"/>
+                                <field name="email_to"
+                                       options="{'no_create': True,'no_create_edit': True, 'no_open': True}"/>
+                                <field name="file_name" invisible="1"/>
+                                <field name="inv_letter" filename="file_name"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_employee_termination_of_business_requirement_tree" model="ir.ui.view">
+            <field name="name">employee.termination.disability.tree</field>
+            <field name="model">employee.disability.termination</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="related_dis_id"/>
+                    <field name="states"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_employee_termination_of_disability" model="ir.actions.act_window">
+            <field name="name">Employee Termination Due To Business Requirement</field>
+            <field name="res_model">employee.disability.termination</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>

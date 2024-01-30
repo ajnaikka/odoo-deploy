@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_employee_termination" inherit_id="web.external_layout">
+        <xpath expr="//div[@id='wrapwrap']/div[@class='oe_structure']" position="inside">
+            <div style="font-family: Arial, sans-serif; max-width: 1400px; margin: auto; border: 1px solid #000; direction: ltr;">
+                <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">
+                    <strong>Employee Termination under Penalty Procedure Form</strong>
+                </p>
+                <br/>
+                <br/>
+                <p style="text-align: left; font-size: 18px; color: #333; margin-bottom: 20px;" >
+                    Dear Sir,
+                </p>
+                <br/>
+                <br/>
+                <p>
+                    After reviewing your performance report and penalty procedure issued against you by the
+                    investigation committee on <t t-esc="object.date" />
+                    corresponding to <b><t t-esc="object.text1" /></b> we regret to inform you that employment with the company
+                    shall be terminated
+                    effective, corresponding to
+                </p>
+
+                <p>
+                    Please meet HR department at your earliest to finalize the legal settlement procedures
+                </p>
+                <p>
+                    Wish you success and Better Carrier
+                </p>
+                <br/>
+                <p style="text-align: left; font-size: 16px; color: #333; margin-top: 20px;">
+                    Sincerely,
+                    <!-- <br/>
+                    <strong>{{ object.company_id.name }}</strong> -->
+                </p>
+                <p style="text-align: left; font-size: 14px; color: #888;">
+                    (Signature)
+                    <br/>
+                    (Title)
+                </p>
+            </div>
+        </xpath>
+    </template>
+</odoo>

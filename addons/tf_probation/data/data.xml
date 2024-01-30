@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+         <record id="email_probation_temp" model="mail.template">
+            <field name="name">Termination Notice (Penalty)</field>
+            <field name="model_id" ref="tf_probation.model_hr_employee"/>
+            <field name="subject">Termination Notice</field>
+            <field name="email_from">{{(object.work_email)}}</field>
+            <field name="email_to">{{(object.parent_id.work_email)}}</field>
+<!--            <field name="partner_to">{{ object.employee_id.work_email }}</field>-->
+            <field name="description">Employee termination notice due to penalty procedure</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 1400px; margin: auto; border: 1px solid #000; direction: ltr;">
+                    <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">
+                        <strong>Employee Termination under Penalty Procedure Form</strong>
+                    </p>
+                    <br/>
+                    <br/>
+                    <p style="text-align: left; font-size: 18px; color: #333; margin-bottom: 20px;" >
+                        Dear Sir,
+                    </p>
+                    <br/>
+                    <br/>
+                    <p>
+                       After reviewing your performance report and penalty procedure issued against you by the
+                        investigation committee on <t t-esc="object.date" />
+                        corresponding to <b><t t-esc="object.text1" /></b> we regret to inform you that employment with the company
+                        shall be terminated
+                        effective, corresponding to
+                    </p>
+
+                    <p>
+                        Please meet HR department at your earliest to finalize the legal settlement procedures
+                    </p>
+                    <p>
+                        Wish you success and Better Carrier
+                    </p>
+                    <br/>
+                    <p>Click the link below to view the record:</p>
+                    <p><a t-att-href="get_record_url()" t-esc="display_name"/></p>
+                    <br/>
+                    <br/>
+                    <p style="text-align: left; font-size: 16px; color: #333; margin-top: 20px;">
+                        Sincerely,
+                        <!-- <br/>
+                        <strong>{{ object.company_id.name }}</strong> -->
+                    </p>
+                    <p style="text-align: left; font-size: 14px; color: #888;">
+                        (Signature)
+                        <br/>
+                        (Title)
+                    </p>
+                </div>
+            </field>
+<!--            <field name="attachment_ids" eval="[(4, ref('tf_probation.report_employee_termination'))]" />-->
+        </record>
+
+        <record id="email_comletion_temp" model="mail.template">
+            <field name="name">EMAIL Probtion Completion</field>
+            <field name="model_id" ref="tf_probation.model_hr_employee"/>
+            <field name="subject">Probation completion</field>
+            <field name="email_from">{{(object.work_email)}}</field>
+            <field name="email_to">{{(object.parent_id.work_email)}}</field>
+<!--            <field name="partner_to">{{ object.employee_id.id }}</field>-->
+            <field name="description">Add Description</field>
+            <field name="body_html" type="html">
+                <div style="font-family: Arial, sans-serif; max-width: 1400px; margin: auto; border: 1px solid #fff; direction: ltr;">
+                    <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">
+                        <strong>COMPLETION OF PROBATIONARY PERIOD</strong>
+                    </p>
+                    <br/>
+                    <br/>
+                    <p style="text-align: left; font-size: 18px; color: #333; margin-bottom: 20px;" >
+                        Dear {{ object.name }},
+                    </p>
+                    <br/>
+                    <br/>
+                    <p>
+                       I refer your appointment on probtion effective from <t t-esc="object.prob_date"/>
+                        to the position of, <b><t t-esc="object.prob_text1" /></b> iam pleased to advice that you are sucessfully completed required probationary peroid and here by confirm your appointment.
+                        I would like to take this oppurtunity to offer you my congradulations and wish you continuing and rewarding assoication with agency
+                    </p>
+                    <br/>
+                    <p style="text-align: left; font-size: 16px; color: #333; margin-top: 20px;">
+                        Sincerely,
+                    </p>
+                    <p style="text-align: left; font-size: 14px; color: #888;">
+                        (Signature)
+                        <br/>
+                        (Title)
+                    </p>
+                </div>
+            </field>
+        </record>
+<!--        <record id="email_akkama_request_temp" model="mail.template">-->
+<!--            <field name="name">Akkama Request</field>-->
+<!--            <field name="model_id" ref="tf_probation.ikkama_form"/>-->
+<!--            <field name="subject">Termination Notice</field>-->
+<!--            <field name="email_from">{{(object.employee_id.work_email)}}</field>-->
+<!--&lt;!&ndash;            <field name="partner_to">{{ object.employee_id.work_email }}</field>&ndash;&gt;-->
+<!--            <field name="description">Employee termination notice due to penalty procedure</field>-->
+<!--            <field name="body_html" type="html">-->
+<!--                <div style="font-family: Arial, sans-serif; max-width: 1400px; margin: auto; border: 1px solid #000; direction: ltr;">-->
+<!--                    <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">-->
+<!--                        <strong>Akkama Request</strong>-->
+<!--                    </p>-->
+<!--                    <br/>-->
+<!--                    <br/>-->
+<!--                    <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">-->
+<!--                        <strong>From,</strong>-->
+<!--                    </p>-->
+<!--                    <p>-->
+<!--                        <strong>From,</strong>-->
+<!--                    </p>-->
+<!--                    <p style="text-align: left; font-size: 18px; color: #333; margin-bottom: 20px;" >-->
+<!--                        Dear Sir,-->
+<!--                    </p>-->
+<!--                    <br/>-->
+<!--                    <br/>-->
+<!--                    <p>-->
+<!--                       After reviewing your performance report and penalty procedure issued against you by the-->
+<!--                        investigation committee on <t t-esc="object.date" />-->
+<!--                        corresponding to <b><t t-esc="object.text1" /></b> we regret to inform you that employment with the company-->
+<!--                        shall be terminated-->
+<!--                        effective, corresponding to-->
+<!--                    </p>-->
+
+<!--                    <p>-->
+<!--                        Please meet HR department at your earliest to finalize the legal settlement procedures-->
+<!--                    </p>-->
+<!--                    <p>-->
+<!--                        Wish you success and Better Carrier-->
+<!--                    </p>-->
+<!--                    <br/>-->
+<!--                    <p>Click the link below to view the record:</p>-->
+<!--                    <p><a t-att-href="get_record_url()" t-esc="display_name"/></p>-->
+<!--                    <br/>-->
+<!--                    <br/>-->
+<!--                    <p style="text-align: left; font-size: 16px; color: #333; margin-top: 20px;">-->
+<!--                        Sincerely,-->
+<!--                        &lt;!&ndash; <br/>-->
+<!--                        <strong>{{ object.company_id.name }}</strong> &ndash;&gt;-->
+<!--                    </p>-->
+<!--                    <p style="text-align: left; font-size: 14px; color: #888;">-->
+<!--                        (Signature)-->
+<!--                        <br/>-->
+<!--                        (Title)-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </field>-->
+<!--&lt;!&ndash;            <field name="attachment_ids" eval="[(4, ref('tf_probation.report_employee_termination'))]" />&ndash;&gt;-->
+<!--        </record>-->
+
+    </data>
+</odoo>
