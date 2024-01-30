@@ -33,7 +33,7 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="related_emp_id" invisible="0"/>
+                                <field name="related_emp_con_id" invisible="0"/>
                                 <field name="email_from"/>
                                 <field name="email_to" options="{'no_create': True,'no_create_edit': True, 'no_open': True}"/>
                                 <field name="file_name" invisible="1"/>
@@ -60,7 +60,7 @@
             <field name="model">employee.termination</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="related_emp_id"/>
+                    <field name="related_emp_con_id"/>
                     <field name="state"/>
                 </tree>
             </field>

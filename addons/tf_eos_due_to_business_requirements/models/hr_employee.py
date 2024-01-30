@@ -4,7 +4,7 @@ from odoo import models, fields, api
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    emp_bus_con_ids = fields.One2many('employee.business.requirement','related_emp_id')
+    emp_bus_con_ids = fields.One2many('employee.business.requirement','related_emp_bus_id')
 
     def action_business_requirement(self):
 
@@ -14,7 +14,7 @@ class HrEmployee(models.Model):
             'res_model': 'employee.business.requirement',
             'view_mode': 'form',
             'target': 'new',
-            'context': {'default_related_emp_id': self.id},
+            'context': {'default_related_emp_bus_id': self.id},
 
         }
 

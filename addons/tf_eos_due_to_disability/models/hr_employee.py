@@ -9,7 +9,7 @@ class HrEmployee(models.Model):
     def action_business_requirement(self):
 
         action = {
-            'name': 'Employee Business Requirement Termination',
+            'name': 'Employee Disability Termination',
             'type': 'ir.actions.act_window',
             'res_model': 'employee.disability.termination',
             'view_mode': 'form',

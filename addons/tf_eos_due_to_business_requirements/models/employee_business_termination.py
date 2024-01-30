@@ -1,7 +1,7 @@
 from odoo import fields, models,api
 
 
-class TerBusinessRequirement(models.Model):
+class TerDisRequirement(models.Model):
     _name = 'employee.business.requirement'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Employee Business Requirement Termination Form'
@@ -9,7 +9,7 @@ class TerBusinessRequirement(models.Model):
 
     @api.model
     def default_get(self, fields):
-        defaults = super(TerBusinessRequirement, self).default_get(fields)
+        defaults = super(TerDisRequirement, self).default_get(fields)
         user = self.env.user
         defaults['email_from'] = user.partner_id.email if user.partner_id else ''
         return defaults
@@ -27,7 +27,7 @@ class TerBusinessRequirement(models.Model):
         ('app_3', 'Deliver to employee'),
         ('done', 'Terminated'),
     ],default='req', string='State')
-    related_emp_id = fields.Many2one('hr.employee', string="Employee", domain="[('id', '=', related_emp_id)]")
+    related_emp_bus_id = fields.Many2one('hr.employee', string="Employee", domain="[('id', '=', related_emp_bus_id)]")
     user_id = fields.Many2one('res.users',default=lambda self:self.env.user)
     company_id = fields.Many2one(
         'res.company', default=lambda self: self.env.company)
@@ -55,7 +55,7 @@ class TerBusinessRequirement(models.Model):
             'default_attachment_ids': [(6, 0, [attachment.id])] if attachment else None,
             'force_email': True,
             'default_email_from':self.email_from,
-            'default_partner_id_bool': False,
+            'default_partner_id_bus_bool': False,
             'default_partner_id':self.email_to.id
         }
 
@@ -74,7 +74,7 @@ class TerBusinessRequirement(models.Model):
         }
 
     def action_send_mail_ceo_manager(self):
-        return self.action_send_mail_dep_manager({'default_partner_id_bool': True})
+        return self.action_send_mail_dep_manager({'partner_id_bus_bool': True})
 
     def action_send_mail_hr_manager(self):
         return self.action_send_mail_dep_manager()

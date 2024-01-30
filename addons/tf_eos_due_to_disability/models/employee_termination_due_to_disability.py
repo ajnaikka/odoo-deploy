@@ -51,14 +51,14 @@ class TerBusinessRequirement(models.Model):
             'default_model': 'employee.disability.termination',
             'default_res_ids': self.ids,
             'default_partner_ids':[self.email_to.id],
-            'default_emp_bus_ter_id': self.id,
+            'default_emp_dis_ter_id': self.id,
             'default_use_template': bool(template),
             'default_template_id': template.id,
             'default_composition_mode': 'comment',
             'default_attachment_ids': [(6, 0, [attachment.id])] if attachment else None,
             'force_email': True,
             'default_email_from':self.email_from,
-            'default_partner_id_bool': False,
+            'default_partner_id_bool_dis': False,
             'default_partner_id':self.email_to.id
         }
 
@@ -77,7 +77,7 @@ class TerBusinessRequirement(models.Model):
         }
 
     def action_send_mail_ceo_manager(self):
-        return self.action_send_mail_dis_dep_manager({'default_partner_id_bool': True})
+        return self.action_send_mail_dis_dep_manager({'default_partner_id_bool_dis': True})
 
     def action_send_mail_hr_manager(self):
         return self.action_send_mail_dis_dep_manager()
@@ -89,13 +89,13 @@ class TerBusinessRequirement(models.Model):
         return self.action_send_mail_dis_dep_manager()
 
     def action_extension_no(self):
-        return self.action_send_mail_dis_dep_manager({'default_partner_id_bool': True})
+        return self.action_send_mail_dis_dep_manager({'default_partner_id_bool_dis': True})
 
     def action_send_mail_dep_to_hr(self):
-        return self.action_send_mail_dis_dep_manager({'default_partner_id_bool': True})
+        return self.action_send_mail_dis_dep_manager({'default_partner_id_bool_dis': True})
 
     def action_send_mail_hr(self):
-        return self.action_send_mail_dis_dep_manager({'default_partner_id_bool': True})
+        return self.action_send_mail_dis_dep_manager({'default_partner_id_bool_dis': True})
 
     def action_done(self):
         self.state = 'done'

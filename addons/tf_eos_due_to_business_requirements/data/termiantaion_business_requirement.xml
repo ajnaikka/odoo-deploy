@@ -4,7 +4,7 @@
         <record id="employee_termination_of_business_requirement_email" model="mail.template">
             <field name="name">Employee Business Requirement Termination Template</field>
             <field name="model_id" ref="tf_eos_due_to_business_requirements.model_employee_business_requirement"/>
-            <field name="subject">Termination form for {{(object.related_emp_id.name)}}</field>
+            <field name="subject">Termination form for {{(object.related_emp_bus_id.name)}}</field>
             <field name="email_from">{{object.email_from}}</field>
             <field name="email_to">{{object.email_to.email}}</field>
             <field name="description">Add Description</field>
@@ -25,7 +25,7 @@
 
                         Best regards,
                         <br/>
-                        <span t-esc="object.related_emp_id.name"/>
+                        <span t-esc="object.related_emp_bus_id.name"/>
                     </p>
                 </div>
             </field>

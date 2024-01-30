@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_mail_compose_form_inherit" model="ir.ui.view">
+    <record id="view_mail_compose_ter_form_inherit" model="ir.ui.view">
         <field name="name">mail.compose.message.form.inherit</field>
         <field name="model">mail.compose.message</field>
         <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>

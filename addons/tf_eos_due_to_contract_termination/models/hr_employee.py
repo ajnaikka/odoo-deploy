@@ -4,7 +4,7 @@ from odoo import models, fields, api
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    emp_term_ids = fields.One2many('employee.termination','related_emp_id')
+    emp_term_ids = fields.One2many('employee.termination','related_emp_con_id')
     age = fields.Integer(string="Age",compute="_compute_age",store=True)
 
     @api.depends('birthday')
@@ -28,7 +28,7 @@ class HrEmployee(models.Model):
             'res_model': 'employee.termination',
             'view_mode': 'form',
             'target': 'new',
-            'context': {'default_related_emp_id': self.id},
+            'context': {'default_related_emp_con_id': self.id},
 
         }
 

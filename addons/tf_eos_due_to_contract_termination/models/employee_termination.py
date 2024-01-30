@@ -29,7 +29,7 @@ class EmployeeTermination(models.Model):
         ('app_3', 'Signed'),
         ('done', 'Terminated'),
     ],default='req', string='State')
-    related_emp_id = fields.Many2one('hr.employee', string="Employee", domain="[('id', '=', related_emp_id)]")
+    related_emp_con_id = fields.Many2one('hr.employee', string="Employee", domain="[('id', '=', related_emp_con_id)]")
     user_id = fields.Many2one('res.users',default=lambda self:self.env.user)
     company_id = fields.Many2one(
         'res.company', default=lambda self: self.env.company)
@@ -67,7 +67,7 @@ class EmployeeTermination(models.Model):
             'force_email': True,
             'default_email_from':self.email_from,
             'default_partner_id_bool': True,
-            'default_partner_id':self.related_emp_id.parent_id.user_partner_id.id
+            'default_partner_id':self.related_emp_con_id.parent_id.user_partner_id.id
         }
 
         if ctx:

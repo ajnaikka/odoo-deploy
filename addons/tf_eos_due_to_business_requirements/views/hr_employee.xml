@@ -16,7 +16,7 @@
                     <form>
                         <field name="emp_bus_con_ids" invisible="end_of_service_type != 'condition'">
                             <tree delete="0" create="0">
-                                <field name="related_emp_id"/>
+                                <field name="related_emp_bus_id"/>
                                 <field name="email_from"/>
                                 <field name="email_to"/>
                                 <field name="inv_letter" widget="binary"/>

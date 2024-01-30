@@ -4,7 +4,7 @@
         <record id="employee_termination_email" model="mail.template">
             <field name="name">Employee Termination Template</field>
             <field name="model_id" ref="tf_eos_due_to_contract_termination.model_employee_termination"/>
-            <field name="subject">Termination form for {{(object.related_emp_id.name)}}</field>
+            <field name="subject">Termination form for {{(object.related_emp_con_id.name)}}</field>
             <field name="email_from">{{object.email_from}}</field>
             <field name="email_to">{{object.email_to.email}}</field>
             <field name="description">Add Description</field>

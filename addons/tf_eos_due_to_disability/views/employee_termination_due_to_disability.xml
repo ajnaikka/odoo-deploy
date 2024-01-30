@@ -74,7 +74,7 @@
             </field>
         </record>
 
-        <record id="view_employee_termination_of_business_requirement_tree" model="ir.ui.view">
+        <record id="view_employee_termination_of_dis_requirement_tree" model="ir.ui.view">
             <field name="name">employee.termination.disability.tree</field>
             <field name="model">employee.disability.termination</field>
             <field name="arch" type="xml">
