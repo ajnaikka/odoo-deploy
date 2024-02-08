@@ -17,7 +17,7 @@
                 <form>
                     <header>
                         <button name="send_to_department" type="object" string="Send To Department Manager" class="oe_highlight" invisible="is_approve == True" groups="tf_approval_user_groups.hr_id"/>
-                        <button name="send_to_finance" type="object" string="Send To Finance Manager" class="oe_highlight" invisible="is_approve == True" groups="tf_approval_user_groups.hr_id"/>
+                        <button name="send_to_finance" type="object" string="Send To Finance Manager" class="oe_highlight" invisible="is_approved == True" groups="tf_approval_user_groups.hr_id"/>
                         <button name="send_to_travel_agent" type="object" string="Send To Travel Agent" class="oe_highlight" invisible="clearence_status == True" groups="tf_approval_user_groups.hr_id"/>
                     </header>
 
