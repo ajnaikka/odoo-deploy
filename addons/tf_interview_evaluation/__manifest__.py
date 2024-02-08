@@ -10,9 +10,8 @@
     'website': 'https://www.odoo.com/app/invoicing',
     'depends': ['base','hr','hr_recruitment'],
     'data': [
-            'security/ir.model.access.csv',
-            'views/hr_recruitment_stage_view.xml',
-            'views/ie.xml'
+          'security/ir.model.access.csv',
+          'views/ie.xml'
 
     ],
     'demo': [],

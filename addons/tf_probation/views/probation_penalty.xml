@@ -19,7 +19,7 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="ikkama_request" type="object" string="Ikkama Request" class="oe_highlight" invisible="state in ('ikkam_req', 'appointment', 'issued')"/>
+                        <button name="ikkama_request" type="object" string="Iqama Request" class="oe_highlight" invisible="state in ('ikkam_req', 'appointment', 'issued')"/>
                         <button name="medical_request" type="object" string="Medical Request" class="oe_highlight" invisible="state != 'ikkam_req'" groups="tf_probation.group_line_manager"/>
                         <button name="ikkama_issue" type="object" string="approve" class="oe_highlight" invisible="state != 'appointment'" groups="tf_probation.group_line_manager"/>
                         <button name="ikkama_cancel" type="object" string="Cancel" class="oe_highlight" groups="tf_probation.group_line_manager"/>
@@ -70,14 +70,14 @@
                                     class="oe_stat_button"
                                     icon="fa-bars"
                                     type="object"
-                                    string="Ikkama Request Forms"
+                                    string="Iqama Request Forms"
                             />
 
                 </xpath>
                 <xpath expr="//header" position="inside">
 <!--                    <button string="Generate and Save File" type="object" class="oe_highlight" icon="fa-save" name="generate_and_save_pdf" invisble="1"/>-->
                     <button string="Send Mail" class="oe_highlight" type="object" name="action_send_mail" groups="tf_probation.group_line_manager"/>
-                    <button string="Request For Ikkama" class="oe_highlight" type="object" name="action_send_ikkama"/>
+                    <button string="Request For Iqama" class="oe_highlight" type="object" name="action_send_ikkama"/>
                 </xpath>
                 <xpath expr="//field[@name='work_email']" position="after">
                     <field name="probation_status" groups="tf_probation.group_line_manager"/>
@@ -203,7 +203,7 @@
         </record>
         <menuitem
                 id="ikkama_menu"
-                parent="hr.menu_hr_employee_payroll"
+                parent="hr.menu_hr_employee_user"
                 sequence="23"
                 name="Ikkma Form"
                 action="ikkama_action"

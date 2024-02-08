@@ -13,9 +13,9 @@ class Ikkama(models.Model):
     _order = 'id desc'
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    start_date = fields.Date(string='Start Date')
-    end_date = fields.Date(string='Ikkama Expiry Date')
-    issued_date = fields.Date(string='Issued Date')
+    start_date = fields.Date(string='Start Date', format='%d-%m-%y')
+    end_date = fields.Date(string='Iqama Expiry Date', format='%d-%m-%y')
+    issued_date = fields.Date(string='Issued Date', format='%d-%m-%y')
     employee_id = fields.Many2one('hr.employee', string='Employee')
     # contract_id = fields.Many2one('hr.contract', string='Contract', default=lambda self: self._default_contract_id())
     user_id = fields.Many2one(
@@ -26,9 +26,9 @@ class Ikkama(models.Model):
     document_line_ids = fields.One2many('documents.line', 'document_id', string='Document')
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('ikkam_req', 'Ikkama Request'),
+        ('ikkam_req', 'Iqama Request'),
         ('appointment', 'Appointment for medical Test'),
-        ('issued', 'Ikkama Issued'),
+        ('issued', 'Iqama Issued'),
         ('cancel', 'Canceled')
     ])
     hospital_name = fields.Char(string='Hospital Name')
@@ -41,14 +41,14 @@ class Ikkama(models.Model):
         self.state = 'ikkam_req'
         for ikkama_record in self:
             template_values = {
-                'name': 'IKKAMA REQUEST',
-                'subject': 'IKKAMA REQUEST',
+                'name': 'IQAMA REQUEST',
+                'subject': 'IQAMA REQUEST',
                 'body_html': """
                     <div style="font-family: Arial, sans-serif; max-width: 600px;">
                         <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">
-                            <strong>Ikkama Request BY %s</strong>
+                            <strong>Iqama Request BY %s</strong>
                         </p>
-                        <p>I am writing to request the processing of an Ikkama for me:</p>
+                        <p>I am writing to request the processing of an Iqama for me:</p>
                         <p>Here is the link of the requested form:</p>
                         <p><a href="%s">Link to Record</a></p>
                         <p style="text-align: left; font-size: 16px; color: #333; margin-top: 20px;">
@@ -85,12 +85,12 @@ class Ikkama(models.Model):
         self.state = 'appointment'
         for ikkama_record in self:
             template_values = {
-                'name': 'Details Of Documents For IKKAMA',
-                'subject': 'Details Of Documents For IKKAMA',
+                'name': 'Details Of Documents For IQAMA',
+                'subject': 'Details Of Documents For IQAMA',
                 'body_html': """
                     <div style="font-family: Arial, sans-serif; max-width: 600px;">
                         <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">
-                            <strong>Your request for IKKAMA has been accepted. For further proceedings of IKKAMA, submit medical details</strong>
+                            <strong>Your request for IQAMA has been accepted. For further proceedings of IQAMA, submit medical details</strong>
                         </p>
 
                         <p style="text-align: left; font-size: 16px; color: #333; margin-top: 20px;">
@@ -129,7 +129,7 @@ class Ikkama(models.Model):
                 'body_html': """
                     <div style="font-family: Arial, sans-serif; max-width: 600px;">
                         <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">
-                            <strong> Your IKKAMA has been scuessfully issued </strong>
+                            <strong> Your IQAMA has been scuessfully issued </strong>
                         </p>
 
                         <p style="text-align: left; font-size: 16px; color: #333; margin-top: 20px;">
@@ -162,12 +162,12 @@ class Ikkama(models.Model):
         self.state = 'cancel'
         for ikkama_record in self:
             template_values = {
-                'name': 'IKKAMA CANCEL',
-                'subject': 'IKKAMA CANCEL',
+                'name': 'IQAMA CANCEL',
+                'subject': 'IQAMA CANCEL',
                 'body_html': """
                     <div style="font-family: Arial, sans-serif; max-width: 600px;">
                         <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">
-                            <strong> Your IKKAMA request has been cancelled.Please send request again </strong>
+                            <strong> Your IQAMA request has been cancelled.Please send request again </strong>
                         </p>
 
                         <p style="text-align: left; font-size: 16px; color: #333; margin-top: 20px;">
@@ -203,22 +203,17 @@ class DocumentLine(models.Model):
     document_id = fields.Many2one('ikkama')
     document = fields.Char(string='Document')
     attachment = fields.Binary('Document', copy=False)
-    # def action_send_mail(self):
-    #     mail_template = self.env.ref(
-    #         'tf_probation.email_probation_temp')  # Replace 'your_module' and 'mail_template_id' with actual values
-    #     mail_template.send_mail(self.id)
-    #
-    #     return True
+
 
 
 class HrEmployeeInherited(models.Model):
     _inherit = 'hr.employee'
 
     is_submitted = fields.Boolean(string='Reliving letter is not submitted')
-    date_creation_prob = fields.Date()
-    date_creation_ter = fields.Date()
-    date = fields.Date()
-    prob_date = fields.Date()
+    date_creation_prob = fields.Date(format='%d_%m_%y')
+    date_creation_ter = fields.Date(format='%d_%m_%y')
+    date = fields.Date(format='%d_%m_%y')
+    prob_date = fields.Date(format='%d_%m_%y')
     text1 = fields.Text()
     prob_text1 = fields.Text()
     text2 = fields.Text()
@@ -238,21 +233,6 @@ class HrEmployeeInherited(models.Model):
     )
     identity_no = fields.Char(string='Identity Card NO:')
 
-    @api.onchange('probation_status')
-    def onchange_probation_status(self):
-        for rec in self:
-            if rec.probation_status == 'completed':
-                rec.emp_referral.state = 'proc'
-
-            elif rec.probation_status == 'terminated':
-                rec.emp_referral.state = 'rej'
-
-            else:
-                rec.emp_referral.state = 'hir'
-
-
-
-
 
 
     def action_send_mail(self):
@@ -263,7 +243,7 @@ class HrEmployeeInherited(models.Model):
                     'name': 'COMPLETION OF PROBATIONARY PERIOD',
                     'subject': 'COMPLETION OF PROBATIONARY PERIOD',
                     'body_html': """
-                                <div style="font-family: Arial, sans-serif; max-width: 600px;">
+                                <div style="font-family: Arial, sans-serif; max-width: 1400px; margin: auto; border: 1px solid #fff; direction: ltr;">
                                     <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">
                                         <strong>COMPLETION OF PROBATIONARY PERIOD</strong>
                                     </p>
@@ -324,7 +304,7 @@ class HrEmployeeInherited(models.Model):
                     'name': 'Employee Termination under Penalty Procedure Form',
                     'subject': 'Employee Termination under Penalty Procedure Form',
                     'body_html': """
-                        <div style="font-family: Arial, sans-serif; max-width: 600px;">
+                         <div style="font-family: Arial, sans-serif; max-width: 1400px; margin: auto; border: 1px solid #fff; direction: ltr;">
                             <p style="text-align: center; font-size: 18px; color: #333; margin-bottom: 20px;">
                                 <strong>Employee Termination under Penalty Procedure Form</strong>
                             </p>

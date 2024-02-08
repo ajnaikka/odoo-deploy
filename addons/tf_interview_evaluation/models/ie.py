@@ -1,6 +1,4 @@
 from odoo import models, fields, api,_
-from odoo.exceptions import UserError
-
 
 class InterviewEvaluvations(models.Model):
     _name = 'interview.evaluvations'
@@ -11,7 +9,7 @@ class InterviewEvaluvations(models.Model):
     candidate_name = fields.Char(string='Candidate Name')
     Position = fields.Char(string='Job Position for:')
     line_ids = fields.One2many('interview.evaluvations.line', 'interview_id', string='Interview Details')
-    applicant_id = fields.Many2one('hr.applicant', string='applicant')
+    applicant_id = fields.Many2one('hr.applicant',string='applicant')
 
     @api.model
     def default_get(self, fields):
@@ -49,6 +47,7 @@ class InterviewEvaluvations(models.Model):
         return res
 
 
+
 class InterviewEvaluvationsLine(models.Model):
     _name = 'interview.evaluvations.line'
 
@@ -68,21 +67,15 @@ class InterviewEvaluvationsLine(models.Model):
         ],string='Low')
 
 
+
+
+
+
 class HrApplicant(models.Model):
     _inherit = 'hr.applicant'
 
-    interview_stage = fields.Boolean('Interview Stage', related="stage_id.interview_stage")
-    interview_evaluation_form_count = fields.Integer(compute="compute_interview_evaluation_form_count")
 
-    def compute_interview_evaluation_form_count(self):
-        for record in self:
-            record.interview_evaluation_form_count = self.env['interview.evaluvations'].search_count([('applicant_id', '=', record.id)])
-
-    def evaluation(self):
-        if not self.interviewer_ids:
-            raise UserError(_("Please assign interviewer"))
-        if self.env.user.id not in self.interviewer_ids.ids:
-            raise UserError(_("Only interviewer has permission to create evaluation form"))
+    def evaluvation(self):
         evaluvation_record = self.env['interview.evaluvations'].create({
             'applicant_id': self.id,
             # Add other default values if needed

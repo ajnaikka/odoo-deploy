@@ -1,15 +1,15 @@
 <odoo>
     <data>
-        <!--        <record id="interview_evaluvation_search" model="ir.ui.view">-->
-        <!--            <field name="name">interview.evaluvation.search</field>-->
-        <!--            <field name="model">additional.km</field>-->
-        <!--            <field name="arch" type="xml">-->
-        <!--                <search>-->
-        <!--                    <field name="loan_id"/>-->
-        <!--                    <field name="company_id" groups="base.group_multi_company"/>-->
-        <!--                </search>-->
-        <!--            </field>-->
-        <!--        </record>-->
+<!--        <record id="interview_evaluvation_search" model="ir.ui.view">-->
+<!--            <field name="name">interview.evaluvation.search</field>-->
+<!--            <field name="model">additional.km</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search>-->
+<!--                    <field name="loan_id"/>-->
+<!--                    <field name="company_id" groups="base.group_multi_company"/>-->
+<!--                </search>-->
+<!--            </field>-->
+<!--        </record>-->
 
         <record id="interview_evaluvations_tree" model="ir.ui.view">
             <field name="name">interview.evaluvations.tree</field>
@@ -30,12 +30,12 @@
                     <sheet>
                         <group string="Interview Evaluation Form">
                             <field name="candidate_name"/>
-                            <field name="Position"/>
+                             <field name="Position"/>
                         </group>
                         <notebook>
                             <page string="Interview Details" id="interview_details">
                                 <field name="line_ids">
-                                    <tree editable="bottom" create="false" delete="false">
+                                     <tree editable="bottom" create="false" delete="false">
                                         <field name="comment" widget="text"/>
                                         <field name="comment1" widget="text"/>
                                         <field name="high_rate" col="1"/>
@@ -54,19 +54,6 @@
                 </form>
             </field>
         </record>
-
-        <record id="interview_evaluvations_action" model="ir.actions.act_window">
-            <field name="name">Interview Evaluvation</field>
-            <field name="res_model">interview.evaluvations</field>
-        </record>
-        <menuitem
-                id="interview_evaluvation_menu"
-                parent="hr_recruitment.report_hr_recruitment"
-                sequence="23"
-                name="Intrview Evaluation Form"
-                action="interview_evaluvations_action"
-        />
-
         <record model="ir.ui.view" id="hr_applicant_form_inherited_view">
             <field name="name">hr.applicant.form.inherited</field>
             <field name="model">hr.applicant</field>
@@ -74,24 +61,29 @@
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='action_makeMeeting']" position="after">
                     <button
-                            name="smart_evaluation"
-                            class="oe_stat_button"
-                            icon="fa-bars"
-                            type="object"
-                            string="Interview Evaluation Forms"
-                            invisible="interview_evaluation_form_count == 0"
-                    />
+                                    name="smart_evaluation"
+                                    class="oe_stat_button"
+                                    icon="fa-bars"
+                                    type="object"
+                                    string="Interview Evaluation Forms"
+                            />
 
                 </xpath>
                 <xpath expr="//button[@name='archive_applicant']" position="after">
-                    <button name="evaluation" type="object" string=" Create Interview Evaluation Form"
-                            invisible="not interview_stage"/>
+                    <button name="evaluvation" type="object" string=" Create Interview Evaluation Form"/>
                 </xpath>
-                <field name="type_id" position="after">
-                    <field name="interview_stage" invisible="1"/>
-                    <field name="interview_evaluation_form_count" invisible="1"/>
-                </field>
             </field>
         </record>
+        <record id="interview_evaluvations_action" model="ir.actions.act_window">
+            <field name="name">Interview Evaluvation</field>
+            <field name="res_model">interview.evaluvations</field>
+        </record>
+        <menuitem
+                id="interview_evaluvation_menu"
+                parent="hr_recruitment.hr_applicant_report_menu"
+                sequence="23"
+                name="Intrview Evaluation Form"
+                action="interview_evaluvations_action"
+        />
     </data>
 </odoo>
