@@ -8,20 +8,49 @@ from odoo import models, fields, api
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    end_of_service_type = fields.Selection([
-        ('resignation', 'End of service due to resignation'),
-        ('termination', 'End of service due to contract termination'),
-        ('condition', 'End of service due to condition and requirement of business'),
-        ('non_fitness', 'End of service due to non-fitness and total disability'),
-        ('cancel_by_govt', 'End of service due to cancellation by the government authorities'),
-        ('retirement', 'End of service due to reaching retirement age'),
-        ('due_to_death', 'End of service due to death'),
-    ], string='End of Service Type')
+    # end_of_service_type = fields.Selection([
+    #     ('resignation', 'End of service due to resignation'),
+    #     ('termination', 'End of service due to contract termination'),
+    #     ('condition', 'End of service due to condition and requirement of business'),
+    #     ('non_fitness', 'End of service due to non-fitness and total disability'),
+    #     ('cancel_by_govt', 'End of service due to cancellation by the government authorities'),
+    #     ('retirement', 'End of service due to reaching retirement age'),
+    #     ('due_to_death', 'End of service due to death'),
+    # ], string='End of Service Type')
+
+    end_of_service_type = fields.Selection(string='End of Service Type', selection='_get_valid_hours')
+
+    @api.model
+    def _get_valid_hours(self):
+        if self.env.user.has_group('tf_approval_user_groups.hr_id'):
+            selection = [
+                ('resignation', 'End of service due to resignation'),
+                ('termination', 'End of service due to contract termination'),
+                ('condition', 'End of service due to condition and requirement of business'),
+                ('non_fitness', 'End of service due to non-fitness and total disability'),
+                ('cancel_by_govt', 'End of service due to cancellation by the government authorities'),
+                ('retirement', 'End of service due to reaching retirement age'),
+                ('due_to_death', 'End of service due to death'),
+            ]
+            return selection
+
+        if self.env.user.has_group('tf_approval_user_groups.department_manager'):
+            selection = [
+                ('resignation', 'End of service due to resignation'),
+                ('condition', 'End of service due to condition and requirement of business'),
+            ]
+            return selection
+
+        else:
+            selection = [
+                ('resignation', 'End of service due to resignation'),
+            ]
+            return selection
 
     exit_interview_form_attachment = fields.Binary(string="Exit Interview Form Attachment")
     release_letter_noc = fields.Binary(string="Release letter/NOC Attachment")
     end_of_service_ids = fields.One2many('end.service','related_emp_id')
-    ceo_id = fields.Many2one('hr.employee', 'CE0')
+    ceo_id = fields.Many2one('hr.employee', 'CEO')
     hr_manager_id = fields.Many2one('hr.employee', 'HR Manager')
 
     def action_view_end_of_service_application_form(self):
