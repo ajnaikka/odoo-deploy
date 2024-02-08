@@ -37,7 +37,7 @@ class HrEmployee(models.Model):
             'res_model': 'employee.visa.form',
             'view_mode': 'form',
             'target': 'new',
-            'context': {'default_related_emp_id': self.id,'default_emp_id': self.identity_no},
+            'context': {'default_related_emp_id': self.id,'default_emp_id': self.employee_unique_id},
 
         }
 
