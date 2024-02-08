@@ -205,7 +205,7 @@
                 id="ikkama_menu"
                 parent="hr.menu_hr_employee_user"
                 sequence="23"
-                name="Ikkma Form"
+                name="IQAMA Form"
                 action="ikkama_action"
         />
     </data>
