@@ -16,7 +16,7 @@
             <xpath expr="//page[@name='end_of_service']//form" position="inside">
 
                     <field name="emp_term_ids" invisible="end_of_service_type != 'termination'">
-                        <tree delete="0" create="0">
+                        <tree delete="1" create="0">
                             <field name="related_emp_con_id"/>
                             <field name="email_from"/>
                             <field name="email_to"/>
