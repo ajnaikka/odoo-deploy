@@ -1,0 +1,144 @@
+<odoo>
+    <data>
+        <record id="exit_tree" model="ir.ui.view">
+            <field name="name">exit.form.tree</field>
+            <field name="model">exit.form</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="exit_form" model="ir.ui.view">
+            <field name="name">exit.form.form</field>
+            <field name="model">exit.form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="send_to_department" type="object" string="Send To Department Manager" class="oe_highlight" invisible="is_approve == True" groups="tf_approval_user_groups.hr_id"/>
+                        <button name="send_to_finance" type="object" string="Send To Finance Manager" class="oe_highlight" invisible="is_approve == True" groups="tf_approval_user_groups.hr_id"/>
+                        <button name="send_to_travel_agent" type="object" string="Send To Travel Agent" class="oe_highlight" invisible="clearence_status == True" groups="tf_approval_user_groups.hr_id"/>
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id" required="1"/>
+                                <field name="department_id"/>
+                                <field name="date"/>
+                            </group>
+                            <group>
+                                <field name="Joining_date"/>
+                                <field name="end_of_service_date"/>
+                                <field name="is_travel" invisible="1"/>
+                                <field name="is_dpt" invisible="1"/>
+                                <field name="is_Fin" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Department Manager" id="exit_details">
+                                <field name="exit_ids">
+                                     <tree editable="bottom">
+                                        <field name="non_returnable_item"/>
+                                        <field name="Quantity"/>
+                                        <field name="Value"/>
+                                    </tree>
+                                </field>
+                                <div>
+                                     <p>Attachment:<field name="attach"/></p>
+                                    <p>Approve<field name="is_approve"/></p>
+                                </div>
+
+                            </page>
+                            <page string="Finance Manager" id="finance_details" invisible="is_approve == False">
+                                <field name="finance_ids" create="false" delete="false">
+                                     <tree editable="bottom">
+                                        <field name="non_returnable_items"/>
+                                        <field name="qty"/>
+                                        <field name="values"/>
+                                        <field name="value1"/>
+                                    </tree>
+                                </field>
+                                <div>
+                                    <p>Attachment:<field name="attachment"/></p>
+                                    <p style="text-align: right; font-size: 16px; color: #333; margin-top: 20px;">Total Deduction<field name="total_deduction"/></p>
+                                    <p style="text-align: right; font-size: 16px; color: #333; margin-top: 20px;">Total Accural<field name="total_accural"/></p>
+                                    <p style="text-align: left; font-size: 16px; color: #333; margin-top: 20px;">Approve<field name="is_approved"/></p>
+                                </div>
+                            </page>
+                            <page string="CLEARANCE FORM" id="clearance_details" invisible="is_approved == False">
+                                <group>
+                                     <field name="is_iqama"/>
+                                     <field name="is_medical_insurance"/>
+                                     <field name="is_business_card"/>
+                                     <field name="is_identity_card"/>
+                                     <field name="is_sponsership_transfer"/>
+                                     <field name="is_other_documents"/>
+                                     <field name="comments_by_hr"/>
+                                </group>
+                                <group string="Employee details">
+                                    <field name = "employee_id"/>
+                                    <field name = "department_id"/>
+                                    <field name = "business_unit"/>
+
+                                </group>
+
+                                <group string="IT Department">
+                                    <field name = "it_status"/>
+                                    <field name="it_comment"/>
+                                </group>
+                                <group string="Finance Department">
+                                    <field name = "finance_status"/>
+                                    <field name="finance_comment"/>
+                                </group>
+                                <group string="Department">
+                                    <field name = "department_status"/>
+                                    <field name="department_comment"/>
+                                </group>
+                                 <group string="Hr and Admin Department">
+                                    <field name = "hr_status"/>
+                                    <field name="hr_comment"/>
+                                </group>
+                                <p style="text-align: right; font-size: 16px; color: #333; margin-top: 20px;">
+                                    Attachment:<field name = "attachment2"/>
+                                </p>
+                                <p style="text-align: right; font-size: 16px; color: #333; margin-top: 20px;">
+                                    Clearence Status:<field name = "clearence_status" groups="tf_approval_user_groups.hr_id"/>
+                                </p>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="exit_form_action" model="ir.actions.act_window">
+            <field name="name">Exit Form</field>
+            <field name="res_model">exit.form</field>
+        </record>
+        <record model="ir.ui.view" id="hr_employee_form_inherited_view1">
+            <field name="name">hr.employee.form.inherited</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <p>Exit form:</p>
+                <xpath expr="//button[@name='action_end_of_service_application_form']" position="after">
+                    <button
+                                    name="action_send_exit_form"
+                                    icon="fa-bars"
+                                    type="object"
+                                    string="Exit Form"
+                            />
+
+                </xpath>
+            </field>
+        </record>
+        <menuitem
+                id="exit_menu"
+                parent="hr.menu_hr_employee_user"
+                sequence="25"
+                name="Exit Form"
+                action="exit_form_action"
+        />
+    </data>
+</odoo>

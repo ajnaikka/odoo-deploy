@@ -1,0 +1,22 @@
+<odoo>
+    <record id="mail_travelagent_form" model="ir.ui.view">
+        <field name="name">mail.travelagent.form</field>
+        <field name="model">mail.travelagent</field>
+        <field name="arch" type="xml">
+            <form>
+                 <header>
+                        <button name="send_to_exit" type="object" string="Send Mail" class="oe_highlight"/>
+                    </header>
+                <sheet>
+                    <group>
+                        <field name="email_to"/>
+                        <field name="partner_id" required="1"/>
+                        <field name="is_travel_agent"/>
+                        <field name="is_department" invisible="1"/>
+                        <field name="is_Finance" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

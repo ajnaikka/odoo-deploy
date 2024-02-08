@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_exit_form,exit.form,model_exit_form,,1,1,1,1
+access_exit_form_line,exit.form.line,model_exit_form_line,,1,1,1,1
+access_finance_form_line,finance.form.line,model_finance_form_line,,1,1,1,1
+access_mail_travelagent,mail.travelagent,model_mail_travelagent,,1,1,1,1
