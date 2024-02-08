@@ -10,7 +10,7 @@ class HrEmployee(models.Model):
 
     end_of_service_type = fields.Selection([
         ('resignation', 'End of service due to resignation'),
-        ('termination', 'End of service due to termination'),
+        ('termination', 'End of service due to contract termination'),
         ('condition', 'End of service due to condition and requirement of business'),
         ('non_fitness', 'End of service due to non-fitness and total disability'),
         ('cancel_by_govt', 'End of service due to cancellation by the government authorities'),
@@ -18,6 +18,8 @@ class HrEmployee(models.Model):
         ('due_to_death', 'End of service due to death'),
     ], string='End of Service Type')
 
+    exit_interview_form_attachment = fields.Binary(string="Exit Interview Form Attachment")
+    release_letter_noc = fields.Binary(string="Release letter/NOC Attachment")
     end_of_service_ids = fields.One2many('end.service','related_emp_id')
     ceo_id = fields.Many2one('hr.employee', 'CE0')
     hr_manager_id = fields.Many2one('hr.employee', 'HR Manager')

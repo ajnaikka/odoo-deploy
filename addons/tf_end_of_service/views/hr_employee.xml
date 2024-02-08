@@ -16,7 +16,10 @@
                      <group>
                     <group>
                     <field name="end_of_service_type"/>
+                    <field name="exit_interview_form_attachment" icon="fa-download"/>
+                    <field name="release_letter_noc" icon="fa-download"/>
                     </group>
+
                     <group>
                     <button string="End of Service Application" type="object"
                             name="action_end_of_service_application_form"
@@ -41,6 +44,7 @@
                     </form>
 
                 </page>
+
             </xpath>
         </field>
     </record>

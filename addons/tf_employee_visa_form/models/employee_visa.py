@@ -26,11 +26,11 @@ class EmployeeVisa(models.Model):
     company_id = fields.Many2one(
         'res.company', default=lambda self: self.env.company)
 
-    # def get_url(self):
-    #     base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-    #     db_name = self.env.cr.dbname
-    #     base_url += f'/web/login?db={db_name}#id=%d&view_type=form&model=%s' % (self.id, self._name)
-    #     return base_url
+    def get_url(self):
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        db_name = self.env.cr.dbname
+        base_url += f'/web/login?db={db_name}#id=%d&view_type=form&model=%s' % (self.id, self._name)
+        return base_url
 
 
     def action_send_mail(self, ctx=None):
@@ -46,6 +46,7 @@ class EmployeeVisa(models.Model):
 
         attachment = self.env['ir.attachment'].create(attachment_data) if attachment_data.get('datas') else False
 
+
         context = {
             'default_model': 'employee.visa.form',
             'default_res_ids': self.ids,
@@ -56,9 +57,11 @@ class EmployeeVisa(models.Model):
             'default_composition_mode': 'comment',
             'default_attachment_ids': [(6, 0, [attachment.id])] if attachment else None,
             'force_email': True,
+            'default_email_from':self.env.user.email_formatted,
             'default_emp_send_mail': False,
             'default_partner_id':self.related_emp_id.parent_id.user_partner_id.id
         }
+
 
         if ctx:
             context.update(ctx)

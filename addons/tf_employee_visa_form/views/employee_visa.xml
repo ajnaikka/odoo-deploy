@@ -29,15 +29,15 @@
 
                         <button name="action_first_approval" type="object" class="oe_highlight" string="Approve"
                                 invisible="state != 'req'"
-                                groups="tf_employee_visa.department_manager"/>
+                                groups="tf_approval_user_groups.department_manager"/>
 
                         <button name="action_second_approval" type="object" class="oe_highlight" string="Approve"
                                 invisible="state != 'app_1'"
-                                groups="tf_employee_visa.senior_manager"/>
+                                groups="tf_approval_user_groups.chief_executive_manager"/>
 
                         <button name="action_third_approval" type="object" class="oe_highlight" string="Approve"
                                 invisible="state != 'app_2'"
-                                groups="tf_employee_visa.manager_id"/>
+                                groups="tf_approval_user_groups.personal_specialist_id"/>
 
                         <button name="action_final_approval" type="object" class="oe_highlight" string="Approve"
                                 invisible="state != 'app_3'"

@@ -6,7 +6,7 @@ class HrEmployee(models.Model):
 
     emp_dis_ter_ids = fields.One2many('employee.disability.termination','related_dis_id')
 
-    def action_business_requirement(self):
+    def action_dis_requirement(self):
 
         action = {
             'name': 'Employee Disability Termination',

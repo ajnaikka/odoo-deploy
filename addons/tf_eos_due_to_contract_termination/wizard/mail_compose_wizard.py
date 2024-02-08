@@ -26,26 +26,26 @@ class MailComposeMessage(models.TransientModel):
             elif ter_record.state == 'app_3' and self.partner_id_bool:
                 ter_record.write({'state':'done'})
 
-            ter_record_mang = ter_record.email_to.user_id.id
 
-            department_users = self.env['res.users'].search([('id','=',ter_record_mang)])
+            for ter_partner in self.partner_ids:
+                if ter_partner.user_ids:
+                    department_users = self.env['res.users'].search([('id','=',ter_partner.user_ids[0].id)])
 
+                    notification_ids = [(0, 0, {
+                        'res_partner_id': user.partner_id.id,
+                        'notification_type': 'inbox'
+                    }) for user in department_users]
 
-            notification_ids = [(0, 0, {
-                'res_partner_id': user.partner_id.id,
-                'notification_type': 'inbox'
-            }) for user in department_users]
-
-            self.env['mail.message'].create({
-                'message_type': "notification",
-                'body': "Visa",
-                'subject': "Visa Application Form",
-                'partner_ids': [(4, user.partner_id.id) for user in department_users],
-                'model': ter_record._name,
-                'res_id': ter_record.id,
-                'notification_ids': notification_ids,
-                'author_id': ter_record.env.user.partner_id.id
-            })
+                    self.env['mail.message'].create({
+                        'message_type': "notification",
+                        'body':  self.body,
+                        'subject': self.subject,
+                        'partner_ids': [(4, user.partner_id.id) for user in department_users],
+                        'model': ter_record._name,
+                        'res_id': ter_record.id,
+                        'notification_ids': notification_ids,
+                        'author_id': ter_record.env.user.partner_id.id
+                    })
 
 
         return result

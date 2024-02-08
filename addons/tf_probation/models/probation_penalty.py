@@ -238,6 +238,21 @@ class HrEmployeeInherited(models.Model):
     )
     identity_no = fields.Char(string='Identity Card NO:')
 
+    @api.onchange('probation_status')
+    def onchange_probation_status(self):
+        for rec in self:
+            if rec.probation_status == 'completed':
+                rec.emp_referral.state = 'proc'
+
+            elif rec.probation_status == 'terminated':
+                rec.emp_referral.state = 'rej'
+
+            else:
+                rec.emp_referral.state = 'hir'
+
+
+
+
 
 
     def action_send_mail(self):

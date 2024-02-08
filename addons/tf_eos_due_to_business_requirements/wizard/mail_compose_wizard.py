@@ -23,23 +23,27 @@ class MailComposeMessageBus(models.TransientModel):
             elif bus_record.state == 'app_2' and not self.partner_id_bus_bool:
                 bus_record.write({'state':'app_3'})
 
-            bus_record_mang = bus_record.email_to.user_id.id
-            bus_department_users = self.env['res.users'].search([('id','=',bus_record_mang)])
+            for partner in self.partner_ids:
+                if partner.user_ids:
 
-            notification_bus_ids = [(0, 0, {
-                'res_partner_id': user.partner_id.id,
-                'notification_type': 'inbox'
-            }) for user in bus_department_users]
+                    bus_department_users = self.env['res.users'].search([('id','=',partner.user_ids[0].id)])
 
-            self.env['mail.message'].create({
-                'message_type': "notification",
-                'body': "Termination due to business requiremnt",
-                'subject': "Employee Termination",
-                'partner_ids': [(4, user.partner_id.id) for user in bus_department_users],
-                'model': bus_record._name,
-                'res_id': bus_record.id,
-                'notification_ids': notification_bus_ids,
-                'author_id': bus_record.env.user.partner_id.id
-            })
+                    notification_bus_ids = [(0, 0, {
+                        'res_partner_id': user.partner_id.id,
+                        'notification_type': 'inbox'
+                    }) for user in bus_department_users]
+
+                    partner_ids = [(4, user.partner_id.id) for user in bus_department_users]
+
+                    self.env['mail.message'].create({
+                        'message_type': "notification",
+                        'body': self.body,
+                        'subject': self.subject,
+                        'partner_ids': partner_ids,
+                        'model': bus_record._name,
+                        'res_id': bus_record.id,
+                        'notification_ids': notification_bus_ids,
+                        'author_id': bus_record.env.user.partner_id.id
+                    })
 
         return result

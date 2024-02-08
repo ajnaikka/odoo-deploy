@@ -5,6 +5,8 @@ class TerDisRequirement(models.Model):
     _name = 'employee.business.requirement'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Employee Business Requirement Termination Form'
+    _rec_name = 'user_id'
+
 
 
     @api.model
@@ -18,7 +20,7 @@ class TerDisRequirement(models.Model):
 
     email_from = fields.Char(string="From", required=True)
     email_to = fields.Many2one('res.partner',string="To",required=True)
-    inv_letter = fields.Binary(string="Invitation Letter")
+    inv_letter = fields.Binary(string="Termination Letter")
     file_name = fields.Char()
     state = fields.Selection([
         ('req', 'Request'),
@@ -31,6 +33,12 @@ class TerDisRequirement(models.Model):
     user_id = fields.Many2one('res.users',default=lambda self:self.env.user)
     company_id = fields.Many2one(
         'res.company', default=lambda self: self.env.company)
+
+    def get_url(self):
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        db_name = self.env.cr.dbname
+        base_url += f'/web/login?db={db_name}#id=%d&view_type=form&model=%s' % (self.id, self._name)
+        return base_url
 
     #EMAILS
 
@@ -74,7 +82,7 @@ class TerDisRequirement(models.Model):
         }
 
     def action_send_mail_ceo_manager(self):
-        return self.action_send_mail_dep_manager({'partner_id_bus_bool': True})
+        return self.action_send_mail_dep_manager({'default_partner_id_bus_bool': True})
 
     def action_send_mail_hr_manager(self):
         return self.action_send_mail_dep_manager()

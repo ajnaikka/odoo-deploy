@@ -8,7 +8,7 @@
     'description': """TF probation""",
     'category': 'hr',
     'website': 'https://www.odoo.com/app/invoicing',
-    'depends': ['base','hr','mail','hr_contract','contacts'],
+    'depends': ['base','hr','mail','hr_contract','contacts','tf_employee_referral'],
     'data': [
           'data/data.xml',
           'security/ir.model.access.csv',

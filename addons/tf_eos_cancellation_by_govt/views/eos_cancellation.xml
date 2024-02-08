@@ -1,0 +1,70 @@
+<odoo>
+  <data>
+       <record id="view_eos_cancellation_form" model="ir.ui.view">
+            <field name="name">eos.cancellation.form</field>
+            <field name="model">eos.cancellation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_send_mail" type="object" class="oe_highlight" string="Cancellation Request Mail by HR"
+                                invisible="state != 'req'"
+                                 groups="tf_approval_user_groups.hr_id"/>
+
+                          <button name="action_employee_accept" type="object" class="oe_highlight"
+                                string="Accept"
+                                      invisible="state != 'req_sent'"
+                                />
+
+
+                          <field name="state" widget="statusbar" statusbar_visible="req,req_sent,employee_accept"/>
+
+
+
+                    </header>
+                    <sheet>
+
+
+                        <group>
+                            <group>
+                                <field name="end_of_service_type"/>
+                                <field name="eos_cancellation_letter" filename="file_name"/>
+                                <field name="related_emp_id" invisible="1"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="state"/>
+
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_eos_cancellation_tree" model="ir.ui.view">
+            <field name="name">eos.cancellation.tree</field>
+            <field name="model">eos.cancellation</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="end_of_service_type"/>
+
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_eos_cancellation" model="ir.actions.act_window">
+            <field name="name">End of Service Cancellation by Govt</field>
+            <field name="res_model">eos.cancellation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+  </data>
+</odoo>

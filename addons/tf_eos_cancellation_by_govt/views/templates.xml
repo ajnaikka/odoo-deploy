@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+  <record id="eos_cancellation_email" model="mail.template">
+            <field name="name">EoS Cancellation Template</field>
+            <field name="model_id" ref="tf_eos_cancellation_by_govt.model_eos_cancellation"/>
+            <field name="subject">End of Service Cancellation Request</field>
+            <field name="email_from">{{object.related_emp_id.hr_manager_id.user_id.partner_id.email}}</field>
+            <field name="email_to">{{object.related_emp_id.user_id.partner_id.email}}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear ,</p>
+                    <p>Please find attached End of Service Cancellation Request letter.</p>
+                    <p>Thankyou,
+
+                          </p>
+                          ]]>
+            </field>
+
+
+       </record>
+    </data>
+</odoo>

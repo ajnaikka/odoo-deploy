@@ -5,9 +5,10 @@ class EmployeeTermination(models.Model):
     _name = 'employee.termination'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Employee Termination Form'
+    _rec_name = 'user_id'
 
 
-    # name = fields.Char(string="Employee",required=True)
+    # name = fields.Char(string="Termination Mail")
     email_from = fields.Char(string="From", required=True)
 
     @api.model
@@ -20,11 +21,11 @@ class EmployeeTermination(models.Model):
         return defaults
 
     email_to = fields.Many2one('res.partner',string="To",required=True)
-    inv_letter = fields.Binary(string="Invitation Letter")
+    inv_letter = fields.Binary(string="Termination Letter")
     file_name = fields.Char()
     state = fields.Selection([
         ('req', 'Request'),
-        ('app_1', 'Approves by CEO'),
+        ('app_1', 'Approved by CEO'),
         ('app_2', 'Sign requested'),
         ('app_3', 'Signed'),
         ('done', 'Terminated'),

@@ -5,6 +5,8 @@ class TerBusinessRequirement(models.Model):
     _name = 'employee.disability.termination'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Employee Disability Termination Form'
+    _rec_name = 'user_id'
+
 
 
     @api.model
@@ -18,7 +20,7 @@ class TerBusinessRequirement(models.Model):
 
     email_from = fields.Char(string="From", required=True)
     email_to = fields.Many2one('res.partner',string="To",required=True)
-    inv_letter = fields.Binary(string="Invitation Letter")
+    inv_letter = fields.Binary(string="Termination Letter")
     file_name = fields.Char()
     states = fields.Selection([
         ('req', 'Request'),
@@ -36,6 +38,12 @@ class TerBusinessRequirement(models.Model):
         'res.company', default=lambda self: self.env.company)
 
     #EMAILS
+
+    def get_url(self):
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        db_name = self.env.cr.dbname
+        base_url += f'/web/login?db={db_name}#id=%d&view_type=form&model=%s' % (self.id, self._name)
+        return base_url
 
     def action_send_mail_dis_dep_manager(self, ctx=None):
         template = self.env.ref('tf_eos_due_to_disability.employee_termination_due_to_disability_email')

@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='subject']" position="before">
-                <field name="emp_bus_ter_id" invisible="0"/>
+                <field name="emp_bus_ter_id" invisible="1"/>
                 <field name="partner_id_bus_bool" invisible="1"/>
             </xpath>
         </field>

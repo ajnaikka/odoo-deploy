@@ -1,0 +1,90 @@
+<odoo>
+  <data>
+       <record id="view_eos_death_form" model="ir.ui.view">
+            <field name="name">eos.death.form</field>
+            <field name="model">eos.death</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_send_mail" type="object" class="oe_highlight" string="Grand/Reward Request Mail by HR"
+                                invisible="state != 'req'"
+                                 groups="tf_approval_user_groups.hr_id"/>
+
+                          <button name="action_ceo_accept" type="object" class="oe_highlight"
+                                string="Approve"
+                                      invisible="state != 'req_sent'"
+                                  groups="tf_approval_user_groups.chief_executive_id"
+                                />
+                         <button name="action_ceo_reject" type="object" class="oe_highlight"
+                                string="Reject"
+                                      invisible="state != 'req_sent'"
+                                  groups="tf_approval_user_groups.chief_executive_id"
+                                />
+                         <button name="action_send_mail_to_fm" type="object" class="oe_highlight"
+                                string="Grand/Reward Request Mail to FM"
+                                      invisible="state != 'ceo_accept'"
+                                  groups="tf_approval_user_groups.hr_id"
+                                />
+                        <button name="action_fm_accept" type="object" class="oe_highlight"
+                                string="Approve"
+                                      invisible="state != 'hr_req_fm'"
+                                  groups="tf_approval_user_groups.finance_manager_id"
+                                />
+                         <button name="action_fm_reject" type="object" class="oe_highlight"
+                                string="Reject"
+                                      invisible="state != 'hr_req_fm'"
+                                  groups="tf_approval_user_groups.finance_manager_id"
+                                />
+
+                          <field name="state" widget="statusbar" statusbar_visible="req,req_sent,ceo_accept,ceo_reject,hr_req_fm,fm_accept,fm_reject"/>
+
+
+
+                    </header>
+                    <sheet>
+
+
+                        <group>
+                            <group>
+                                <field name="end_of_service_type"/>
+                                <field name="eos_death_letter" filename="file_name"/>
+                                <field name="related_emp_id" invisible="1"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="state"/>
+
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_eos_death_tree" model="ir.ui.view">
+            <field name="name">eos.death.tree</field>
+            <field name="model">eos.death</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="end_of_service_type"/>
+
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_eos_death" model="ir.actions.act_window">
+            <field name="name">End of Service Due to Death</field>
+            <field name="res_model">eos.cancellation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+  </data>
+</odoo>

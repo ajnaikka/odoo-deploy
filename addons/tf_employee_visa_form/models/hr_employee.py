@@ -19,15 +19,15 @@ class HrEmployee(models.Model):
         for rec in self:
             rec.visa_count = self.env['employee.visa.form'].search_count([('related_emp_id','=',self.id)])
 
-    def action_view_visa_application(self):
-        return {
-            'name': 'Employee Visa',
-            'type': 'ir.actions.act_window',
-            'res_model': 'employee.visa.form',
-            'view_mode': 'tree,form',
-            'target': 'current',
-            'domain':[('related_emp_id', '=', self.id)]
-        }
+    # def action_view_visa_application(self):
+    #     return {
+    #         'name': 'Employee Visa',
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'employee.visa.form',
+    #         'view_mode': 'tree,form',
+    #         'target': 'current',
+    #         'domain':[('related_emp_id', '=', self.id)]
+    #     }
 
     def action_visa_application_form(self):
 
@@ -37,7 +37,7 @@ class HrEmployee(models.Model):
             'res_model': 'employee.visa.form',
             'view_mode': 'form',
             'target': 'new',
-            'context': {'default_related_emp_id': self.id},
+            'context': {'default_related_emp_id': self.id,'default_emp_id': self.identity_no},
 
         }
 

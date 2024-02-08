@@ -5,16 +5,18 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='end_of_service']" position="inside">
-                 <button string="Business Requirement Termination"
+            <xpath expr="//page[@name='end_of_service']//group/group[2]" position="inside">
+
+                 <button string="Termination Due to condition"
                             type="object"
                             class="btn btn-secondary ms-4 mt-3"
                             name="action_business_requirement"
-                            invisible="end_of_service_type != 'condition'"
+                            invisible="end_of_service_type != 'condition' or emp_bus_con_ids"
 
                  />
-                    <form>
-                        <field name="emp_bus_con_ids" invisible="end_of_service_type != 'condition'">
+            </xpath>
+            <xpath expr="//page[@name='end_of_service']//form" position="inside">
+                 <field name="emp_bus_con_ids" invisible="end_of_service_type != 'condition'">
                             <tree delete="0" create="0">
                                 <field name="related_emp_bus_id"/>
                                 <field name="email_from"/>
@@ -23,7 +25,6 @@
                                 <field name="state"/>
                             </tree>
                         </field>
-                    </form>
             </xpath>
         </field>
     </record>

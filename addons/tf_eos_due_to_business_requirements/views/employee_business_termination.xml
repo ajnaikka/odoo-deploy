@@ -15,7 +15,7 @@
                                 invisible="state != 'app_1'"
                                 groups="tf_approval_user_groups.hr_id"/>
 
-                        <button name="action_send_mail_ceo_manager" type="object" class="oe_highlight" string="Send Mail"
+                        <button name="action_send_mail_ceo_manager" type="object" class="oe_highlight" string="Approve"
                                 invisible="state != 'app_1'"
                                 groups="tf_approval_user_groups.chief_executive_id"/>
 

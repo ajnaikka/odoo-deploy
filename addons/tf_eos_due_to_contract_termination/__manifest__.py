@@ -11,7 +11,6 @@
     'website': 'https://www.loyalitsolutions.com',
     'depends': ['hr','mail','base','contacts','tf_approval_user_groups','tf_end_of_service'],
     'data': [
-        'data/termination_form_group.xml',
         'data/termination_mail.xml',
         'security/ir.model.access.csv',
         'views/hr_employee.xml',

@@ -9,7 +9,7 @@
     'description': """Apps for employee visa application""",
     'author': 'Loyal IT Solution',
     'website': 'https://www.loyalitsolutions.com',
-    'depends': ['hr','mail','base','hr_recruitment'],
+    'depends': ['hr','mail','base','hr_recruitment','tf_approval_user_groups','loyal_employment_application_form'],
     'data': [
         'data/visa_mail.xml',
         'security/ir.model.access.csv',

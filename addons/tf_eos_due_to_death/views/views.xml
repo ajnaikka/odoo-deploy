@@ -1,0 +1,35 @@
+<odoo>
+  <data>
+   <record id="view_hr_employee_service_death_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.service.death.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+           <xpath expr="//page[@name='end_of_service']" position="inside">
+
+                    <button string="EoS Due to Death Application" type="object"
+                            name="action_end_of_service_death_application_form"
+                            invisible="end_of_service_type != 'due_to_death' or end_of_service_death_ids"/>
+
+                    <form>
+
+
+                        <field name="end_of_service_death_ids" invisible="end_of_service_type != 'due_to_death'">
+                            <tree delete="1" create="0">
+                                <field name="end_of_service_type"/>
+                                <field name="eos_death_letter" widget="binary"/>
+                                <field name="state"/>
+
+                            </tree>
+
+
+                        </field>
+
+                    </form>
+
+            </xpath>
+        </field>
+    </record>
+  </data>
+</odoo>

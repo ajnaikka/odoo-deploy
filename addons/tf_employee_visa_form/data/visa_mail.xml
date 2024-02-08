@@ -11,7 +11,7 @@
             <field name="body_html" type="html">
                 <div>
                     <p>
-                        Dear <span t-esc="object.related_emp_id.name"/>,
+                        Dear <span t-esc="object.related_emp_id.parent_id.name"/>,
                         <br/>
                         <br/>
 
@@ -33,10 +33,11 @@
 
                     </p>
                 </div>
-                <!--                <div style="margin: 5px 0px 5px 0px;">-->
-                <!--                    <a t-att-href="object.get_url()">-->
-                <!--                    Link of record</a>-->
-                <!--                </div>-->
+                <div style="margin: 5px 0px 5px 0px;">
+                    <a t-att-href="object.get_url()">
+                        Link of record
+                    </a>
+                </div>
 
 
             </field>

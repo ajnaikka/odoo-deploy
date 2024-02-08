@@ -27,27 +27,31 @@ class MailComposeMessage(models.TransientModel):
             elif visa_record.state in ['app_1', 'app_2', 'app_3'] and self.emp_reject_mail:
                 visa_record.write({'state': 'cancel'})
 
-            visa_record_mang = visa_record.related_emp_id.parent_id.user_id.id
-            department_users = self.env['res.users'].search([('id', '=', visa_record_mang), ('partner_id', '!=', False)], limit=1)
+            for visa_partner in self.partner_ids:
+                if visa_partner.user_ids:
+                    department_users = self.env['res.users'].search([('id','=',visa_partner.user_ids[0].id)])
+                    if department_users:
+                        notification_ids = [(0, 0, {
+                            'res_partner_id': user.partner_id.id,
+                            'notification_type': 'inbox'
+                        }) for user in department_users]
 
-            if department_users:
-                notification_ids = [(0, 0, {
-                    'res_partner_id': user.partner_id.id,
-                    'notification_type': 'inbox'
-                }) for user in department_users]
+                        self.env['mail.message'].sudo().create({
+                            'message_type': "notification",
+                            'body': self.body,
+                            'subject': "Visa Application Form",
+                            'partner_ids': [(4, user.partner_id.id) for user in department_users],
+                            'model': visa_record._name,
+                            'res_id': visa_record.id,
+                            'notification_ids': notification_ids,
+                            'author_id': visa_record.env.user.partner_id.id,
+                            'subtype_id': self.env['ir.model.data']._xmlid_to_res_id('mail.mt_comment'),
 
-                self.env['mail.message'].sudo().create({
-                    'message_type': "notification",
-                    'body': self.body,
-                    'subject': "Visa Application Form",
-                    'partner_ids': [(4, user.partner_id.id) for user in department_users],
-                    'model': visa_record._name,
-                    'res_id': visa_record.id,
-                    'notification_ids': notification_ids,
-                    'author_id': visa_record.env.user.partner_id.id,
-                    'subtype_id': self.env['ir.model.data']._xmlid_to_res_id('mail.mt_comment'),
+                        })
 
-                })
+
+
+
 
 
         return result

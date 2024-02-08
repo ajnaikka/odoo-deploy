@@ -13,4 +13,11 @@ class HrApplicant(models.Model):
                 if rec.emp_referral:
                     rec.emp_referral.write({'state': 'hir'})
 
+    def _get_employee_create_vals(self):
+        vals = super(HrApplicant, self)._get_employee_create_vals()
+        vals.update({
+            'emp_referral': self.emp_referral.id,
+        })
+        return vals
+
 

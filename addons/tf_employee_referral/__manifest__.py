@@ -17,6 +17,7 @@
         'data/sequence.xml',
         'views/employee_referral.xml',
         'views/hr_applicant.xml',
+        'views/hr_employee.xml',
         'wizard/mail_compose_wizard.xml'
             ],
     'installable': True,

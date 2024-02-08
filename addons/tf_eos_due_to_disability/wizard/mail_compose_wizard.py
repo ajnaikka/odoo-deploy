@@ -35,25 +35,25 @@ class MailComposeMessageDis(models.TransientModel):
             elif dis_record.states == 'app_5' and self.partner_id_bool_dis:
                 dis_record.write({'states':'done'})
 
+            for rec in self.partner_ids:
+                if rec.user_ids:
+                    dis_users = self.env['res.users'].search([('id','=',rec.user_ids[0].id)])
+
+                    dis_notification_ids = [(0, 0, {
+                        'res_partner_id': user.partner_id.id,
+                        'notification_type': 'inbox'
+                    }) for user in dis_users]
 
 
-            dis_record_mang = dis_record.email_to.user_id.id
-            dis_users = self.env['res.users'].search([('id','=',dis_record_mang)])
-
-            dis_notification_ids = [(0, 0, {
-                'res_partner_id': user.partner_id.id,
-                'notification_type': 'inbox'
-            }) for user in dis_users]
-
-            self.env['mail.message'].create({
-                'message_type': "notification",
-                'body': "Termination due to disability",
-                'subject': "Employee Termination",
-                'partner_ids': [(4, user.partner_id.id) for user in dis_users],
-                'model': dis_record._name,
-                'res_id': dis_record.id,
-                'notification_ids': dis_notification_ids,
-                'author_id': dis_record.env.user.partner_id.id
-            })
+                    self.env['mail.message'].create({
+                        'message_type': "notification",
+                        'body': self.body,
+                        'subject': self.subject,
+                        'partner_ids': [(4, user.partner_id.id) for user in dis_users],
+                        'model': dis_record._name,
+                        'res_id': dis_record.id,
+                        'notification_ids': dis_notification_ids,
+                        'author_id': dis_record.env.user.partner_id.id
+                    })
 
         return result
