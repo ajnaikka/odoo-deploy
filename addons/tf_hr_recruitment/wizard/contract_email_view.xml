@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+
+        <record id="applicant_contract_email_form" model="ir.ui.view">
+            <field name="name">applicant.contract.email.form</field>
+            <field name="model">applicant.contract.email</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="email_to"/>
+                        <field name="applicant_id" invisible="1"/>
+
+                    </group>
+                    <footer>
+                        <button
+                                name="send_email"
+                                string="Send"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="applicant_contract_email_action" model="ir.actions.act_window">
+            <field name="name">Send Email</field>
+            <field name="res_model">applicant.contract.email</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_applicant_id': active_id}</field>
+        </record>
+
+    </data>
+</odoo>

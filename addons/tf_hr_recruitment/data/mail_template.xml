@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Contract issued email to employee -->
+        <record model="mail.template" id="applicant_contract_issued">
+            <field name="name">Contract issued Email Notification</field>
+            <field name="email_from">{{ object.applicant_id.company_id.hr_manager_employee_id.work_email }}</field>
+            <field name="subject">Contract Issued</field>
+            <field name="model_id" ref="tf_hr_recruitment.model_applicant_contract_email"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                     Hello,
+
+    					Thank you,
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Contract signed email to line manager and chief accountant -->
+        <record model="mail.template" id="applicant_contract_signed">
+            <field name="name">Contract Signed Email Notification</field>
+            <field name="email_from">{{ object.applicant_id.company_id.hr_manager_employee_id.work_email }}</field>
+            <field name="subject">Contract Signed</field>
+            <field name="model_id" ref="tf_hr_recruitment.model_applicant_contract_email"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+
+                     Hello,
+                        <br/>
+                        New employee has been hired.
+                        <br/>
+    					Thank you,
+                    </p>
+                </div>
+            </field>
+        </record>
+
+
+
+    </data>
+
+</odoo>

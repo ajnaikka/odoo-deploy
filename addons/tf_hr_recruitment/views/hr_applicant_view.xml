@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_applicant_form_inherited_view">
+            <field name="name">hr.applicant.form.inherited</field>
+            <field name="model">hr.applicant</field>
+            <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='archive_applicant']" position="after">
+                    <button
+                                name="%(applicant_contract_email_action)d"
+                                invisible="not contract_signed_stage and not contract_issued_stage"
+                                type="action"
+                                string="Send Email"
+                        />
+                </xpath>
+                <field name="type_id" position="after">
+                    <field name="contract_signed_stage" invisible="1"/>
+                    <field name="contract_issued_stage" invisible="1"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
