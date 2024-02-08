@@ -236,7 +236,7 @@
                         </group>
                     </group>
                 </page>
-                <page name="checklist" string="Candidate Checklist" groups="hr.group_hr_user">
+                <page name="checklist" string="Employee File" groups="hr.group_hr_user">
                     <field name="checklist_ids">
                         <tree editable="bottom">
                             <field name="is_checked"/>
