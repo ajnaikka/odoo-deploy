@@ -9,14 +9,14 @@ class MailComposeMessage(models.TransientModel):
     _inherit = 'mail.compose.message'
 
 
-    emp_resi_id = fields.Many2one('end.service')
+    emp_can_id = fields.Many2one('end.service')
 
 
 
     def action_send_mail(self):
 
         result = super(MailComposeMessage, self).action_send_mail()
-        emp_resi = self.emp_resi_id.id
+        emp_resi = self.emp_can_id.id
 
         if emp_resi:
             resi_record = self.env['eos.cancellation'].browse(emp_resi)
@@ -95,7 +95,7 @@ class EndofServiceForm(models.Model):
             'default_model': 'eos.cancellation',
             'default_res_ids': [self.id],
             'default_partner_ids': [],
-            'default_emp_resi_id': self.id,
+            'default_emp_can_id': self.id,
             'default_use_template': bool(template),
             'default_template_id': template.id,
             'default_composition_mode': 'comment',
