@@ -1,0 +1,110 @@
+<odoo>
+    <data>
+        <!-- Form view -->
+        <record id="view_performance_appraisal_form" model="ir.ui.view">
+            <field name="name">performance.appraisal.form</field>
+            <field name="model">performance.appraisal</field>
+            <field name="arch" type="xml">
+                <form string="Performance Appraisal Form">
+                    <header>
+                        <button name="action_send_appraisal_request" string="Send Appraisal Request"
+                                type="object" class="oe_highlight" data-hotkey="w"
+                                invisible="state != 'new'" id="normal_one"
+                        />
+                        <button name="action_approve_appraisal" string="Approve Appraisal"
+                                type="object" class="oe_highlight" data-hotkey="w"
+                                invisible="state != 'request_sent'" groups="tf_approval_user_groups.department_manager"
+                        />
+                        <button name="action_incorrect_form" string="Incorrect Form"
+                                type="object" invisible="state != 'request_sent'" groups="tf_approval_user_groups.department_manager"
+                        />
+                        <button name="action_send_appraisal_request" string="Send Appraisal Request"
+                                type="object" id="incorrect_form"
+                                invisible="state != 'request_sent'"
+                        />
+                        <button name="action_cancel" string="Cancel Appraisal"
+                                type="object" data-hotkey="w"
+                                invisible="state not in ('new', 'request_sent')"
+                        />
+                        <button name="action_done" string="Mark as Done" type="object" class="oe_highlight" invisible="state != 'pending'" data-hotkey="v" groups="tf_approval_user_groups.hr_id"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="new,request_sent,pending,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                        <div class="row justify-content-between position-relative w-100 m-0 mb-2">
+                            <div class="oe_title mw-75 ps-0 pe-2">
+                                <h1>
+                                    <field name="employee_id"
+                                           readonly="state != 'new'"
+                                           placeholder="e.g. John Doe"
+                                           widget="many2one_avatar_employee"/>
+                                </h1>
+                            </div>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="job_code"/>
+                                <field name="job_position_id"/>
+                                <field name="goal_setting_form_attachment_ids" widget='many2many_binary' readonly="state not in ['new', 'request_sent']"/>
+                                <field name="date_close" readonly="state in ['done', 'cancel']"/>
+                            </group>
+                            <group>
+                                <field name="requested_date" readonly="state in ['done', 'cancel']"/>
+                                <field name="department_id"/>
+                                <field name="type_of_review" invisible="state == 'new'"/>
+                                <field name="compensation_package_attachment_ids" invisible="state in ('new', 'request_sent')" widget='many2many_binary' readonly="state == 'done'"/>
+                                <field name="employee_user_id" invisible="1"/>
+                                <field name="id" invisible="1"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="company_id" groups="base.group_multi_company" required="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Note" name="private_note">
+                                <field name="note"
+                                       readonly="state == 'done'"
+                                       placeholder="Training needs"/>
+                            </page>
+                        </notebook>
+                        <field name="active" invisible="1"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record id="view_performance_appraisal_tree" model="ir.ui.view">
+            <field name="name">performance.appraisal.tree</field>
+            <field name="model">performance.appraisal</field>
+            <field name="arch" type="xml">
+                <tree string="Performance Appraisal">
+                    <field name="active" column_invisible="True"/>
+                    <field name="employee_id" string="Name" readonly="1" widget="many2one_avatar_user"/>
+                    <field name="state" widget="badge"/>
+                    <field name="company_id" readonly="1" optional="hide"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action for the view -->
+        <record id="action_performance_appraisal" model="ir.actions.act_window">
+            <field name="name">Performance Appraisal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">performance.appraisal</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu item -->
+        <menuitem id="menu_performance_appraisal" name="Performance Appraisal" parent="hr.menu_hr_employee_payroll"
+                  sequence="25" action="action_performance_appraisal"/>
+    </data>
+</odoo>
